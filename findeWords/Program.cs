@@ -65,7 +65,7 @@ namespace findeWords
             {
                 report += "status: MOVE\n";
                 //перемещение файла в котором нашлось совпадение (задаем путь)
-                //fi.CopyTo(outPath + "\\" + fi.Name, true);
+                fi.CopyTo(outPath + "\\" + fi.Name, true);
             }
 
             if (needMove == false)
