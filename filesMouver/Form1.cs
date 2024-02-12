@@ -97,12 +97,20 @@ namespace filesMouver
 
             if (!Directory.Exists(dirOut))
             {
-                Directory.CreateDirectory(dirOut);
+                try 
+                {
+                    Directory.CreateDirectory(dirOut);
+                }
+                catch 
+                {
+                    MessageBox.Show("Директория назначения (dirOut) Невозможный путь");
+                }
+                
             }
             else 
             { 
-                MessageBox.Show("Директория уже существует. Файлы будут перезаписаны"); 
-                //кнопка отмены нужна
+                MessageBox.Show("Директория уже существует. Файлы будут перезаписаны");
+                //нужна кнопка отмены копирования
             }
 
             if (Directory.Exists(dirIN))
@@ -115,23 +123,21 @@ namespace filesMouver
 
                 string[] spisokFiles = Directory.GetFiles(dirIN);// получили массив  пути файлов в dirIN(источнике)
 
-                foreach (string s in spisokFiles) 
+                foreach (string file in spisokFiles) 
                 {
-                    string fileName = Path.GetFileName(s); // получаем имя этого файла
+                    string fileName = Path.GetFileName(file); // получаем имя этого файла
                     
-                    string destPath = ($@"{dirOut}\{fileName}");// получаем путь назначения: путь(destination)+имя файла
-                    
-                    File.Copy(s, destPath, true); // копируем файл 
+                    string destination_Path = ($@"{dirOut}\{fileName}");// получаем путь назначения: путь(dirOut)+имя файла
+
+                    File.Copy(file, destination_Path, true); // копируем файл 
                     
                     progressBar1.PerformStep();
 
                 }
+                textBox1.Text = "Файлы скопированны";
 
             }
-            else { MessageBox.Show("Источник не найден"); }
-
-            textBox1.Text = "Файлы скопированны";
-
+            else { MessageBox.Show("Входящая директория (dirIn) Несуществующий путь"); }
 
         }
 
