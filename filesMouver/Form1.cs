@@ -146,41 +146,80 @@ namespace filesMouver
 
             string dirIN = textBox2_dirIN.Text;
             string dirOut = textBox3_dirOut.Text;
+            
+            perebor_updates(dirIN,dirOut);
 
-            CopyDirectory(dirIN, dirOut, true); // рекурсивный метод который копирует паку с вложениями
+            // CopyDirectory(dirIN, dirOut, true); // рекурсивный метод который копирует паку с вложениями
 
-            static void CopyDirectory(string dirIN, string dirOut, bool recursive)
+            /*  static void CopyDirectory(string dirIN, string dirOut, bool recursive)
+              {
+                  // Get information about the source directory
+                  var dir = new DirectoryInfo(dirIN);
+
+                  // Check if the source directory exists
+                  if (!dir.Exists)
+                      throw new DirectoryNotFoundException($"Source directory not found: {dir.FullName}");
+
+                  // Cache directories before we start copying
+                  DirectoryInfo[] dirs = dir.GetDirectories();
+
+                  // Create the destination directory
+                  Directory.CreateDirectory(dirOut);
+
+                  // Get the files in the source directory and copy to the destination directory
+                  foreach (FileInfo file in dir.GetFiles())
+                  {
+                      string targetFilePath = Path.Combine(dirOut, file.Name);
+                      file.CopyTo(targetFilePath);
+                  }
+
+                  // If recursive and copying subdirectories, recursively call this method
+                  if (recursive)
+                  {
+                      foreach (DirectoryInfo subDir in dirs)
+                      {
+                          string newDestinationDir = Path.Combine(dirOut, subDir.Name);
+                          CopyDirectory(subDir.FullName, newDestinationDir, true);
+                      }
+                  }
+              }
+             */
+            //другой способ копирования
+            void perebor_updates(string begin_dir, string end_dir)
             {
-                // Get information about the source directory
-                var dir = new DirectoryInfo(dirIN);
-
-                // Check if the source directory exists
-                if (!dir.Exists)
-                    throw new DirectoryNotFoundException($"Source directory not found: {dir.FullName}");
-
-                // Cache directories before we start copying
-                DirectoryInfo[] dirs = dir.GetDirectories();
-
-                // Create the destination directory
-                Directory.CreateDirectory(dirOut);
-
-                // Get the files in the source directory and copy to the destination directory
-                foreach (FileInfo file in dir.GetFiles())
+                //Берём нашу исходную папку
+                DirectoryInfo dir_inf = new DirectoryInfo(begin_dir);
+                try 
                 {
-                    string targetFilePath = Path.Combine(dirOut, file.Name);
-                    file.CopyTo(targetFilePath);
-                }
-
-                // If recursive and copying subdirectories, recursively call this method
-                if (recursive)
-                {
-                    foreach (DirectoryInfo subDir in dirs)
+                    //Перебираем все внутренние папки
+                    foreach (DirectoryInfo dir in dir_inf.GetDirectories())
                     {
-                        string newDestinationDir = Path.Combine(dirOut, subDir.Name);
-                        CopyDirectory(subDir.FullName, newDestinationDir, true);
+                        //Проверяем - если директории не существует, то создаём;
+                        if (Directory.Exists(end_dir + "\\" + dir.Name) != true)
+                        {
+                            Directory.CreateDirectory(end_dir + "\\" + dir.Name);
+                        }
+
+                        //Рекурсия (перебираем вложенные папки и делаем для них то-же самое).
+                        perebor_updates(dir.FullName, end_dir + "\\" + dir.Name);
                     }
+
+                    //Перебираем файлики в папке источнике.
+                    foreach (string file in Directory.GetFiles(begin_dir))
+                    {
+                        //Определяем (отделяем) имя файла с расширением - без пути (но с слешем "\").
+                        string filik = file.Substring(file.LastIndexOf('\\'), file.Length - file.LastIndexOf('\\'));
+                        //Копируем файлик с перезаписью из источника в приёмник.
+                        File.Copy(file, end_dir + "\\" + filik, true);
+                    }
+                } 
+                catch 
+                {
+                    MessageBox.Show("Невозможный путь");
                 }
+                
             }
+
             textBox1.Text = "Католог со всеми вложениями скопирован.";
 
         }
