@@ -212,6 +212,8 @@ namespace filesMouver
                         //Копируем файлик с перезаписью из источника в приёмник.
                         File.Copy(file, end_dir + "\\" + filik, true);
                     }
+                    
+                    textBox1.Text = "Католог со всеми вложениями скопирован.";
                 } 
                 catch 
                 {
@@ -220,7 +222,7 @@ namespace filesMouver
                 
             }
 
-            textBox1.Text = "Католог со всеми вложениями скопирован.";
+            
 
         }
 
