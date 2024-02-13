@@ -35,10 +35,6 @@
             textBox3_dirOut = new TextBox();
             button2 = new Button();
             button3 = new Button();
-            label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
             progressBar1 = new ProgressBar();
             SuspendLayout();
             // 
@@ -54,7 +50,7 @@
             textBox1.ScrollBars = ScrollBars.Vertical;
             textBox1.Size = new Size(622, 184);
             textBox1.TabIndex = 1;
-            textBox1.Text = "textBox1";
+            textBox1.Text = "View Dastination directory";
             // 
             // button1
             // 
@@ -69,6 +65,7 @@
             // listBox1
             // 
             listBox1.FormattingEnabled = true;
+            listBox1.Items.AddRange(new object[] { "View Source directory" });
             listBox1.Location = new Point(718, 57);
             listBox1.Name = "listBox1";
             listBox1.Size = new Size(622, 184);
@@ -112,42 +109,6 @@
             button3.UseVisualStyleBackColor = true;
             button3.Click += button3_copyAllDirectory_Click;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(11, 35);
-            label1.Name = "label1";
-            label1.Size = new Size(119, 20);
-            label1.TabIndex = 8;
-            label1.Text = "Source files path\r\n";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(718, 35);
-            label2.Name = "label2";
-            label2.Size = new Size(153, 20);
-            label2.TabIndex = 9;
-            label2.Text = "View Source directory";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(11, 127);
-            label3.Name = "label3";
-            label3.Size = new Size(150, 20);
-            label3.TabIndex = 10;
-            label3.Text = "Dastination files path";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(718, 272);
-            label4.Name = "label4";
-            label4.Size = new Size(184, 20);
-            label4.TabIndex = 11;
-            label4.Text = "View Dastination directory";
-            // 
             // progressBar1
             // 
             progressBar1.Location = new Point(11, 193);
@@ -165,10 +126,6 @@
             BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(1352, 784);
             Controls.Add(progressBar1);
-            Controls.Add(label4);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(label1);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(textBox3_dirOut);
@@ -191,10 +148,6 @@
         private TextBox textBox3_dirOut;
         private Button button2;
         private Button button3;
-        private Label label1;
-        private Label label2;
-        private Label label3;
-        private Label label4;
         private ProgressBar progressBar1;
     }
 }

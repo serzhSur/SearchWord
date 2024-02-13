@@ -149,42 +149,7 @@ namespace filesMouver
             
             perebor_updates(dirIN,dirOut);
 
-            // CopyDirectory(dirIN, dirOut, true); // рекурсивный метод который копирует паку с вложениями
-
-            /*  static void CopyDirectory(string dirIN, string dirOut, bool recursive)
-              {
-                  // Get information about the source directory
-                  var dir = new DirectoryInfo(dirIN);
-
-                  // Check if the source directory exists
-                  if (!dir.Exists)
-                      throw new DirectoryNotFoundException($"Source directory not found: {dir.FullName}");
-
-                  // Cache directories before we start copying
-                  DirectoryInfo[] dirs = dir.GetDirectories();
-
-                  // Create the destination directory
-                  Directory.CreateDirectory(dirOut);
-
-                  // Get the files in the source directory and copy to the destination directory
-                  foreach (FileInfo file in dir.GetFiles())
-                  {
-                      string targetFilePath = Path.Combine(dirOut, file.Name);
-                      file.CopyTo(targetFilePath);
-                  }
-
-                  // If recursive and copying subdirectories, recursively call this method
-                  if (recursive)
-                  {
-                      foreach (DirectoryInfo subDir in dirs)
-                      {
-                          string newDestinationDir = Path.Combine(dirOut, subDir.Name);
-                          CopyDirectory(subDir.FullName, newDestinationDir, true);
-                      }
-                  }
-              }
-             */
-            //другой способ копирования
+            // рекурсивный метод который копирует паку с вложениями
             void perebor_updates(string begin_dir, string end_dir)
             {
                 //Берём нашу исходную папку
