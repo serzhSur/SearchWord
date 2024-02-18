@@ -16,7 +16,8 @@ namespace filesMove
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
 
-
+            Console.WriteLine("Fined Word");
+            Console.ReadLine();
             
 
         }

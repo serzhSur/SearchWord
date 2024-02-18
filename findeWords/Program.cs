@@ -51,8 +51,12 @@ namespace findeWords
             string[] spisokSlov = File.ReadAllLines(slovoPath);//считываем слова в файле slovoPath
             foreach (string slovo in spisokSlov)
             {
-                int result = SearchWordInText(text, slovo);//МЕТОД SearchWord выдает кол-во совпадений
-
+                // int result = SearchWordInText(text, slovo);//МЕТОД SearchWord выдает кол-во совпадений
+                ///
+                var startsearch = new StartSearch(text, slovo);
+                startsearch.FinedWord(new SearchSposobOne(text, slovo));
+                int result = startsearch.match;
+                ///
                 report += $"содержит:'{slovo}'раз:{result}\n";//добавляем в отчет что есть совпадение
 
                 if (result > 0)
@@ -65,7 +69,7 @@ namespace findeWords
             {
                 report += "status: MOVE\n";
                 //перемещение файла в котором нашлось совпадение (задаем путь)
-                fi.CopyTo(outPath + "\\" + fi.Name, true);
+                //fi.CopyTo(outPath + "\\" + fi.Name, true);
             }
 
             if (needMove == false)
