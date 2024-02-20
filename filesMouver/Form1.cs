@@ -4,6 +4,7 @@ using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 namespace filesMouver
@@ -26,9 +27,9 @@ namespace filesMouver
                 string[] dirView = Directory.GetFileSystemEntries(dir);
                 foreach (string f in dirView)
                 {
-                    textBox1.Text+="\r\n"+f;
+                    textBox1.Text += "\r\n" + f;
                 }
-                
+
             }
 
         }
@@ -81,7 +82,7 @@ namespace filesMouver
                     string[] dirView = Directory.GetFileSystemEntries(path);
                     foreach (string s in dirView)
                     {
-                        textBox1.Text += "\r\n" + s; 
+                        textBox1.Text += "\r\n" + s;
                     }
                 }
                 else { textBox1.Text = "No such directory, new path"; }
@@ -97,18 +98,18 @@ namespace filesMouver
 
             if (!Directory.Exists(dirOut))
             {
-                try 
+                try
                 {
                     Directory.CreateDirectory(dirOut);
                 }
-                catch 
+                catch
                 {
                     MessageBox.Show("Директория назначения (dirOut) Невозможный путь");
                 }
-                
+
             }
-            else 
-            { 
+            else
+            {
                 MessageBox.Show("Директория уже существует. Файлы будут перезаписаны");
                 //нужна кнопка отмены копирования
             }
@@ -123,14 +124,14 @@ namespace filesMouver
 
                 string[] spisokFiles = Directory.GetFiles(dirIN);// получили массив  пути файлов в dirIN(источнике)
 
-                foreach (string file in spisokFiles) 
+                foreach (string file in spisokFiles)
                 {
                     string fileName = Path.GetFileName(file); // получаем имя этого файла
-                    
+
                     string destination_Path = ($@"{dirOut}\{fileName}");// получаем путь назначения: путь(dirOut)+имя файла
 
                     File.Copy(file, destination_Path, true); // копируем файл 
-                    
+
                     progressBar1.PerformStep();
 
                 }
@@ -146,15 +147,15 @@ namespace filesMouver
 
             string dirIN = textBox2_dirIN.Text;
             string dirOut = textBox3_dirOut.Text;
-            
-            perebor_updates(dirIN,dirOut);
+
+            perebor_updates(dirIN, dirOut);
 
             // рекурсивный метод который копирует паку с вложениями
             void perebor_updates(string begin_dir, string end_dir)
             {
                 //Берём нашу исходную папку
                 DirectoryInfo dir_inf = new DirectoryInfo(begin_dir);
-                try 
+                try
                 {
                     //Перебираем все внутренние папки
                     foreach (DirectoryInfo dir in dir_inf.GetDirectories())
@@ -177,20 +178,34 @@ namespace filesMouver
                         //Копируем файлик с перезаписью из источника в приёмник.
                         File.Copy(file, end_dir + "\\" + filik, true);
                     }
-                    
+
                     textBox1.Text = "Католог со всеми вложениями скопирован.";
-                } 
-                catch 
+                }
+                catch
                 {
                     MessageBox.Show("Невозможный путь");
                 }
-                
+
             }
 
-            
+
 
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //исходные данные
+            string dirIn = @"C:\test\findWord"; //путь к файлу в котором будем искать совпадения
+            string slovoPath = @"C:\test\findWord\keyWord\w6.txt ";//путь к файлу c условием поиска (со слофоформой)                               
+            string dirOut = @"C:\test\findWord\out\";// путь куда перемещ-копируется файл с совпадением со словоформой 
 
+            AnalizFile af = new AnalizFile(dirIn, slovoPath, dirOut);
+            af.SerchInDirectory();
+            
+
+            textBox1.Text = "af.SerchInDirectory()\r\n";
+            textBox1.Text += "\r\n"+ af.otchetDir;
+
+        }
     }
 }

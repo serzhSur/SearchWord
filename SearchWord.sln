@@ -5,8 +5,6 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "filesMove", "filesMouver\filesMove.csproj", "{BCB4F23B-BCA9-49DF-9AB3-6AA302E90168}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "findeWords", "findeWords\findeWords.csproj", "{DFBED906-1343-4836-869D-DC298283BAE1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{BCB4F23B-BCA9-49DF-9AB3-6AA302E90168}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCB4F23B-BCA9-49DF-9AB3-6AA302E90168}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCB4F23B-BCA9-49DF-9AB3-6AA302E90168}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DFBED906-1343-4836-869D-DC298283BAE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFBED906-1343-4836-869D-DC298283BAE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFBED906-1343-4836-869D-DC298283BAE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DFBED906-1343-4836-869D-DC298283BAE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
