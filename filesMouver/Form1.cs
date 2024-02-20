@@ -205,11 +205,6 @@ namespace filesMouver
                 af.SerchInDirectory();
 
                 textBox1.Text += "\r\n" + af.report;
-
-                string pathPerort = $"{dirOut}\\_REPORT.txt";
-     
-                File.WriteAllText(pathPerort, "\r\n" + af.report);
-                
             } 
             catch 
             {

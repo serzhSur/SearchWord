@@ -23,13 +23,14 @@ namespace filesMove
         }
         public void SerchInDirectory()
         {
-            if (Directory.Exists(dirOutPath)!=true)
-            {
-                Directory.CreateDirectory(dirOutPath);
-            }
 
             if (File.Exists(slovoPath)&&Directory.Exists(dirIn))//если слово(для поиска) существует
             {
+                if (Directory.Exists(dirOutPath) != true)
+                {
+                    Directory.CreateDirectory(dirOutPath);
+                }
+                
                 string[] allTxtFilesPath = Directory.GetFiles(dirIn);//получаем список файлов для анализа
                 
                 foreach (string file in allTxtFilesPath)//в каждом файле ищем слово и перемещаем файл если нашли совпадение file это путь к фаилу
@@ -47,6 +48,8 @@ namespace filesMove
                         report += " COPY";
                     }
                 }
+                string pathPeport = $"{dirOutPath}\\_REPORT.txt"; 
+                File.WriteAllTextAsync(pathPeport, "\r\n" + report);// запись отчета в файл _REPORT.txt" (путь dirOutPath)
             }
         }
         public void SearchInFile(string textFilePath)//, out string report)  //считывает текстовые фаилы: text и slovo и ищет в них совпадения.
