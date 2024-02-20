@@ -195,16 +195,26 @@ namespace filesMouver
         private void button4_Click(object sender, EventArgs e)
         {
             //исходные данные
-            string dirIn = @"C:\test\findWord"; //путь к файлу в котором будем искать совпадения
-            string slovoPath = @"C:\test\findWord\keyWord\w6.txt ";//путь к файлу c условием поиска (со слофоформой)                               
-            string dirOut = @"C:\test\findWord\out\";// путь куда перемещ-копируется файл с совпадением со словоформой 
+            string dirIn = textBox2_dirIN.Text;//@"C:\test\findWord"; //путь к файлу в котором будем искать совпадения
+            string slovoPath = @"C:\test\findWord\keyWord\w6.txt";//путь к файлу c условием поиска (со слофоформой)                               
+            string dirOut = textBox3_dirOut.Text;// @"C:\test\findWord\out\";// путь куда перемещ-копируется файл с совпадением со словоформой 
 
-            AnalizFile af = new AnalizFile(dirIn, slovoPath, dirOut);
-            af.SerchInDirectory();
-            
+            try 
+            {
+                AnalizFile af = new AnalizFile(dirIn, slovoPath, dirOut);
+                af.SerchInDirectory();
 
-            textBox1.Text = "af.SerchInDirectory()\r\n";
-            textBox1.Text += "\r\n"+ af.otchetDir;
+                textBox1.Text += "\r\n" + af.report;
+
+                string pathPerort = $"{dirOut}\\_REPORT.txt";
+     
+                File.WriteAllText(pathPerort, "\r\n" + af.report);
+                
+            } 
+            catch 
+            {
+                MessageBox.Show("Неверный путь");
+            }
 
         }
     }

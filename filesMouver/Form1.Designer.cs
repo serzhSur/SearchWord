@@ -49,13 +49,13 @@
             textBox1.Name = "textBox1";
             textBox1.RightToLeft = RightToLeft.No;
             textBox1.ScrollBars = ScrollBars.Vertical;
-            textBox1.Size = new Size(622, 184);
+            textBox1.Size = new Size(622, 355);
             textBox1.TabIndex = 1;
             textBox1.Text = "View Dastination directory";
             // 
             // button1
             // 
-            button1.Location = new Point(1009, 485);
+            button1.Location = new Point(994, 663);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
             button1.TabIndex = 0;
@@ -78,7 +78,7 @@
             textBox2_dirIN.Name = "textBox2_dirIN";
             textBox2_dirIN.Size = new Size(622, 27);
             textBox2_dirIN.TabIndex = 3;
-            textBox2_dirIN.Text = "textBox2 dirIN C:\\test";
+            textBox2_dirIN.Text = "textBox2 dirIN C:\\test\\findWord";
             textBox2_dirIN.TextChanged += textBox2_dirIN_TextChanged;
             // 
             // textBox3_dirOut
@@ -87,7 +87,7 @@
             textBox3_dirOut.Name = "textBox3_dirOut";
             textBox3_dirOut.Size = new Size(622, 27);
             textBox3_dirOut.TabIndex = 5;
-            textBox3_dirOut.Text = "textBox3 dirOut E:\\1";
+            textBox3_dirOut.Text = "textBox3 dirOut C:\\test\\findWord\\out";
             textBox3_dirOut.TextChanged += textBox3_dirOut_TextChanged;
             // 
             // button2
@@ -122,11 +122,11 @@
             // 
             // button4
             // 
-            button4.Location = new Point(12, 294);
+            button4.Location = new Point(12, 267);
             button4.Name = "button4";
             button4.Size = new Size(94, 29);
             button4.TabIndex = 13;
-            button4.Text = "button4";
+            button4.Text = "StartSearch";
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
@@ -135,7 +135,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveBorder;
-            ClientSize = new Size(1352, 784);
+            ClientSize = new Size(1357, 704);
             Controls.Add(button4);
             Controls.Add(progressBar1);
             Controls.Add(button3);

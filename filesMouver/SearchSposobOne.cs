@@ -11,7 +11,6 @@ namespace filesMove
         public string text;
         public string slovo;
 
-        public int sovpadenieCount;
         public SearchSposobOne(string text, string slovo)
         {
             this.text = text;
@@ -58,8 +57,6 @@ namespace filesMove
                     }
                 }
             }
-            this.sovpadenieCount = sovpadenieCount;
-
         }
     }
 }

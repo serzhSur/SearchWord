@@ -9,75 +9,81 @@ namespace filesMove
     internal class AnalizFile
     {
         public string dirIn;
-        // public string textFilePath=""; // путь текстового файла @"C:\test\findWord" 
-        public string slovoPath; //= @"C:\test\findWord\keyWord\w6.txt ";
-        string outDirectoryPath;
+        public string slovoPath;// = @"C:\test\findWord\keyWord\w6.txt";
+        public string dirOutPath;
 
-        public string report;
-        public string otchetDir;
-        //public bool needMoveFile = false;
+        public string report="";
+        bool sovpadenie = false;
 
-        public AnalizFile(string dirIn, string slovoPath, string outDirectoryPath)
+        public AnalizFile(string dirIn, string slovoPath, string dirOutPath)
         {
-            //this.textFilePath = textFilePath;
             this.dirIn = dirIn;
             this.slovoPath = slovoPath;
-            this.outDirectoryPath = outDirectoryPath;
+            this.dirOutPath = dirOutPath;
         }
         public void SerchInDirectory()
         {
-
-            if (File.Exists(slovoPath))//если слово(для поиска) существует
+            if (Directory.Exists(dirOutPath)!=true)
             {
-                string[] allTxtFilesPath = Directory.GetFiles(dirIn);//получаем список файлов для анализа
-                //string otchet = "";
-                foreach (string file in allTxtFilesPath)//в каждом файле ищем слово и перемещаем файл если нашли совпадение file это путь к фаилу
-                {
-
-                    AnalizFile analiz = new AnalizFile(file, slovoPath, outDirectoryPath);
-                    analiz.SearchInFile(file);
-                    otchetDir += analiz.report;
-                    //Console.WriteLine(analiz.report);
-
-                }
+                Directory.CreateDirectory(dirOutPath);
             }
 
-            // Console.WriteLine("program  Finish.");
-            // Console.ReadLine();
+            if (File.Exists(slovoPath)&&Directory.Exists(dirIn))//если слово(для поиска) существует
+            {
+                string[] allTxtFilesPath = Directory.GetFiles(dirIn);//получаем список файлов для анализа
+                
+                foreach (string file in allTxtFilesPath)//в каждом файле ищем слово и перемещаем файл если нашли совпадение file это путь к фаилу
+                {
+                    AnalizFile analiz = new AnalizFile(file, slovoPath, dirOutPath);
+                    analiz.SearchInFile(file);
+                    
+                    report += analiz.report;
+                    
+                    if (analiz.sovpadenie == true) 
+                    { 
+                        string filename = Path.GetFileName(file);
+                        File.Copy(file, dirOutPath+"\\"+ filename, true);
+                        
+                        report += " COPY";
+                    }
+                }
+            }
         }
         public void SearchInFile(string textFilePath)//, out string report)  //считывает текстовые фаилы: text и slovo и ищет в них совпадения.
         {
-            bool sovpadenie = false;
+            int count = 0;
 
+            report += $"\r\nФайл:{Path.GetFileName(textFilePath)}";//создаем отчет, добавляем имя файла
+            
             string text = File.ReadAllText(textFilePath);
-
-            FileInfo fi = new FileInfo(textFilePath);//нужно для выделения Имя Тхт файла, чтобы (если есть совпадения) его переместить
-            string name = fi.Name;
-
-            report += $"Файл:{name}\n";//создаем отчет, добавляем имя файла
 
             string[] spisokSlov = File.ReadAllLines(slovoPath);//считываем слова в файле slovoPath
             foreach (string slovo in spisokSlov)
             {
                 ///////////////////////////////////////////////
                 StartSearch startsearch = new StartSearch();
+                
                 startsearch.FinedWord(new SearchSposobOne(text, slovo));
 
-                sovpadenie = startsearch.find;
+                count += startsearch.sovpadenieCount;
+                if (startsearch.find==true) 
+                {
+                    sovpadenie = true;
+                }
                 ////////////////////////////////////////////////
-                report += $"содержит:'{slovo}'раз:{startsearch.sovpadenieCount}\n";//добавляем в отчет результат поиска
+                report += $"\r\nсодержит:'{slovo}'раз:{count}";//добавляем в отчет результат поиска
             }
 
             if (sovpadenie == true)
             {
-                report += "status: Math\n";
+                report += "\r\nstatus: Math";
                 //перемещение файла в котором нашлось совпадение (задаем путь)
-                // fi.CopyTo(outDirectoryPath + "\\" + fi.Name, true);
+                //fi.CopyTo(dirOutPath + "\\" + fi.Name, true);
             }
 
             if (sovpadenie == false)
             {
-                report += "status: No Mathces\n";
+                report += "\r\nstatus: No Matches";
             }
 
         }
