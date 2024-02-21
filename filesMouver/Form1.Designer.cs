@@ -79,7 +79,7 @@
             textBox2_dirIN.Size = new Size(622, 27);
             textBox2_dirIN.TabIndex = 3;
             textBox2_dirIN.Text = "textBox2 dirIN C:\\test\\findWord";
-            textBox2_dirIN.TextChanged += textBox2_dirIN_TextChanged;
+            textBox2_dirIN.TextChanged += textBox2DirIN_TextChanged;
             // 
             // textBox3_dirOut
             // 
