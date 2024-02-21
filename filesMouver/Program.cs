@@ -1,7 +1,7 @@
-using filesMouver;
+using FilesMouver;
 using System.Runtime.InteropServices;
 
-namespace filesMove
+namespace FilesMouver
 {
     internal static class Program
     {

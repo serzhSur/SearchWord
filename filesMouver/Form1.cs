@@ -1,4 +1,4 @@
-using filesMove;
+using FilesMouver;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
-namespace filesMouver
+namespace FilesMouver
 {
     public partial class Form1 : Form
     {
@@ -19,36 +19,38 @@ namespace filesMouver
         private void textBox2DirIN_TextChanged(object sender, EventArgs e) //при изменении текста в textBox2_dirIN
 
         {
-            ViewDirIn();
 
-            void ViewDirIn() //обзор в listBox1 дириктории Источника(textBox2_dirIN)
-            {
-                string dirIN = textBox2_dirIN.Text;
-                if (Directory.Exists(dirIN))
-                {
-                    listBox1.Items.Clear();
-                    string[] dirView = Directory.GetDirectories(dirIN);
-                    listBox1.Items.Insert(0, "Directories:");
-                    foreach (string d in dirView)
-                    {
-                        listBox1.Items.Add(d);
-                    }
-
-                    string[] filesView = Directory.GetFiles(dirIN);
-                    listBox1.Items.Add("Files:");
-                    foreach (string f in filesView)
-                    {
-                        listBox1.Items.Add(f);
-                    }
-                }
-                else
-                {
-                    listBox1.Items.Clear();
-                    listBox1.Items.Add("No such directory");
-                }
-            }
+            ViewDirIn();                      
 
         }
+
+        void ViewDirIn() //обзор в listBox1 дириктории Источника(textBox2_dirIN)
+        {
+            string dirIN = textBox2_dirIn.Text;
+            if (Directory.Exists(dirIN))
+            {
+                //listBox1.Items.Clear();
+                //string[] dirView = Directory.GetDirectories(dirIN);
+                //listBox1.Items.Insert(0, "Directories:");
+                //foreach (string d in dirView)
+                //{
+                //    listBox1.Items.Add(d);
+                //}
+
+                //string[] filesView = Directory.GetFiles(dirIN);
+                //listBox1.Items.Add("Files:");
+                //foreach (string f in filesView)
+                //{
+                //    listBox1.Items.Add(f);
+                //}
+            }
+            else
+            {
+                //listBox1.Items.Clear();
+                //listBox1.Items.Add("No such directory");
+            }
+        }
+
 
         private void textBox3DirOut_TextChanged(object sender, EventArgs e) //событие на изменение в textBox3_dirOut
         {
@@ -73,7 +75,12 @@ namespace filesMouver
 
         private void button1Show_Click(object sender, EventArgs e) //кнопка Show обзор директроии pathOut (путь в textBox3)
         {
+            ViewDirectory();
 
+        }
+
+        private void ViewDirectory()
+        {
             string dir = textBox3_dirOut.Text;
             if (Directory.Exists(dir))
             {
@@ -84,13 +91,12 @@ namespace filesMouver
                 }
 
             }
-
         }
 
         private void button2CopyFiles_Click(object sender, EventArgs e) //копирование файлов по нажатию кнопки Copy
         {
 
-            string dirIN = textBox2_dirIN.Text;
+            string dirIN = textBox2_dirIn.Text;
             string dirOut = textBox3_dirOut.Text;
 
             if (!Directory.Exists(dirOut))
@@ -141,8 +147,13 @@ namespace filesMouver
 
         private void button3CopyAllDirectory_Click(object sender, EventArgs e) //перемещение каталога по нажатию кнопки Move
         {
+            CopyFiles();
 
-            string dirIN = textBox2_dirIN.Text;
+        }
+
+        private void CopyFiles()
+        {
+            string dirIN = textBox2_dirIn.Text;
             string dirOut = textBox3_dirOut.Text;
 
             perebor_updates(dirIN, dirOut);
@@ -184,16 +195,15 @@ namespace filesMouver
                 }
 
             }
-
-
-
         }
 
         private void button4Search_Click(object sender, EventArgs e)
         {
             //исходные данные
-            string dirIn = textBox2_dirIN.Text;//@"C:\test\findWord"; //путь к файлу в котором будем искать совпадения
-            string slovoPath = @"C:\test\findWord\keyWord\w6.txt";//путь к файлу c условием поиска (ключевым словом)                               
+            string dirIn = textBox2_dirIn.Text;//@"C:\test\findWord"; //путь к файлу в котором будем искать совпадения
+            string slovoPath = @"\Words\Words.txt"; 
+                
+                //@"C:\test\findWord\keyWord\w6.txt";//путь к файлу c условием поиска (ключевым словом)                               
             string dirOut = textBox3_dirOut.Text;// @"C:\test\findWord\out\";// путь куда перемещ-копируется файл с совпадением 
 
             try 
