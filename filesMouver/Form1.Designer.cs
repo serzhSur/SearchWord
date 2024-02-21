@@ -61,7 +61,7 @@
             button1.TabIndex = 0;
             button1.Text = "Show";
             button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_ViewDestinationDir_Click;
+            button1.Click += button1Show_Click;
             // 
             // listBox1
             // 
@@ -88,7 +88,7 @@
             textBox3_dirOut.Size = new Size(622, 27);
             textBox3_dirOut.TabIndex = 5;
             textBox3_dirOut.Text = "textBox3 dirOut C:\\test\\findWord\\out";
-            textBox3_dirOut.TextChanged += textBox3_dirOut_TextChanged;
+            textBox3_dirOut.TextChanged += textBox3DirOut_TextChanged;
             // 
             // button2
             // 
@@ -98,7 +98,7 @@
             button2.TabIndex = 6;
             button2.Text = "Copy files";
             button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_CopyFiles_Click;
+            button2.Click += button2CopyFiles_Click;
             // 
             // button3
             // 
@@ -108,7 +108,7 @@
             button3.TabIndex = 7;
             button3.Text = "Copy All";
             button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_copyAllDirectory_Click;
+            button3.Click += button3CopyAllDirectory_Click;
             // 
             // progressBar1
             // 
@@ -128,7 +128,7 @@
             button4.TabIndex = 13;
             button4.Text = "StartSearch";
             button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
+            button4.Click += button4Search_Click;
             // 
             // Form1
             // 

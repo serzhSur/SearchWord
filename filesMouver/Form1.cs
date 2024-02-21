@@ -14,27 +14,9 @@ namespace filesMouver
         public Form1()
         {
             InitializeComponent();
-
-
         }
 
-        private void button1_ViewDestinationDir_Click(object sender, EventArgs e) //кнопка Show обзор директроии pathOut (путь в textBox3)
-        {
-
-            string dir = textBox3_dirOut.Text;
-            if (Directory.Exists(dir))
-            {
-                string[] dirView = Directory.GetFileSystemEntries(dir);
-                foreach (string f in dirView)
-                {
-                    textBox1.Text += "\r\n" + f;
-                }
-
-            }
-
-        }
-
-        private void textBox2_dirIN_TextChanged(object sender, EventArgs e) //при изменении текста в textBox2_dirIN
+        private void textBox2DirIN_TextChanged(object sender, EventArgs e) //при изменении текста в textBox2_dirIN
 
         {
             ViewDirIn();
@@ -68,7 +50,7 @@ namespace filesMouver
 
         }
 
-        private void textBox3_dirOut_TextChanged(object sender, EventArgs e) //событие на изменение в textBox3_dirOut
+        private void textBox3DirOut_TextChanged(object sender, EventArgs e) //событие на изменение в textBox3_dirOut
         {
             ViewDirOut();
 
@@ -89,8 +71,23 @@ namespace filesMouver
             }
         }
 
+        private void button1Show_Click(object sender, EventArgs e) //кнопка Show обзор директроии pathOut (путь в textBox3)
+        {
 
-        private void button2_CopyFiles_Click(object sender, EventArgs e) //копирование файлов по нажатию кнопки Copy
+            string dir = textBox3_dirOut.Text;
+            if (Directory.Exists(dir))
+            {
+                string[] dirView = Directory.GetFileSystemEntries(dir);
+                foreach (string f in dirView)
+                {
+                    textBox1.Text += "\r\n" + f;
+                }
+
+            }
+
+        }
+
+        private void button2CopyFiles_Click(object sender, EventArgs e) //копирование файлов по нажатию кнопки Copy
         {
 
             string dirIN = textBox2_dirIN.Text;
@@ -130,7 +127,7 @@ namespace filesMouver
 
                     string destination_Path = ($@"{dirOut}\{fileName}");// получаем путь назначения: путь(dirOut)+имя файла
 
-                    File.Copy(file, destination_Path, true); // копируем файл 
+                    File.Copy(file, destination_Path, true); // копируем файл, true-перезапишет если уже есть файлы
 
                     progressBar1.PerformStep();
 
@@ -142,7 +139,7 @@ namespace filesMouver
 
         }
 
-        private void button3_copyAllDirectory_Click(object sender, EventArgs e) //перемещение каталога по нажатию кнопки Move
+        private void button3CopyAllDirectory_Click(object sender, EventArgs e) //перемещение каталога по нажатию кнопки Move
         {
 
             string dirIN = textBox2_dirIN.Text;
@@ -192,19 +189,19 @@ namespace filesMouver
 
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void button4Search_Click(object sender, EventArgs e)
         {
             //исходные данные
             string dirIn = textBox2_dirIN.Text;//@"C:\test\findWord"; //путь к файлу в котором будем искать совпадения
-            string slovoPath = @"C:\test\findWord\keyWord\w6.txt";//путь к файлу c условием поиска (со слофоформой)                               
-            string dirOut = textBox3_dirOut.Text;// @"C:\test\findWord\out\";// путь куда перемещ-копируется файл с совпадением со словоформой 
+            string slovoPath = @"C:\test\findWord\keyWord\w6.txt";//путь к файлу c условием поиска (ключевым словом)                               
+            string dirOut = textBox3_dirOut.Text;// @"C:\test\findWord\out\";// путь куда перемещ-копируется файл с совпадением 
 
             try 
             {
-                AnalizFile af = new AnalizFile(dirIn, slovoPath, dirOut);
-                af.SerchInDirectory();
+                AnalizFile analizFiles = new AnalizFile(dirIn, slovoPath, dirOut);
+                analizFiles.SerchInDirectory();
 
-                textBox1.Text += "\r\n" + af.report;
+                textBox1.Text += analizFiles.report;
             } 
             catch 
             {

@@ -17,8 +17,8 @@ namespace filesMove
             {
 
                 sposob.DoSearch(out bool find, out int sovpadenieCount);
-                this.sovpadenieCount = sovpadenieCount;
                 this.find = find;
+                this.sovpadenieCount = sovpadenieCount;
             }
 
         }

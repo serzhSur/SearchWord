@@ -31,9 +31,9 @@ namespace filesMove
                     Directory.CreateDirectory(dirOutPath);
                 }
                 
-                string[] allTxtFilesPath = Directory.GetFiles(dirIn);//получаем список файлов для анализа
+                string[] allFilesPath = Directory.GetFiles(dirIn);//получаем список файлов для анализа
                 
-                foreach (string file in allTxtFilesPath)//в каждом файле ищем слово и перемещаем файл если нашли совпадение file это путь к фаилу
+                foreach (string file in allFilesPath)//в каждом файле ищем слово и перемещаем файл если нашли совпадение file это путь к фаилу
                 {
                     AnalizFile analiz = new AnalizFile(file, slovoPath, dirOutPath);
                     analiz.SearchInFile(file);
@@ -49,7 +49,7 @@ namespace filesMove
                     }
                 }
                 string pathPeport = $"{dirOutPath}\\_REPORT.txt"; 
-                File.WriteAllTextAsync(pathPeport, "\r\n" + report);// запись отчета в файл _REPORT.txt" (путь dirOutPath)
+                File.WriteAllTextAsync(pathPeport, report);// запись отчета в файл _REPORT.txt" (путь dirOutPath)
             }
         }
         public void SearchInFile(string textFilePath)//, out string report)  //считывает текстовые фаилы: text и slovo и ищет в них совпадения.
