@@ -40,7 +40,7 @@
             textBox1 = new TextBox();
             textBox2 = new TextBox();
             textBox3 = new TextBox();
-            textBox4 = new TextBox();
+            textBox_pathWords = new TextBox();
             SuspendLayout();
             // 
             // button1
@@ -171,14 +171,14 @@
             textBox3.TabIndex = 18;
             textBox3.Text = "Облако слов";
             // 
-            // textBox4
+            // textBox_pathWords
             // 
-            textBox4.Location = new Point(10, 167);
-            textBox4.Margin = new Padding(3, 2, 3, 2);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(543, 23);
-            textBox4.TabIndex = 19;
-            textBox4.Text = "Words\\Words.txt";
+            textBox_pathWords.Location = new Point(10, 167);
+            textBox_pathWords.Margin = new Padding(3, 2, 3, 2);
+            textBox_pathWords.Name = "textBox_pathWords";
+            textBox_pathWords.Size = new Size(543, 23);
+            textBox_pathWords.TabIndex = 19;
+            textBox_pathWords.Text = "Words\\Words.txt";
             // 
             // Form1
             // 
@@ -186,7 +186,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(565, 364);
-            Controls.Add(textBox4);
+            Controls.Add(textBox_pathWords);
             Controls.Add(textBox3);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
@@ -221,6 +221,6 @@
         private TextBox textBox1;
         private TextBox textBox2;
         private TextBox textBox3;
-        private TextBox textBox4;
+        private TextBox textBox_pathWords;
     }
 }

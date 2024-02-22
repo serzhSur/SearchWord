@@ -54,6 +54,7 @@ namespace FilesMouver
                             find = true;
                             sovpadenieCount += 1;//считаем сколько будет совпадений в файле
                             target = "";// очистка  target для продолжения поиска совпадений
+                            break;
                         }
                     }
                 }

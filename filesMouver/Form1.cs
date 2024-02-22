@@ -197,26 +197,23 @@ namespace FilesMouver
             }
         }
 
-        private void button4Search_Click(object sender, EventArgs e)
+        private async void button4Search_Click(object sender, EventArgs e)
         {
-            //исходные данные
-            string dirIn = textBox2_dirIn.Text;//@"C:\test\findWord"; //путь к файлу в котором будем искать совпадения
-            string slovoPath = @"\Words\Words.txt"; 
-                
-                //@"C:\test\findWord\keyWord\w6.txt";//путь к файлу c условием поиска (ключевым словом)                               
-            string dirOut = textBox3_dirOut.Text;// @"C:\test\findWord\out\";// путь куда перемещ-копируется файл с совпадением 
+            string dirIn = textBox2_dirIn.Text;
+            string slovoPath = textBox_pathWords.Text;                 
+            string dirOut = textBox3_dirOut.Text;
+                      
 
-            try 
-            {
-                AnalizFile analizFiles = new AnalizFile(dirIn, slovoPath, dirOut);
-                analizFiles.SerchInDirectory();
+            AnalizFile analizFiles = new AnalizFile(dirIn, slovoPath, dirOut);
+            progressBar1.Value = analizFiles.Position;
+            progressBar1.Maximum = analizFiles.CountFiles;
+            await analizFiles.SerchInDirectory();
 
-                textBox1.Text += analizFiles.report;
-            } 
-            catch 
-            {
-                MessageBox.Show("Неверный путь");
-            }
+            if (analizFiles.ErrMessage.Length > 0)
+                textBox1.Text = analizFiles.ErrMessage;
+
+            //textBox1.Text += analizFiles.report;
+
 
         }
     }
