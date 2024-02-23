@@ -10,6 +10,8 @@ namespace FilesMouver
     {
         public bool find;
         public int sovpadenieCount;
+        
+        //public string otchet = "";
 
         public void FinedWord(ISearch sposob)
         {
