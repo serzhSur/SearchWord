@@ -8,6 +8,9 @@ namespace FilesMouver
 {
     internal interface ISearch
     {
-        void DoSearch(out bool find, out int sovpadenieCount);
+        bool sovpadenie { get; set; }
+        int matchCount { get; set; }
+        string otchet { get; set; }
+    void DoSearch();
     }
 }

@@ -9,39 +9,42 @@ namespace filesMove
 {
     internal class SearchSposobTWO: ISearch
     {
+        public bool sovpadenie { get; set; }
+        public int matchCount { get; set; }
+        public string otchet { get; set; }
+        
         public string text;
-        public string slovo;
-        public string otchet="";
-        public SearchSposobTWO(string text, string slovo)
+        public string keyWord;
+        public SearchSposobTWO(string text, string keyWord)
         {
             this.text = text;
-            this.slovo = slovo;
+            this.keyWord = keyWord;
             
         }
-        public void DoSearch(out bool sovpadenie, out int count)
+        public void DoSearch()
         {
-            //string text = File.ReadAllText("C:\\C#_projects\\LiNQ\\test\\ключ_sur804.txt");
+            //text = File.ReadAllText("C:\\C#_projects\\LiNQ\\test\\ключ_sur804.txt");
             //string key = "sur";//"123456789";
-            int keyLength = slovo.Length;
+            
             int keyIndex = 0;
-            count = 0;
+            matchCount = 0;
             sovpadenie = false;
 
             do
             {
-                keyIndex = text.IndexOf(slovo);
+                keyIndex = text.IndexOf(keyWord);
 
                 if (keyIndex > 0)
                 {
-                    count += 1;
+                    matchCount += 1;
                     sovpadenie = true;
 
-                    text = text.Remove(0, keyIndex + (keyLength - 1));
+                    text = text.Remove(0, keyIndex + (keyWord.Length - 1));
                 }
             }
             while (keyIndex > 0);
 
-            otchet = $"word:{slovo} namberMatch:{count}  sovpadenie:{sovpadenie}\r\n";
+            otchet = $"\r\nword:{keyWord} namberMatch:{matchCount}  sovpadenie:{sovpadenie}";
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FilesMouver
 {
-    internal class SearchSposobOne : ISearch
+    internal class SearchSposobOne //: ISearch
     {
         public string text;
         public string slovo;
