@@ -1,4 +1,5 @@
 ﻿using FilesMouver;
+using Microsoft.VisualBasic.Devices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,17 +8,22 @@ using System.Threading.Tasks;
 
 namespace FilesMouver
 {
-    internal class SearchSposobOne //: ISearch
+    internal class SearchSposobONE: ISearch
     {
+        public bool sovpadenie { get; set; }
+        public int matchCount { get; set; }
+        public string otchet { get; set; } = "";
+        
         public string text;
         public string slovo;
 
-        public SearchSposobOne(string text, string slovo)
+        public SearchSposobONE(string text, string slovo)
         {
             this.text = text;
             this.slovo = slovo;
+            
         }
-        public void DoSearch(out bool find, out int sovpadenieCount)
+        public void DoSearch()
         {
             
             text = text.ToLower();
@@ -26,8 +32,8 @@ namespace FilesMouver
             slovo = slovo.ToLower();
             slovo = slovo.Trim();
 
-            find = false; // переменная указывает есть совпадение или нет
-            sovpadenieCount = 0;// считает сколько было совпадений
+            sovpadenie = false; // переменная указывает есть совпадение или нет
+            matchCount = 0;// считает сколько было совпадений
 
             for (int i = 0; i < text.Length; i++)
             {
@@ -51,14 +57,15 @@ namespace FilesMouver
 
                         if (target == slovo)
                         {
-                            find = true;
-                            sovpadenieCount += 1;//считаем сколько будет совпадений в файле
+                            sovpadenie = true;
+                            matchCount += 1;//считаем сколько будет совпадений в файле
                             target = "";// очистка  target для продолжения поиска совпадений
                             break;
                         }
                     }
                 }
             }
+            otchet = $"word:{slovo}\t\tnamberMatch:{matchCount}\tsovpadenie:{sovpadenie}";
         }
     }
 }
