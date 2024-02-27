@@ -10,6 +10,7 @@ namespace FilesMouver
     internal class SearchSposobOne : ISearch
     {
         public string text;
+
         public string slovo;
 
         public SearchSposobOne(string text, string slovo)

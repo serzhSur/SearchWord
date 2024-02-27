@@ -133,15 +133,13 @@ namespace FilesMouver
             }
             catch (Exception ex)
             {
-
                 ErrMessage = ex.Message;
             }
         }
 
-        public void SearchInFile(string textFilePath)//, out string report)  //считывает текстовые фаилы: text и slovo и ищет в них совпадения.
+        public void SearchInFile(string textFilePath) //, out string report)  //считывает текстовые фаилы: text и slovo и ищет в них совпадения.
         {
             int count = 0;
-
             report += $"\r\nФайл:{Path.GetFileName(textFilePath)}";//создаем отчет, добавляем имя файла
             
             string text = File.ReadAllText(textFilePath);
