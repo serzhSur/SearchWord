@@ -1,4 +1,5 @@
-﻿using System;
+﻿using filesMove;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -140,13 +141,15 @@ namespace FilesMouver
         public void SearchInFile(string textFilePath) //, out string report)  //считывает текстовые фаилы: text и slovo и ищет в них совпадения.
         {
             int count = 0;
-            report += $"\r\nФайл:{Path.GetFileName(textFilePath)}";//создаем отчет, добавляем имя файла
+
+            //report += $"\r\nФайл:{Path.GetFileName(textFilePath)}";//создаем отчет, добавляем имя файла
             
             string text = File.ReadAllText(textFilePath);
 
-            //string[] spisokSlov = File.ReadAllLines(slovoPath);//считываем слова в файле slovoPath
+            string[] spisokSlov = File.ReadAllLines(slovoPath);//считываем слова в файле slovoPath
             foreach (string slovo in SpisokSlov)
             {
+                /*
                 ///////////////////////////////////////////////
                 StartSearch startsearch = new StartSearch();
                 
@@ -159,9 +162,20 @@ namespace FilesMouver
                     break;
                 }
                 ////////////////////////////////////////////////
-                report += $"\r\nсодержит:'{slovo}'раз:{count}";//добавляем в отчет результат поиска
-            }
+                */
+                StartSearch startsearch = new StartSearch();
+                startsearch.FinedWord(new SearchSposobTWO(text, slovo));
+                
+                count += startsearch.matchCount;
+                if (startsearch.sovpadenie == true)
+                {
+                    sovpadenie = true;
+                    break;
+                }
 
+                //report += $"\r\nсодержит:'{slovo}'раз:{count}";//добавляем в отчет результат поиска
+            }
+            /*
             if (sovpadenie == true)
             {
                 report += "\r\nstatus: Math";
@@ -173,7 +187,7 @@ namespace FilesMouver
             {
                 report += "\r\nstatus: No Matches";
             }
-
+            */
         }
     }
 }
