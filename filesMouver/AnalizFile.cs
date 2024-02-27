@@ -150,6 +150,64 @@ namespace FilesMouver
             }
         }
 
+<<<<<<< HEAD
        
+=======
+<<<<<<< HEAD
+       
+=======
+        public void SearchInFile(string textFilePath)//, out string report)  //считывает текстовые фаилы: text и slovo и ищет в них совпадения.
+        {
+            int count = 0;
+
+            //report += $"\r\nФайл:{Path.GetFileName(textFilePath)}";//создаем отчет, добавляем имя файла
+            
+            string text = File.ReadAllText(textFilePath);
+
+            string[] spisokSlov = File.ReadAllLines(slovoPath);//считываем слова в файле slovoPath
+            foreach (string slovo in SpisokSlov)
+            {
+                /*
+                ///////////////////////////////////////////////
+                StartSearch startsearch = new StartSearch();
+                
+                startsearch.FinedWord(new SearchSposobOne(text, slovo));
+
+                count += startsearch.sovpadenieCount;
+                if (startsearch.find==true) 
+                {
+                    sovpadenie = true;
+                    break;
+                }
+                ////////////////////////////////////////////////
+                */
+                StartSearch startsearch = new StartSearch();
+                startsearch.FinedWord(new SearchSposobTWO(text, slovo));
+                
+                count += startsearch.matchCount;
+                if (startsearch.sovpadenie == true)
+                {
+                    sovpadenie = true;
+                    break;
+                }
+
+                //report += $"\r\nсодержит:'{slovo}'раз:{count}";//добавляем в отчет результат поиска
+            }
+            /*
+            if (sovpadenie == true)
+            {
+                report += "\r\nstatus: Math";
+                //перемещение файла в котором нашлось совпадение (задаем путь)
+                //fi.CopyTo(dirOutPath + "\\" + fi.Name, true);
+            }
+
+            if (sovpadenie == false)
+            {
+                report += "\r\nstatus: No Matches";
+            }
+            */
+        }
+>>>>>>> 5845eb6 (добавил свойства в интерфейс)
+>>>>>>> master
     }
 }

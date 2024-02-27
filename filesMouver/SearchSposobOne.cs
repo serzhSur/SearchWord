@@ -8,7 +8,15 @@ using System.Threading.Tasks;
 
 namespace FilesMouver
 {
+<<<<<<< HEAD
     internal class SearchSposobONE: ISearch
+=======
+<<<<<<< HEAD
+    internal class SearchSposobONE: ISearch
+=======
+    internal class SearchSposobOne //: ISearch
+>>>>>>> 5845eb6 (добавил свойства в интерфейс)
+>>>>>>> master
     {
         public bool sovpadenie { get; set; } = false;// переменная указывает есть совпадение или нет
         public int matchCount { get; set; } = 0;// считает сколько было совпадений

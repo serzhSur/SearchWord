@@ -11,20 +11,50 @@ namespace filesMove
     {
         public bool sovpadenie { get; set; }
         public int matchCount { get; set; }
+<<<<<<< HEAD
         public string otchet { get; set; } = "";
 
+=======
+<<<<<<< HEAD
+        public string otchet { get; set; } = "";
+
+=======
+        public string otchet { get; set; }
+        
+>>>>>>> 5845eb6 (добавил свойства в интерфейс)
+>>>>>>> master
         public string text;
         public string keyWord;
         public SearchSposobTWO(string text, string keyWord)
         {
+<<<<<<< HEAD
             this.text = text.ToLower();
             this.keyWord = keyWord.ToLower();
+=======
+<<<<<<< HEAD
+            this.text = text.ToLower();
+            this.keyWord = keyWord.ToLower();
+=======
+            this.text = text;
+            this.keyWord = keyWord;
+>>>>>>> 5845eb6 (добавил свойства в интерфейс)
+>>>>>>> master
             
 
         }
         public void DoSearch()
         {
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+            //text = File.ReadAllText("C:\\C#_projects\\LiNQ\\test\\ключ_sur804.txt");
+            //string key = "sur";//"123456789";
+            
+>>>>>>> 5845eb6 (добавил свойства в интерфейс)
+>>>>>>> master
             int keyIndex = 0;
             matchCount = 0;
             sovpadenie = false;
@@ -43,8 +73,17 @@ namespace filesMove
             }
             while (keyIndex > 0);
 
+<<<<<<< HEAD
             otchet = $"sovpadenie:{sovpadenie}\tnamberMatch:{matchCount}\tword:{keyWord}";
            
+=======
+<<<<<<< HEAD
+            otchet = $"sovpadenie:{sovpadenie}\tnamberMatch:{matchCount}\tword:{keyWord}";
+           
+=======
+            otchet = $"\r\nword:{keyWord} namberMatch:{matchCount}  sovpadenie:{sovpadenie}";
+>>>>>>> 5845eb6 (добавил свойства в интерфейс)
+>>>>>>> master
         }
     }
 }
