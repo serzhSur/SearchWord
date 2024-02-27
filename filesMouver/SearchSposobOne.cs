@@ -1,4 +1,5 @@
 ﻿using FilesMouver;
+using Microsoft.VisualBasic.Devices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,27 +8,27 @@ using System.Threading.Tasks;
 
 namespace FilesMouver
 {
+<<<<<<< HEAD
+    internal class SearchSposobONE: ISearch
+=======
     internal class SearchSposobOne //: ISearch
+>>>>>>> 5845eb6 (добавил свойства в интерфейс)
     {
+        public bool sovpadenie { get; set; } = false;// переменная указывает есть совпадение или нет
+        public int matchCount { get; set; } = 0;// считает сколько было совпадений
+        public string otchet { get; set; } = "";
+        
         public string text;
         public string slovo;
 
-        public SearchSposobOne(string text, string slovo)
+        public SearchSposobONE(string text, string slovo)
         {
-            this.text = text;
-            this.slovo = slovo;
-        }
-        public void DoSearch(out bool find, out int sovpadenieCount)
-        {
+            this.text = text.ToLower(); 
+            this.slovo = slovo.ToLower();
             
-            text = text.ToLower();
-            text = text.Trim();
-
-            slovo = slovo.ToLower();
-            slovo = slovo.Trim();
-
-            find = false; // переменная указывает есть совпадение или нет
-            sovpadenieCount = 0;// считает сколько было совпадений
+        }
+        public void DoSearch()
+        {
 
             for (int i = 0; i < text.Length; i++)
             {
@@ -45,20 +46,21 @@ namespace FilesMouver
                         else
                         {
                             target = "";
-                            i -= 1;// добавил!!!
+                            i -= 1;
                             break;
                         }
 
                         if (target == slovo)
                         {
-                            find = true;
-                            sovpadenieCount += 1;//считаем сколько будет совпадений в файле
+                            sovpadenie = true;
+                            matchCount += 1;//считаем сколько будет совпадений в файле
                             target = "";// очистка  target для продолжения поиска совпадений
                             break;
                         }
                     }
                 }
             }
+            otchet = $"sovpadenie:{sovpadenie}\tnamberMatch:{matchCount}\tword:{slovo}";
         }
     }
 }

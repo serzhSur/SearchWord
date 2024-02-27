@@ -14,6 +14,7 @@ namespace FilesMouver
         public string dirOutPath;
 
         public string report="";
+        int count = 0;
         bool sovpadenie = false;
 
         public string ErrMessage { get; private set; } = "";
@@ -52,9 +53,9 @@ namespace FilesMouver
 
             try
             {
-             //   if (File.Exists(slovoPath) && Directory.Exists(dirIn))//если слово(для поиска) существует
-             //   -здесь только поиск проверка д.б не в этом методе
-              //  {
+
+
+              
                     if (Directory.Exists(dirOutPath) == false)
                     {
                         Directory.CreateDirectory(dirOutPath);
@@ -74,35 +75,45 @@ namespace FilesMouver
                     CountFiles = allFilesPath.Count();
                     Position = 0;
 
-                    foreach (string file in allFilesPath)//в каждом файле ищем слово и перемещаем файл если нашли совпадение file это путь к фаилу
+                    foreach (string file in allFilesPath)//в каждом файле ищем список слов и перемещаем файл если нашли совпадение 
                     {
-                       // AnalizFile analiz = new AnalizFile(file, slovoPath, dirOutPath); ?????????????
-                       // analiz.SearchInFile(file);
+                       string text = File.ReadAllText(file);
+                       report += $"\r\n{Path.GetFileName(file)}";
 
-                        this.SearchInFile(file);    
+                       foreach (string slovo in SpisokSlov) 
+                       {
+                        ////////////////////////////////////////////////////
+                        StartSearch startsearch = new StartSearch();
+                        
+                        //startsearch.FinedWord(new SearchSposobONE(text, slovo));
 
-                         // report += report;
+                        //startsearch.FinedWord(new SearchSposobTWO(text,slovo));
 
-                    if (sovpadenie == true)
-                    {
-                        MoveFileTo(file);
-                        report += " COPY";
+                        startsearch.FinedWord(new SearchSposobLINQ(text,slovo));
+                        
+                        count += startsearch.matchCount;
+                        sovpadenie = startsearch.sovpadenie;
+                        
+                        report +=$"\r\n{startsearch.otchet}";
+                        ////////////////////////////////////////////////////
+                       }
+
+                        if (sovpadenie == true|| count>0)
+                        {
+                        
+                            //MoveFileTo(file);
+                            report += "\r\nCOPY";
+                        }
+                        else
+                        {
+                             //DeleteFile(file);
+                             report += "\r\nDeleted";
+                        }
+
+                     Position++;
                     }
-                    else
-                    {
-                        DeleteFile(file);
-                    }
-
-                    Position++;
-             }
-
-                    //этого не было в ТЗ
-                   // string pathPeport = $"{dirOutPath}\\_REPORT.txt";
-                  //  File.WriteAllTextAsync(pathPeport, report);// запись отчета в файл _REPORT.txt" (путь dirOutPath)
-              //  }
 
                 Status = "Обработка завершена";
-
 
             }
             catch (Exception ex)
@@ -139,6 +150,9 @@ namespace FilesMouver
             }
         }
 
+<<<<<<< HEAD
+       
+=======
         public void SearchInFile(string textFilePath)//, out string report)  //считывает текстовые фаилы: text и slovo и ищет в них совпадения.
         {
             int count = 0;
@@ -190,5 +204,6 @@ namespace FilesMouver
             }
             */
         }
+>>>>>>> 5845eb6 (добавил свойства в интерфейс)
     }
 }
