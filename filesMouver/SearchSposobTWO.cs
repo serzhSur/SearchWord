@@ -43,7 +43,8 @@ namespace filesMove
             }
             while (keyIndex > 0);
 
-            otchet = $"word:{keyWord}\t\tnamberMatch:{matchCount}\tsovpadenie:{sovpadenie}";
+            otchet = $"sovpadenie:{sovpadenie}\tnamberMatch:{matchCount}\tword:{keyWord}";
+           
         }
     }
 }

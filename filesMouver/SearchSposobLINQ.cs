@@ -35,7 +35,8 @@ namespace filesMove
 
             if (matchCount > 0) { sovpadenie = true; }
 
-            otchet += $"word:{slovo}\t\tnamberMatch:{matchCount}\tsovpadenie:{sovpadenie}";
+            otchet = $"sovpadenie:{sovpadenie}\tnamberMatch:{matchCount}\tword:{slovo}";
+
         }
 
     }

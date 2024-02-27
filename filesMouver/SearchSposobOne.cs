@@ -10,8 +10,8 @@ namespace FilesMouver
 {
     internal class SearchSposobONE: ISearch
     {
-        public bool sovpadenie { get; set; }
-        public int matchCount { get; set; }
+        public bool sovpadenie { get; set; } = false;// переменная указывает есть совпадение или нет
+        public int matchCount { get; set; } = 0;// считает сколько было совпадений
         public string otchet { get; set; } = "";
         
         public string text;
@@ -19,21 +19,12 @@ namespace FilesMouver
 
         public SearchSposobONE(string text, string slovo)
         {
-            this.text = text;
-            this.slovo = slovo;
+            this.text = text.ToLower(); 
+            this.slovo = slovo.ToLower();
             
         }
         public void DoSearch()
         {
-            
-            text = text.ToLower();
-            text = text.Trim();
-
-            slovo = slovo.ToLower();
-            slovo = slovo.Trim();
-
-            sovpadenie = false; // переменная указывает есть совпадение или нет
-            matchCount = 0;// считает сколько было совпадений
 
             for (int i = 0; i < text.Length; i++)
             {
@@ -51,7 +42,7 @@ namespace FilesMouver
                         else
                         {
                             target = "";
-                            i -= 1;// добавил!!!
+                            i -= 1;
                             break;
                         }
 
@@ -65,7 +56,7 @@ namespace FilesMouver
                     }
                 }
             }
-            otchet = $"word:{slovo}\t\tnamberMatch:{matchCount}\tsovpadenie:{sovpadenie}";
+            otchet = $"sovpadenie:{sovpadenie}\tnamberMatch:{matchCount}\tword:{slovo}";
         }
     }
 }
