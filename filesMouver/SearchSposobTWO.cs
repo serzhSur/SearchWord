@@ -17,9 +17,9 @@ namespace filesMove
         public string keyWord;
         public SearchSposobTWO(string text, string keyWord)
         {
-            this.text = text;
-            this.keyWord = keyWord;
-           
+            this.text = text.ToLower();
+            this.keyWord = keyWord.ToLower();
+            
 
         }
         public void DoSearch()

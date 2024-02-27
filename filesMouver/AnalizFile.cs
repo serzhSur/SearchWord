@@ -84,9 +84,9 @@ namespace FilesMouver
                        {
                         ////////////////////////////////////////////////////
                         StartSearch startsearch = new StartSearch();
-                        //startsearch.FinedWord(new SearchSposobTWO(text,slovo));
+                        startsearch.FinedWord(new SearchSposobTWO(text,slovo));
 
-                        startsearch.FinedWord(new SearchSposobONE(text, slovo));
+                        //startsearch.FinedWord(new SearchSposobONE(text, slovo));
                         
                         count += startsearch.matchCount;
                         sovpadenie = startsearch.sovpadenie;
