@@ -100,7 +100,7 @@ namespace FilesMouver
 
                         if (sovpadenie == true|| count>0)
                         {
-                        
+
                             //MoveFileTo(file);
                             report += "\r\nCOPY";
                         }

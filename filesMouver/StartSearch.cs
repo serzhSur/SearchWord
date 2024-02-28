@@ -12,7 +12,6 @@ namespace FilesMouver
         public int matchCount { get; set; }
         public string otchet { get; set; } = "";
 
-
         public void FinedWord(ISearch sposob)
         {
             if (sposob != null)
@@ -22,8 +21,7 @@ namespace FilesMouver
 
                 sovpadenie = sposob.sovpadenie;
                 matchCount = sposob.matchCount;
-                otchet = $"{sposob} {sposob.otchet}"; 
- 
+                otchet = sposob.otchet;
             }
 
         }
