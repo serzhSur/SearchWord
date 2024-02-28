@@ -26,10 +26,13 @@ namespace filesMove
         public void DoSearch() 
         {
             
-            char[] separators = { ' ', ',' };
+            char[] separators = { ' ', ',','.','-' };
             string[] textArray = text.Split(separators, StringSplitOptions.RemoveEmptyEntries);//преобразовали текст в массив, слово-элемент мас
-
-            var selectedWords = textArray.Where(w => w.ToLower().StartsWith(slovo));
+            
+            // операторы запросов LINQ
+            var selectedWords = from w in textArray
+                                where w.ToLower().Contains(slovo) //StartsWith(slovo)
+                                select w;
 
             matchCount = selectedWords.Count();
 
