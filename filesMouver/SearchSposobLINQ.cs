@@ -38,7 +38,7 @@ namespace filesMove
 
             if (matchCount > 0) { sovpadenie = true; }
 
-            otchet = $"sovpadenie:{sovpadenie}\tnamberMatch:{matchCount}\tword:{slovo}";
+            otchet = $"SearchSposobLINQ sovpadenie:{sovpadenie}\tnamberMatch:{matchCount}\tword:{slovo}";
 
         }
 

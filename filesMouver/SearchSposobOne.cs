@@ -56,7 +56,7 @@ namespace FilesMouver
                     }
                 }
             }
-            otchet = $"sovpadenie:{sovpadenie}\tnamberMatch:{matchCount}\tword:{slovo}";
+            otchet = $"SearchSposobONE sovpadenie:{sovpadenie}\tnamberMatch:{matchCount}\tword:{slovo}";
         }
     }
 }

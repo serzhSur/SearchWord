@@ -43,7 +43,7 @@ namespace filesMove
             }
             while (keyIndex > 0);
 
-            otchet = $"sovpadenie:{sovpadenie}\tnamberMatch:{matchCount}\tword:{keyWord}";
+            otchet = $"SearchSposobTWO sovpadenie:{sovpadenie}\tnamberMatch:{matchCount}\tword:{keyWord}";
            
         }
     }
