@@ -10,21 +10,20 @@ namespace FilesMouver
     {
         public bool sovpadenie { get; set; }
         public int matchCount { get; set; }
-        public string otchet { get; set; }
-        //public bool find;
-        //public int sovpadenieCount;
+        public string otchet { get; set; } = "";
+
 
         public void FinedWord(ISearch sposob)
         {
             if (sposob != null)
             {
 
-                sposob.DoSearch();//out bool find, out int sovpadenieCount);
-                //this.find = find;
-                //this.sovpadenieCount = sovpadenieCount;
+                sposob.DoSearch();
+
                 sovpadenie = sposob.sovpadenie;
                 matchCount = sposob.matchCount;
-                otchet = sposob.otchet;
+                otchet = sposob.otchet; 
+ 
             }
 
         }

@@ -9,7 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="slovoPath\" />
+    <Compile Remove="slovoPath\**" />
+    <EmbeddedResource Remove="slovoPath\**" />
+    <None Remove="slovoPath\**" />
   </ItemGroup>
 
 </Project>

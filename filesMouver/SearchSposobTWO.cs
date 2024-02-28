@@ -11,21 +11,20 @@ namespace filesMove
     {
         public bool sovpadenie { get; set; }
         public int matchCount { get; set; }
-        public string otchet { get; set; }
-        
+        public string otchet { get; set; } = "";
+
         public string text;
         public string keyWord;
         public SearchSposobTWO(string text, string keyWord)
         {
-            this.text = text;
-            this.keyWord = keyWord;
+            this.text = text.ToLower();
+            this.keyWord = keyWord.ToLower();
             
+
         }
         public void DoSearch()
         {
-            //text = File.ReadAllText("C:\\C#_projects\\LiNQ\\test\\ключ_sur804.txt");
-            //string key = "sur";//"123456789";
-            
+
             int keyIndex = 0;
             matchCount = 0;
             sovpadenie = false;
@@ -44,7 +43,8 @@ namespace filesMove
             }
             while (keyIndex > 0);
 
-            otchet = $"\r\nword:{keyWord} namberMatch:{matchCount}  sovpadenie:{sovpadenie}";
+            otchet = $"SearchSposobTWO sovpadenie:{sovpadenie}\tnamberMatch:{matchCount}\tword:{keyWord}";
+           
         }
     }
 }

@@ -212,7 +212,8 @@ namespace FilesMouver
             if (analizFiles.ErrMessage.Length > 0)
                 textBox1.Text = analizFiles.ErrMessage;
 
-            //textBox1.Text += analizFiles.report;
+           
+            textBox_log.Text += analizFiles.report;
 
 
         }
