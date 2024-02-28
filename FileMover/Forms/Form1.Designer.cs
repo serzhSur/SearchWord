@@ -132,6 +132,7 @@
             textBox_log.AcceptsReturn = true;
             textBox_log.AcceptsTab = true;
             textBox_log.AllowDrop = true;
+            textBox_log.BackColor = Color.White;
             textBox_log.Location = new Point(10, 204);
             textBox_log.Margin = new Padding(3, 2, 3, 2);
             textBox_log.Multiline = true;

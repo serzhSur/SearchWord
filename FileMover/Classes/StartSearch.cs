@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FilesMouver
+namespace FilesMove.Classes
 {
     internal class StartSearch
     {
@@ -22,8 +22,8 @@ namespace FilesMouver
 
                 sovpadenie = sposob.sovpadenie;
                 matchCount = sposob.matchCount;
-                otchet = sposob.otchet; 
- 
+                otchet = sposob.otchet;
+
             }
 
         }

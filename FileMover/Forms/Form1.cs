@@ -1,16 +1,18 @@
-using FilesMouver;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using FilesMove.Classes;
 
 
 namespace FilesMouver
 {
     public partial class Form1 : Form
     {
+        internal AnalizFile Analizator { get; private set; }
+
         public Form1()
         {
             InitializeComponent();
@@ -204,16 +206,19 @@ namespace FilesMouver
             string dirOut = textBox3_dirOut.Text;
                       
 
-            AnalizFile analizFiles = new AnalizFile(dirIn, slovoPath, dirOut);
-            progressBar1.Value = analizFiles.Position;
-            progressBar1.Maximum = analizFiles.CountFiles;
-            await analizFiles.SerchInDirectory();
+            Analizator = new AnalizFile(dirIn, slovoPath, dirOut);
+            progressBar1.Value = Analizator.Position;
+            progressBar1.Maximum = Analizator.CountFiles;
+            await Analizator.SerchInDirectory();
 
-            if (analizFiles.ErrMessage.Length > 0)
-                textBox1.Text = analizFiles.ErrMessage;
+            if (Analizator.ErrMessage.Length > 0)
+            {
+                textBox_log.BackColor =Color.LightCoral;
+                textBox_log.Text = Analizator.ErrMessage;
+            }
 
            
-            textBox_log.Text += analizFiles.report;
+            textBox_log.Text += Analizator.report;
 
 
         }
