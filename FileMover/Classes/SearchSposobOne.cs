@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace FilesMove.Classes
 {
+
+
     internal class SearchSposobONE : ISearch
     {
         public bool sovpadenie { get; set; } = false;// переменная указывает есть совпадение или нет
