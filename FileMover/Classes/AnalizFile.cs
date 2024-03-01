@@ -109,13 +109,13 @@ namespace FilesMove.Classes
 
                     if (sovpadenie == true)
                     {
-                        MoveFileTo(file);
-                        //report += "\r\nCOPY";
+                        //MoveFileTo(file);
+                        report += "\r\nCOPY";
                     }
                     else
                     {
-                        DeleteFile(file);
-                        //report += "\r\nDeleted";
+                        //DeleteFile(file);
+                        report += "\r\nDeleted";
                     }
 
                     Position++;

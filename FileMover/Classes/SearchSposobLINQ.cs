@@ -28,13 +28,13 @@ namespace FilesMove.Classes
             char[] separators = { ' ', ',', '.', '-' };
             string[] textArray = text.Split(separators, StringSplitOptions.RemoveEmptyEntries);//преобразовали текст в массив, слово-элемент мас
 
-            // операторы запросов LINQ
+            
             var selectedWords = textArray.Where(p=>p.Contains(slovo)).FirstOrDefault();
 
             if (selectedWords != null)
             {
                 sovpadenie = true;
-                matchCount = 1;
+                matchCount += 1;
             }
 
             //from w in text
