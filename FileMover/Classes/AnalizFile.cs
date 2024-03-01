@@ -13,7 +13,6 @@ namespace FilesMove.Classes
         public string slovoPath;
         public string dirOutPath;
 
-        public string report = "";
         int count = 0;
         bool sovpadenie = false;
 
@@ -74,8 +73,9 @@ namespace FilesMove.Classes
                 foreach (string file in allFilesPath)//в каждом файле ищем список слов и перемещаем файл если нашли совпадение 
                 {
 
-                    string text = File.ReadAllText(file);
-                    report += $"\r\n{Path.GetFileName(file)}";
+                    string text =await File.ReadAllTextAsync(file);// делать асинхронно (может долго считывать) параллельно можно считывать другие поменьше.
+                    
+                    
                     string findedWord = "";
 
 
@@ -97,7 +97,7 @@ namespace FilesMove.Classes
 
                         //count += startsearch.matchCount;
                         sovpadenie = startsearch.sovpadenie;
-                        report += $"\r\n{startsearch.otchet}";
+                        
 
                         if (sovpadenie == true)
                         {
@@ -109,16 +109,16 @@ namespace FilesMove.Classes
 
                     if (sovpadenie == true)
                     {
-                        //MoveFileTo(file);
-                        report += "\r\nCOPY";
+                        MoveFileTo(file);
+                        //report += "\r\nCOPY";
                     }
                     else
                     {
-                        //DeleteFile(file);
-                        report += "\r\nDeleted";
+                        DeleteFile(file);
+                        //report += "\r\nDeleted";
                     }
 
-                    Position++;
+                    Position++;//позиция прогресс бара
                 }
 
                 Status = "Обработка завершена";
@@ -149,7 +149,7 @@ namespace FilesMove.Classes
             try
             {
                 string filename = Path.GetFileName(file);
-                File.Copy(file, dirOutPath + "\\" + filename, true);
+                File.Move(file, dirOutPath + "\\" + filename, true);
             }
             catch (Exception ex)
             {

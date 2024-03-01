@@ -218,7 +218,7 @@ namespace FilesMouver
             }
 
            
-            textBox_log.Text += Analizator.report;
+            
 
 
         }

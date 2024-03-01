@@ -25,24 +25,16 @@ namespace FilesMove.Classes
         {
 
             int keyIndex = 0;
-            matchCount = 0;
+
             sovpadenie = false;
 
-           // do
-           // {
                 keyIndex = text.IndexOf(keyWord);
 
                 if (keyIndex > 0)
                 {
-                    matchCount += 1;
+                   
                     sovpadenie = true;
-
-                    //text = text.Remove(0, keyIndex + (keyWord.Length - 1));
                 }
-          //  }
-          //  while (keyIndex > 0);
-
-            otchet = $"SearchSposobTWO sovpadenie:{sovpadenie}\tnamberMatch:{matchCount}\tword:{keyWord}";
 
         }
     }
