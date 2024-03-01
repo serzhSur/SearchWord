@@ -72,7 +72,7 @@ namespace FilesMouver
 
                     string[] allFilesPath = Directory.GetFiles(dirIn);//получаем список файлов для анализа
 
-                    CountFiles = allFilesPath.Count();
+                    CountFiles = allFilesPath.Length;//.Count();
                     Position = 0;
 
                     foreach (string file in allFilesPath)//в каждом файле ищем список слов и перемещаем файл если нашли совпадение 
