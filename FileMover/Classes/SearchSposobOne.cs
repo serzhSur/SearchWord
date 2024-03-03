@@ -27,38 +27,38 @@ namespace FilesMove.Classes
         }
         public void DoSearch()
         {
+            string target = "";
+            int index = 0;
 
-            for (int i = 0; i < text.Length; i++)
+            for (int i = 0; i <= text.Length - 1; i++)
             {
+                if (sovpadenie == true)
+                {
+                    break;
+                }
                 if (text[i] == slovo[0])
                 {
-                    string target = text[i].ToString();// инициализируем переменную для поиска совпадений в цикле
+                    target = text[i].ToString();// инициализируем переменную для поиска совпадений в цикле
 
-                    for (int s = 1; s < slovo.Length && i < text.Length; s++)
+                    for (int s = 1; (s <= slovo.Length - 1) && (i <= text.Length - 1); s++, i++)
                     {
-                        i += 1;
-                        if (slovo[s] == text[i])
-                        {
-                            target += text[i].ToString();
-                        }
-                        else
-                        {
-                            target = "";
-                            i -= 1;
-                            break;
-                        }
 
+                        if (slovo[s] == text[i + 1])
+                        {
+                            target += text[i + 1].ToString();
+                        }
                         if (target == slovo)
                         {
                             sovpadenie = true;
-                            matchCount += 1;//считаем сколько будет совпадений в файле
-                            target = "";// очистка  target для продолжения поиска совпадений
+                            index = i;
+
                             break;
                         }
+
                     }
                 }
             }
-            otchet = $"SearchSposobONE sovpadenie:{sovpadenie}\tnamberMatch:{matchCount}\tword:{slovo}";
+            
         }
     }
 }

@@ -211,6 +211,8 @@ namespace FilesMouver
             progressBar1.Maximum = Analizator.CountFiles;
             await Analizator.SerchInDirectory();
 
+            textBox_log.Text = Analizator.Status;
+
             if (Analizator.ErrMessage.Length > 0)
             {
                 textBox_log.BackColor =Color.LightCoral;

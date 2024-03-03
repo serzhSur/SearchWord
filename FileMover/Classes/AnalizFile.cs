@@ -76,7 +76,7 @@ namespace FilesMove.Classes
                     string text =await File.ReadAllTextAsync(file);// делать асинхронно (может долго считывать) параллельно можно считывать другие поменьше.
                     
                     
-                    string findedWord = "";
+                    //string findedWord = "";
 
 
                     foreach (string slovo in SpisokSlov)
@@ -89,11 +89,11 @@ namespace FilesMove.Classes
 
                         startsearch.FinedWord(new SearchSposobONE(text, slovo));
 
-                        startsearch.FinedWord(new SearchSposobTWO(text,slovo));
+                        //startsearch.FinedWord(new SearchSposobTWO(text,slovo));
 
-                        startsearch.FinedWord(new SearchSposobLINQ(text,slovo));
+                        //startsearch.FinedWord(new SearchSposobLINQ(text,slovo));
 
-                        startsearch.FinedWord(new SearchSposobRegex(text, slovo));
+                        //startsearch.FinedWord(new SearchSposobRegex(text, slovo));
 
                         //count += startsearch.matchCount;
                         sovpadenie = startsearch.sovpadenie;
@@ -101,7 +101,7 @@ namespace FilesMove.Classes
 
                         if (sovpadenie == true)
                         {
-                            findedWord = slovo;
+                            //findedWord = slovo;
                             break;
                         }
 
