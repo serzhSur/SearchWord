@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,16 +9,14 @@ namespace FilesMove.Classes
 {
     internal class SearchSposobTWO : ISearch
     {
-        public bool sovpadenie { get; set; }
-        public int matchCount { get; set; }
-        public string otchet { get; set; } = "";
+        public bool sovpadenie { get; set; }=false;
 
         public string text;
-        public string keyWord;
-        public SearchSposobTWO(string text, string keyWord)
+        public string slovo;
+        public SearchSposobTWO(string text, string slovo)
         {
-            this.text = text.ToLower();
-            this.keyWord = keyWord.ToLower();
+            this.text = text;
+            this.slovo = slovo;
 
 
         }
@@ -26,15 +25,12 @@ namespace FilesMove.Classes
 
             int keyIndex = 0;
 
-            sovpadenie = false;
+            keyIndex = text.ToLower().IndexOf(slovo.ToLower());
 
-                keyIndex = text.IndexOf(keyWord);
-
-                if (keyIndex > 0)
-                {
-                   
-                    sovpadenie = true;
-                }
+            if (keyIndex > 0)
+            {
+                sovpadenie = true;
+            }
 
         }
     }

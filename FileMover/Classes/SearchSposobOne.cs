@@ -12,23 +12,23 @@ namespace FilesMove.Classes
     internal class SearchSposobONE : ISearch
     {
         public bool sovpadenie { get; set; } = false;// переменная указывает есть совпадение или нет
-        public int matchCount { get; set; } = 0;// считает сколько было совпадений
-        public string otchet { get; set; } = "";
-
+     
         public string text;
-
         public string slovo;
 
         public SearchSposobONE(string text, string slovo)
         {
-            this.text = text.ToLower();
-            this.slovo = slovo.ToLower();
+            this.text = text;
+            this.slovo = slovo;
 
         }
         public void DoSearch()
         {
             string target = "";
             int index = 0;
+
+            text = text.ToLower();
+            slovo = slovo.ToLower();
 
             for (int i = 0; i <= text.Length - 1; i++)
             {
@@ -58,7 +58,7 @@ namespace FilesMove.Classes
                     }
                 }
             }
-            
+
         }
     }
 }

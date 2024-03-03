@@ -207,11 +207,13 @@ namespace FilesMouver
                       
 
             Analizator = new AnalizFile(dirIn, slovoPath, dirOut);
-            progressBar1.Value = Analizator.Position;
-            progressBar1.Maximum = Analizator.CountFiles;
-            await Analizator.SerchInDirectory();
+            
+            await Task.Run(()=> Analizator.SerchInDirectory());
 
-            textBox_log.Text = Analizator.Status;
+            progressBar1.Maximum = Analizator.CountFiles;
+            progressBar1.Value = Analizator.Position;
+
+            textBox_log.Text = Analizator.Status+" Совпадений: "+Analizator.countMatches;
 
             if (Analizator.ErrMessage.Length > 0)
             {

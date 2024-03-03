@@ -13,8 +13,8 @@ namespace FilesMove.Classes
         public string slovoPath;
         public string dirOutPath;
 
-        int count = 0;
         bool sovpadenie = false;
+        public int countMatches = 0;
 
         public string ErrMessage { get; private set; } = "";
         public string Status { get; private set; }
@@ -67,17 +67,13 @@ namespace FilesMove.Classes
 
                 string[] allFilesPath = Directory.GetFiles(dirIn);//получаем список файлов для анализа
 
-                CountFiles = allFilesPath.Count();
+                CountFiles = allFilesPath.Count();//для прогресс-бара
                 Position = 0;
 
                 foreach (string file in allFilesPath)//в каждом файле ищем список слов и перемещаем файл если нашли совпадение 
                 {
-
-                    string text =await File.ReadAllTextAsync(file);// делать асинхронно (может долго считывать) параллельно можно считывать другие поменьше.
                     
-                    
-                    //string findedWord = "";
-
+                    string text = await File.ReadAllTextAsync(file);
 
                     foreach (string slovo in SpisokSlov)
                     {
@@ -87,38 +83,29 @@ namespace FilesMove.Classes
                         
                         StartSearch startsearch = new StartSearch();
 
-                        startsearch.FinedWord(new SearchSposobONE(text, slovo));
+                        //startsearch.FinedWord(new SearchSposobONE(text, slovo));
 
                         //startsearch.FinedWord(new SearchSposobTWO(text,slovo));
 
                         //startsearch.FinedWord(new SearchSposobLINQ(text,slovo));
 
-                        //startsearch.FinedWord(new SearchSposobRegex(text, slovo));
+                        startsearch.FinedWord(new SearchSposobRegex(text, slovo));
 
-                        //count += startsearch.matchCount;
                         sovpadenie = startsearch.sovpadenie;
-                        
-
-                        if (sovpadenie == true)
-                        {
-                            //findedWord = slovo;
-                            break;
-                        }
-
+                       
                     }
 
                     if (sovpadenie == true)
                     {
-                        MoveFileTo(file);
-                        //report += "\r\nCOPY";
+                       //MoveFileTo(file);
+                        countMatches += 1;
                     }
                     else
                     {
-                        DeleteFile(file);
-                        //report += "\r\nDeleted";
+                       //DeleteFile(file);
                     }
 
-                    Position++;//позиция прогресс бара
+                    Position++;//позиция прогресс-бара
                 }
 
                 Status = "Обработка завершена";
@@ -149,7 +136,7 @@ namespace FilesMove.Classes
             try
             {
                 string filename = Path.GetFileName(file);
-                File.Move(file, dirOutPath + "\\" + filename, true);
+                File.Copy(file, dirOutPath + "\\" + filename, true);
             }
             catch (Exception ex)
             {
