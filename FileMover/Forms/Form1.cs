@@ -11,18 +11,19 @@ namespace FilesMouver
 {
     public partial class Form1 : Form
     {
+        int timer = 0;
         internal AnalizFile Analizator { get; private set; }
 
         public Form1()
         {
             InitializeComponent();
         }
-
+        
         private void textBox2DirIN_TextChanged(object sender, EventArgs e) //при изменении текста в textBox2_dirIN
 
         {
 
-            ViewDirIn();                      
+            ViewDirIn();
 
         }
 
@@ -202,29 +203,47 @@ namespace FilesMouver
         private async void button4Search_Click(object sender, EventArgs e)
         {
             string dirIn = textBox2_dirIn.Text;
-            string slovoPath = textBox_pathWords.Text;                 
+            string slovoPath = textBox_pathWords.Text;
             string dirOut = textBox3_dirOut.Text;
-                      
+            int i = 0;
 
             Analizator = new AnalizFile(dirIn, slovoPath, dirOut);
+            var processAnalizator = Analizator.SerchInDirectory();
+            //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectory();
+          
+            timer1.Enabled= true;
             
-            await Task.Run(()=> Analizator.SerchInDirectory());
+
+            //
+            await processAnalizator;
+            
+            timer1.Enabled = false;
+            progressBar2.Value = 60;
 
             progressBar1.Maximum = Analizator.CountFiles;
             progressBar1.Value = Analizator.Position;
 
-            textBox_log.Text = Analizator.Status+" Совпадений: "+Analizator.countMatches;
+            textBox_log.Text += Analizator.Status + " Совпадений: " + Analizator.CountMatches;
+
 
             if (Analizator.ErrMessage.Length > 0)
             {
-                textBox_log.BackColor =Color.LightCoral;
+                textBox_log.BackColor = Color.LightCoral;
                 textBox_log.Text = Analizator.ErrMessage;
             }
 
-           
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            timer++;
             
-
-
+            progressBar2.Maximum = 60;
+            if (progressBar2.Maximum > timer)
+            {
+                progressBar2.Value = timer;
+            }
+            
         }
     }
 }

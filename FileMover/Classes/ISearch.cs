@@ -8,7 +8,7 @@ namespace FilesMove.Classes
 {
     internal interface ISearch
     {
-        bool sovpadenie { get; set; }
+        bool Sovpadenie { get; set; }
 
         void DoSearch();
     }

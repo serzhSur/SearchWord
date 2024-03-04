@@ -11,7 +11,7 @@ namespace FilesMove.Classes
 
     internal class SearchSposobONE : ISearch
     {
-        public bool sovpadenie { get; set; } = false;// переменная указывает есть совпадение или нет
+        public bool Sovpadenie { get; set; } = false;// переменная указывает есть совпадение или нет
      
         public string text;
         public string slovo;
@@ -32,7 +32,7 @@ namespace FilesMove.Classes
 
             for (int i = 0; i <= text.Length - 1; i++)
             {
-                if (sovpadenie == true)
+                if (Sovpadenie == true)
                 {
                     break;
                 }
@@ -49,7 +49,7 @@ namespace FilesMove.Classes
                         }
                         if (target == slovo)
                         {
-                            sovpadenie = true;
+                            Sovpadenie = true;
                             index = i;
 
                             break;

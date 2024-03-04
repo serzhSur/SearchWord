@@ -8,7 +8,7 @@ namespace FilesMove.Classes
 {
     internal class StartSearch
     {
-        public bool sovpadenie { get; set; }
+        public bool Sovpadenie { get; set; }
 
         public void FinedWord(ISearch sposob)
         {
@@ -16,7 +16,7 @@ namespace FilesMove.Classes
             {
                 sposob.DoSearch();
 
-                sovpadenie = sposob.sovpadenie;
+                Sovpadenie = sposob.Sovpadenie;
             }
 
         }

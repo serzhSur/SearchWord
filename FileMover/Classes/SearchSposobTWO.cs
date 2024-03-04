@@ -9,7 +9,8 @@ namespace FilesMove.Classes
 {
     internal class SearchSposobTWO : ISearch
     {
-        public bool sovpadenie { get; set; }=false;
+        public bool 
+            Sovpadenie { get; set; }=false;
 
         public string text;
         public string slovo;
@@ -29,7 +30,7 @@ namespace FilesMove.Classes
 
             if (keyIndex > 0)
             {
-                sovpadenie = true;
+                Sovpadenie = true;
             }
 
         }

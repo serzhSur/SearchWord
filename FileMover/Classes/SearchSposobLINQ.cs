@@ -9,7 +9,7 @@ namespace FilesMove.Classes
 {
     internal class SearchSposobLINQ : ISearch
     {
-        public bool sovpadenie { get; set; } = false;
+        public bool Sovpadenie { get; set; } = false;
 
         public string text;
         public string slovo;
@@ -32,7 +32,7 @@ namespace FilesMove.Classes
 
             if (selectedWords != null)
             {
-                sovpadenie = true;
+                Sovpadenie = true;
             }
         }
     }

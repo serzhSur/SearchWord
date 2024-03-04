@@ -11,7 +11,7 @@ namespace FilesMove.Classes
 {
     internal class SearchSposobRegex : ISearch
     {
-        public bool sovpadenie { get; set; } = false;
+        public bool Sovpadenie { get; set; } = false;
 
         public string text;
         public string slovo;
@@ -27,7 +27,7 @@ namespace FilesMove.Classes
 
             if (match.Success)
             {
-                sovpadenie = true;
+                Sovpadenie = true;
             }
         }
     }

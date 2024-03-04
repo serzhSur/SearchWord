@@ -13,8 +13,8 @@ namespace FilesMove.Classes
         public string slovoPath;
         public string dirOutPath;
 
+        public int CountMatches = 0;
         bool sovpadenie = false;
-        public int countMatches = 0;
 
         public string ErrMessage { get; private set; } = "";
         public string Status { get; private set; }
@@ -42,6 +42,7 @@ namespace FilesMove.Classes
         }
         public async Task SerchInDirectory()
         {
+            
             Status = "Старт...";
 
             if (ErrMessage.Length > 0)
@@ -81,7 +82,7 @@ namespace FilesMove.Classes
                         if (slovo.Length == 0)
                             continue;                        
                         
-                        StartSearch startsearch = new StartSearch();
+                        var startsearch = new StartSearch();
 
                         //startsearch.FinedWord(new SearchSposobONE(text, slovo));
 
@@ -91,14 +92,14 @@ namespace FilesMove.Classes
 
                         startsearch.FinedWord(new SearchSposobRegex(text, slovo));
 
-                        sovpadenie = startsearch.sovpadenie;
+                        sovpadenie = startsearch.Sovpadenie;
                        
                     }
 
                     if (sovpadenie == true)
                     {
-                       //MoveFileTo(file);
-                        countMatches += 1;
+                        //MoveFileTo(file);
+                        CountMatches += 1;
                     }
                     else
                     {
@@ -136,7 +137,7 @@ namespace FilesMove.Classes
             try
             {
                 string filename = Path.GetFileName(file);
-                File.Copy(file, dirOutPath + "\\" + filename, true);
+                File.Copy(file, dirOutPath + "\\" + filename, true);// Copy/Move
             }
             catch (Exception ex)
             {
