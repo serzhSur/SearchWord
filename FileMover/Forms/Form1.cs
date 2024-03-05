@@ -12,7 +12,7 @@ namespace FilesMouver
     public partial class Form1 : Form
     {
         int timePb = 0;
-        int time;
+      
         internal AnalizFile Analizator { get; private set; }
 
         public Form1()
@@ -136,10 +136,9 @@ namespace FilesMouver
             var processAnalizator = Analizator.SerchInDirectory();
             //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectory();
 
-            timer1.Enabled = true;
+            timer1.Enabled = true;//
             
-            timer2.Enabled = true;
-            time = 0;
+
             //
             await processAnalizator;
 
@@ -150,7 +149,7 @@ namespace FilesMouver
             progressBar1.Maximum = Analizator.CountFiles;
             progressBar1.Value = Analizator.Position;
 
-            textBox_log.Text = $"{Analizator.Status} Совпадений: {Analizator.CountMatches} Выполнялось: {time.ToString()}сек";
+            textBox_log.Text = $"{Analizator.Status} Совпадений: {Analizator.CountMatches}";
 
 
             if (Analizator.ErrMessage.Length > 0)
@@ -176,10 +175,6 @@ namespace FilesMouver
 
         }
 
-        private void timer2_Tick(object sender, EventArgs e)
-        {
-            time++;
-            
-        }
+       
     }
 }

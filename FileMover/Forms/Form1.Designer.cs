@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            button1 = new Button();
             textBox2_dirIn = new TextBox();
             textBox3_dirOut = new TextBox();
             button2 = new Button();
@@ -46,17 +45,6 @@
             timer1 = new System.Windows.Forms.Timer(components);
             timer2 = new System.Windows.Forms.Timer(components);
             SuspendLayout();
-            // 
-            // button1
-            // 
-            button1.Location = new Point(541, 220);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 0;
-            button1.Text = "Show";
-            button1.UseVisualStyleBackColor = true;
-            button1.Visible = false;
-            button1.Click += button1Show_Click;
             // 
             // textBox2_dirIn
             // 
@@ -186,11 +174,6 @@
             timer1.Interval = 500;
             timer1.Tick += timer1_Tick;
             // 
-            // timer2
-            // 
-            timer2.Interval = 1000;
-            timer2.Tick += timer2_Tick;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -210,7 +193,6 @@
             Controls.Add(button2);
             Controls.Add(textBox3_dirOut);
             Controls.Add(textBox2_dirIn);
-            Controls.Add(button1);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Поиск слов в файлах";
@@ -219,8 +201,6 @@
         }
 
         #endregion
-
-        private Button button1;
         private TextBox textBox2_dirIn;
         private TextBox textBox3_dirOut;
         private Button button2;

@@ -18,17 +18,14 @@ namespace FilesMove.Classes
 
         public SearchSposobONE(string text, string slovo)
         {
-            this.text = text;
-            this.slovo = slovo;
+            this.text = text.ToLower();
+            this.slovo = slovo.ToLower();
 
         }
         public void DoSearch()
         {
-            string target = "";
-            int index = 0;
 
-            text = text.ToLower();
-            slovo = slovo.ToLower();
+            string target = "";
 
             for (int i = 0; i <= text.Length - 1; i++)
             {
@@ -40,7 +37,7 @@ namespace FilesMove.Classes
                 {
                     target = text[i].ToString();// инициализируем переменную для поиска совпадений в цикле
 
-                    for (int s = 1; (s <= slovo.Length - 1) && (i < text.Length - 1); s++, i++)
+                    for (int s = 1; (s <= slovo.Length - 1) && ((i+1) <= text.Length - 1); s++, i++)
                     {
 
                         if (slovo[s] == text[i + 1])
@@ -50,7 +47,6 @@ namespace FilesMove.Classes
                         if (target == slovo)
                         {
                             Sovpadenie = true;
-                            index = i;
 
                             break;
                         }

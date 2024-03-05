@@ -84,13 +84,13 @@ namespace FilesMove.Classes
                         
                         var startsearch = new StartSearch();
 
-                        //startsearch.FinedWord(new SearchSposobONE(text, slovo));
+                        await Task.Run(()=> startsearch.FinedWord(new SearchSposobONE(text, slovo)));
+                       
+                        //await Task.Run(() => startsearch.FinedWord(new SearchSposobTWO(text,slovo)));
 
-                        //startsearch.FinedWord(new SearchSposobTWO(text,slovo));
+                        //await Task.Run(() => startsearch.FinedWord(new SearchSposobLINQ(text,slovo)));
 
-                        //startsearch.FinedWord(new SearchSposobLINQ(text,slovo));
-
-                        startsearch.FinedWord(new SearchSposobRegex(text, slovo));
+                        //await Task.Run(() => startsearch.FinedWord(new SearchSposobRegex(text, slovo)));
 
                         sovpadenie = startsearch.Sovpadenie;
                        

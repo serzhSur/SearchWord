@@ -19,7 +19,6 @@ namespace FilesMove.Classes
             this.text = text;
             this.slovo = slovo;
 
-
         }
         public void DoSearch()
         {
