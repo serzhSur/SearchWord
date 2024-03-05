@@ -11,90 +11,15 @@ namespace FilesMouver
 {
     public partial class Form1 : Form
     {
-        int timer = 0;
+        int timePb = 0;
+        int time;
         internal AnalizFile Analizator { get; private set; }
 
         public Form1()
         {
             InitializeComponent();
         }
-        
-        private void textBox2DirIN_TextChanged(object sender, EventArgs e) //при изменении текста в textBox2_dirIN
 
-        {
-
-            ViewDirIn();
-
-        }
-
-        void ViewDirIn() //обзор в listBox1 дириктории Источника(textBox2_dirIN)
-        {
-            string dirIN = textBox2_dirIn.Text;
-            if (Directory.Exists(dirIN))
-            {
-                //listBox1.Items.Clear();
-                //string[] dirView = Directory.GetDirectories(dirIN);
-                //listBox1.Items.Insert(0, "Directories:");
-                //foreach (string d in dirView)
-                //{
-                //    listBox1.Items.Add(d);
-                //}
-
-                //string[] filesView = Directory.GetFiles(dirIN);
-                //listBox1.Items.Add("Files:");
-                //foreach (string f in filesView)
-                //{
-                //    listBox1.Items.Add(f);
-                //}
-            }
-            else
-            {
-                //listBox1.Items.Clear();
-                //listBox1.Items.Add("No such directory");
-            }
-        }
-
-
-        private void textBox3DirOut_TextChanged(object sender, EventArgs e) //событие на изменение в textBox3_dirOut
-        {
-            ViewDirOut();
-
-            void ViewDirOut() // обзор директории в текстовом поле textBox1, путь из textBox3_dirOut
-            {
-                string path = textBox3_dirOut.Text;
-                if (Directory.Exists(path))
-                {
-                    textBox1.Text = "Such directory exist";
-
-                    string[] dirView = Directory.GetFileSystemEntries(path);
-                    foreach (string s in dirView)
-                    {
-                        textBox1.Text += "\r\n" + s;
-                    }
-                }
-                else { textBox1.Text = "No such directory, new path"; }
-            }
-        }
-
-        private void button1Show_Click(object sender, EventArgs e) //кнопка Show обзор директроии pathOut (путь в textBox3)
-        {
-            ViewDirectory();
-
-        }
-
-        private void ViewDirectory()
-        {
-            string dir = textBox3_dirOut.Text;
-            if (Directory.Exists(dir))
-            {
-                string[] dirView = Directory.GetFileSystemEntries(dir);
-                foreach (string f in dirView)
-                {
-                    textBox1.Text += "\r\n" + f;
-                }
-
-            }
-        }
 
         private void button2CopyFiles_Click(object sender, EventArgs e) //копирование файлов по нажатию кнопки Copy
         {
@@ -205,25 +130,27 @@ namespace FilesMouver
             string dirIn = textBox2_dirIn.Text;
             string slovoPath = textBox_pathWords.Text;
             string dirOut = textBox3_dirOut.Text;
-            int i = 0;
+            
 
             Analizator = new AnalizFile(dirIn, slovoPath, dirOut);
             var processAnalizator = Analizator.SerchInDirectory();
             //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectory();
-          
-            timer1.Enabled= true;
-            
 
+            timer1.Enabled = true;
+            
+            timer2.Enabled = true;
+            time = 0;
             //
             await processAnalizator;
-            
+
+            timer2.Enabled = false;
             timer1.Enabled = false;
-            progressBar2.Value = 60;
+            progressBar2.Value = progressBar2.Maximum;
 
             progressBar1.Maximum = Analizator.CountFiles;
             progressBar1.Value = Analizator.Position;
 
-            textBox_log.Text += Analizator.Status + " Совпадений: " + Analizator.CountMatches;
+            textBox_log.Text = $"{Analizator.Status} Совпадений: {Analizator.CountMatches} Выполнялось: {time.ToString()}сек";
 
 
             if (Analizator.ErrMessage.Length > 0)
@@ -236,13 +163,22 @@ namespace FilesMouver
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            timer++;
-            
-            progressBar2.Maximum = 60;
-            if (progressBar2.Maximum > timer)
+            progressBar2.Maximum = 20;
+
+            if (timePb == progressBar2.Maximum)
             {
-                progressBar2.Value = timer;
+                timePb = 0;
             }
+
+            progressBar2.Value = timePb;
+
+            timePb++;
+
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            time++;
             
         }
     }
