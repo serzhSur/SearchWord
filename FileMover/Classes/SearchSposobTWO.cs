@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace FilesMove.Classes
 {
-    internal class SearchSposobTWO : ISearch
+    internal class SearchSposobTwo : ISearch
     {
         public bool 
             Sovpadenie { get; set; }=false;
 
         public string text;
         public string slovo;
-        public SearchSposobTWO(string text, string slovo)
+        public SearchSposobTwo(string text, string slovo)
         {
             this.text = text;
             this.slovo = slovo;

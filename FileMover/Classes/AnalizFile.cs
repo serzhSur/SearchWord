@@ -84,11 +84,11 @@ namespace FilesMove.Classes
                         
                         var startsearch = new StartSearch();
 
-                        await Task.Run(()=> startsearch.FinedWord(new SearchSposobONE(text, slovo)));
+                        await Task.Run(()=> startsearch.FinedWord(new SearchSposobOne(text, slovo)));
                        
-                        //await Task.Run(() => startsearch.FinedWord(new SearchSposobTWO(text,slovo)));
+                        //await Task.Run(() => startsearch.FinedWord(new SearchSposobTwo(text,slovo)));
 
-                        //await Task.Run(() => startsearch.FinedWord(new SearchSposobLINQ(text,slovo)));
+                        //await Task.Run(() => startsearch.FinedWord(new SearchSposobLinq(text,slovo)));
 
                         //await Task.Run(() => startsearch.FinedWord(new SearchSposobRegex(text, slovo)));
 

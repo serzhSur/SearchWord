@@ -9,17 +9,17 @@ namespace FilesMove.Classes
 {
 
 
-    internal class SearchSposobONE : ISearch
+    internal class SearchSposobOne : ISearch
     {
         public bool Sovpadenie { get; set; } = false;// переменная указывает есть совпадение или нет
      
-        public string text;
-        public string slovo;
+        private string text;
+        private string slovo;
 
-        public SearchSposobONE(string text, string slovo)
+        public SearchSposobOne(string Text, string Slovo)
         {
-            this.text = text.ToLower();
-            this.slovo = slovo.ToLower();
+            this.text = Text.ToLower();
+            this.slovo = Slovo.ToLower();
 
         }
         public void DoSearch()
