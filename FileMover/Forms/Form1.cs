@@ -146,8 +146,8 @@ namespace FilesMouver
             timer1.Enabled = false;
             progressBar2.Value = progressBar2.Maximum;
 
-            //progressBar1.Maximum = Analizator.CountFiles;
-            //progressBar1.Value = Analizator.Position;
+            progressBar1.Maximum = Analizator.CountFiles;
+            progressBar1.Value = Analizator.Position;
 
             textBox_log.Text = $"{Analizator.Status} Совпадений: {Analizator.CountMatches}";
 
