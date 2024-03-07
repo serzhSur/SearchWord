@@ -134,20 +134,20 @@ namespace FilesMouver
 
             Analizator = new AnalizFile(dirIn, slovoPath, dirOut);
             var processAnalizator = Analizator.SerchInDirectory();
-            //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectory();
+            //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectory;
+            textBox_log.Text = $"{Analizator.Status}";
 
-            timer1.Enabled = true;//
-            
+            timer1.Enabled = true;
 
-            //
+            ////
             await processAnalizator;
 
             timer2.Enabled = false;
             timer1.Enabled = false;
             progressBar2.Value = progressBar2.Maximum;
 
-            progressBar1.Maximum = Analizator.CountFiles;
-            progressBar1.Value = Analizator.Position;
+            //progressBar1.Maximum = Analizator.CountFiles;
+            //progressBar1.Value = Analizator.Position;
 
             textBox_log.Text = $"{Analizator.Status} Совпадений: {Analizator.CountMatches}";
 

@@ -9,15 +9,14 @@ namespace FilesMove.Classes
 {
     internal class SearchSposobTwo : ISearch
     {
-        public bool 
-            Sovpadenie { get; set; }=false;
+        public bool Sovpadenie { get; set; }=false;
 
-        public string text;
-        public string slovo;
-        public SearchSposobTwo(string text, string slovo)
+        private string text;
+        private string slovo;
+        public SearchSposobTwo(string Text, string Slovo)
         {
-            this.text = text;
-            this.slovo = slovo;
+            this.text = Text;
+            this.slovo = Slovo;
 
         }
         public void DoSearch()

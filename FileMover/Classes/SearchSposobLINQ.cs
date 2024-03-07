@@ -11,20 +11,20 @@ namespace FilesMove.Classes
     {
         public bool Sovpadenie { get; set; } = false;
 
-        public string text;
-        public string slovo;
+        private string text;
+        private string slovo;
 
-        public SearchSposobLinq(string text, string slovo)
+        public SearchSposobLinq(string Text, string Slovo)
         {
-            this.text = text;
-            this.slovo = slovo;
+            this.text = Text;
+            this.slovo = Slovo;
 
         }
         public void DoSearch()
         {
 
-            char[] separators = { ' ', ',', '.', '-' };
-            string[] textArray = text.ToLower().Split(separators, StringSplitOptions.RemoveEmptyEntries);//преобразовали текст в массив, слово-элемент мас
+            char[] separators = { ' ', ',', '.' };
+            string[] textArray = text.ToLower().Split(separators, StringSplitOptions.RemoveEmptyEntries);//преобразовали текст в массив
 
 
             var selectedWords = textArray.Where(p => p.Contains(slovo.ToLower())).FirstOrDefault();

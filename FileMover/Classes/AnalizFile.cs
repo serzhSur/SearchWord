@@ -9,13 +9,12 @@ namespace FilesMove.Classes
 {
     internal class AnalizFile
     {
-        public string dirIn;
+        private string dirIn;
         public string slovoPath;
-        public string dirOutPath;
+        private string dirOutPath;
+        private bool sovpadenie = false;
 
-        public int CountMatches = 0;
-        bool sovpadenie = false;
-
+        public int CountMatches { get; set; } = 0;
         public string ErrMessage { get; private set; } = "";
         public string Status { get; private set; }
         public int CountFiles { get; private set; } = 0;
@@ -44,7 +43,7 @@ namespace FilesMove.Classes
         {
             
             Status = "Старт...";
-
+            
             if (ErrMessage.Length > 0)
             {
                 Status = "Обработка завершена";
@@ -80,15 +79,18 @@ namespace FilesMove.Classes
                     {
 
                         if (slovo.Length == 0)
-                            continue;                        
-                        
-                        var startsearch = new StartSearch();
+                        {
+                            continue;
+                        }
 
-                        await Task.Run(()=> startsearch.FinedWord(new SearchSposobOne(text, slovo)));
+                        var startsearch = new StartSearch();
+                        //выбирается метод(4шт) которым будет осуществлятся поиск
+                        
+                        //await Task.Run(()=> startsearch.FinedWord(new SearchSposobOne(text, slovo)));
                        
                         //await Task.Run(() => startsearch.FinedWord(new SearchSposobTwo(text,slovo)));
 
-                        //await Task.Run(() => startsearch.FinedWord(new SearchSposobLinq(text,slovo)));
+                        await Task.Run(() => startsearch.FinedWord(new SearchSposobLinq(text,slovo)));
 
                         //await Task.Run(() => startsearch.FinedWord(new SearchSposobRegex(text, slovo)));
 
@@ -114,7 +116,6 @@ namespace FilesMove.Classes
             }
             catch (Exception ex)
             {
-
                 ErrMessage = ex.Message;
             }
 
