@@ -73,13 +73,8 @@ namespace FilesMouver
 
         }
 
-        private void button3CopyAllDirectory_Click(object sender, EventArgs e) //перемещение каталога по нажатию кнопки Move
-        {
-            CopyFiles();
 
-        }
-
-        private void CopyFiles()
+        private void CopyDirectoryAll()
         {
             string dirIN = textBox2_dirIn.Text;
             string dirOut = textBox3_dirOut.Text;
@@ -142,7 +137,6 @@ namespace FilesMouver
             ////
             await processAnalizator;
 
-            timer2.Enabled = false;
             timer1.Enabled = false;
             progressBar2.Value = progressBar2.Maximum;
 
