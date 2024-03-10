@@ -32,7 +32,6 @@
             textBox2_dirIn = new TextBox();
             textBox3_dirOut = new TextBox();
             button2 = new Button();
-            button3 = new Button();
             progressBar1 = new ProgressBar();
             button4 = new Button();
             button5 = new Button();
@@ -62,27 +61,6 @@
             textBox3_dirOut.TabIndex = 5;
             textBox3_dirOut.Text = "d:\\temp\\out\\";
             // 
-            // button2
-            // 
-            button2.Location = new Point(386, 185);
-            button2.Name = "button2";
-            button2.Size = new Size(94, 29);
-            button2.TabIndex = 6;
-            button2.Text = "Copy files";
-            button2.UseVisualStyleBackColor = true;
-            button2.Visible = false;
-            button2.Click += button2CopyFiles_Click;
-            // 
-            // button3
-            // 
-            button3.Location = new Point(525, 185);
-            button3.Name = "button3";
-            button3.Size = new Size(94, 29);
-            button3.TabIndex = 7;
-            button3.Text = "Copy All";
-            button3.UseVisualStyleBackColor = true;
-            button3.Visible = false;
-            button3.Click += button3CopyAllDirectory_Click;
             // 
             // progressBar1
             // 
@@ -189,7 +167,6 @@
             Controls.Add(button5);
             Controls.Add(button4);
             Controls.Add(progressBar1);
-            Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(textBox3_dirOut);
             Controls.Add(textBox2_dirIn);
@@ -204,7 +181,6 @@
         private TextBox textBox2_dirIn;
         private TextBox textBox3_dirOut;
         private Button button2;
-        private Button button3;
         private ProgressBar progressBar1;
         private Button button4;
         private Button button5;
