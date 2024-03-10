@@ -31,7 +31,6 @@
             components = new System.ComponentModel.Container();
             textBox2_dirIn = new TextBox();
             textBox3_dirOut = new TextBox();
-            button2 = new Button();
             progressBar1 = new ProgressBar();
             button4 = new Button();
             button5 = new Button();
@@ -60,7 +59,6 @@
             textBox3_dirOut.Size = new Size(620, 27);
             textBox3_dirOut.TabIndex = 5;
             textBox3_dirOut.Text = "d:\\temp\\out\\";
-            // 
             // 
             // progressBar1
             // 
@@ -167,7 +165,6 @@
             Controls.Add(button5);
             Controls.Add(button4);
             Controls.Add(progressBar1);
-            Controls.Add(button2);
             Controls.Add(textBox3_dirOut);
             Controls.Add(textBox2_dirIn);
             Name = "Form1";
@@ -180,7 +177,6 @@
         #endregion
         private TextBox textBox2_dirIn;
         private TextBox textBox3_dirOut;
-        private Button button2;
         private ProgressBar progressBar1;
         private Button button4;
         private Button button5;
