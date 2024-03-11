@@ -10,7 +10,7 @@ namespace FilesMove.Classes
     internal class AnalizFile
     {
         private string dirIn;
-        public string slovoPath;
+        private string slovoPath;
         private string dirOutPath;
         private bool sovpadenie = false;
 
@@ -88,9 +88,9 @@ namespace FilesMove.Classes
                         
                         //await Task.Run(()=> startsearch.FinedWord(new SearchSposobOne(text, slovo)));
                        
-                        //await Task.Run(() => startsearch.FinedWord(new SearchSposobTwo(text,slovo)));
+                        await Task.Run(() => startsearch.FinedWord(new SearchSposobTwo(text,slovo)));
 
-                        await Task.Run(() => startsearch.FinedWord(new SearchSposobLinq(text,slovo)));
+                        //await Task.Run(() => startsearch.FinedWord(new SearchSposobLinq(text,slovo)));
 
                         //await Task.Run(() => startsearch.FinedWord(new SearchSposobRegex(text, slovo)));
 
@@ -101,7 +101,7 @@ namespace FilesMove.Classes
                     if (sovpadenie == true)
                     {
                         //MoveFileTo(file);
-                        CountMatches += 1;
+                        CountMatches ++;
                     }
                     else
                     {

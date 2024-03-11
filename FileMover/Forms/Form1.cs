@@ -128,45 +128,35 @@ namespace FilesMouver
             
 
             Analizator = new AnalizFile(dirIn, slovoPath, dirOut);
-            var processAnalizator = Analizator.SerchInDirectory();
-            //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectory;
+            var processAnalizator = Analizator.SerchInDirectory(); 
+            //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectory до строки await;
+            
             textBox_log.Text = $"{Analizator.Status}";
 
             timer1.Enabled = true;
 
-            ////
+
             await processAnalizator;
 
             timer1.Enabled = false;
-            progressBar2.Value = progressBar2.Maximum;
-
-            progressBar1.Maximum = Analizator.CountFiles;
-            progressBar1.Value = Analizator.Position;
-
+            progressBar1.Value = progressBar1.Maximum;
+            
             textBox_log.Text = $"{Analizator.Status} Совпадений: {Analizator.CountMatches}";
-
 
             if (Analizator.ErrMessage.Length > 0)
             {
                 textBox_log.BackColor = Color.LightCoral;
                 textBox_log.Text = Analizator.ErrMessage;
             }
-
+             
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            progressBar2.Maximum = 20;
-
-            if (timePb == progressBar2.Maximum)
-            {
-                timePb = 0;
-            }
-
-            progressBar2.Value = timePb;
+            progressBar1.Maximum = Analizator.CountFiles;
+            progressBar1.Value = Analizator.Position;
 
             timePb++;
-
         }
 
        

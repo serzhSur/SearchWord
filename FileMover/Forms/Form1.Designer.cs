@@ -39,7 +39,6 @@
             textBox2 = new TextBox();
             textBox3 = new TextBox();
             textBox_pathWords = new TextBox();
-            progressBar2 = new ProgressBar();
             timer1 = new System.Windows.Forms.Timer(components);
             timer2 = new System.Windows.Forms.Timer(components);
             SuspendLayout();
@@ -64,7 +63,7 @@
             // 
             progressBar1.Location = new Point(11, 399);
             progressBar1.Name = "progressBar1";
-            progressBar1.Size = new Size(625, 16);
+            progressBar1.Size = new Size(625, 22);
             progressBar1.Step = 1;
             progressBar1.Style = ProgressBarStyle.Continuous;
             progressBar1.TabIndex = 12;
@@ -135,15 +134,7 @@
             textBox_pathWords.Name = "textBox_pathWords";
             textBox_pathWords.Size = new Size(620, 27);
             textBox_pathWords.TabIndex = 19;
-            textBox_pathWords.Text = "Words\\Words.txt";
-            // 
-            // progressBar2
-            // 
-            progressBar2.Location = new Point(11, 421);
-            progressBar2.Name = "progressBar2";
-            progressBar2.Size = new Size(625, 15);
-            progressBar2.Style = ProgressBarStyle.Continuous;
-            progressBar2.TabIndex = 20;
+            textBox_pathWords.Text = "d:\\temp\\Words\\Words.txt";
             // 
             // timer1
             // 
@@ -156,7 +147,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(646, 485);
-            Controls.Add(progressBar2);
             Controls.Add(textBox_pathWords);
             Controls.Add(textBox3);
             Controls.Add(textBox2);
@@ -185,7 +175,6 @@
         private TextBox textBox2;
         private TextBox textBox3;
         private TextBox textBox_pathWords;
-        private ProgressBar progressBar2;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Timer timer2;
     }
