@@ -2,8 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+
 
 namespace FilesMove.Classes
 {
@@ -100,12 +103,12 @@ namespace FilesMove.Classes
 
                     if (sovpadenie == true)
                     {
-                        //MoveFileTo(file);
+                        MoveFileTo(file);
                         CountMatches ++;
                     }
                     else
                     {
-                       //DeleteFile(file);
+                        DeleteFile(file);
                     }
 
                     Position++;//позиция прогресс-бара
@@ -125,7 +128,12 @@ namespace FilesMove.Classes
         {
             try
             {
-                File.Delete(file);
+                if (File.Exists(file))
+                {
+                    File.SetAttributes(file, FileAttributes.Normal);
+                    
+                    File.Delete(file);
+                }
             }
             catch (Exception ex)
             {
@@ -138,7 +146,7 @@ namespace FilesMove.Classes
             try
             {
                 string filename = Path.GetFileName(file);
-                File.Copy(file, dirOutPath + "\\" + filename, true);// Copy/Move
+                File.Move(file, dirOutPath + "\\" + filename, true);// Copy/Move
             }
             catch (Exception ex)
             {
