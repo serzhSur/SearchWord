@@ -30,23 +30,33 @@ namespace FilesMove.Classes
             this.slovoPath = slovoPath;
             this.dirOutPath = dirOutPath;
 
-            if (File.Exists(slovoPath) == false)
+
+            try
             {
-                ErrMessage = $"{slovoPath} не найден, отмена обработки ";
+                SpisokSlov = File.ReadAllLines(slovoPath);// один раз считываем слова 
+            }
+            catch (Exception ex)
+            {
+                ErrMessage += ex.Message;
+
             }
 
-            SpisokSlov = File.ReadAllLines(slovoPath);// один раз считываем слова 
-
-            if (SpisokSlov.Length == 0)
+            if (ErrMessage.Length == 0)
             {
-                ErrMessage = $"{slovoPath} не содержит слов для поиска, отмена обработки ";
+                if (SpisokSlov.Length < 1)
+                {
+                    ErrMessage += $"{slovoPath} не содержит слов для поиска, отмена обработки ";
+                }
+
             }
+
+
         }
         public async Task SerchInDirectory()
         {
-            
+
             Status = "Старт...";
-            
+
             if (ErrMessage.Length > 0)
             {
                 Status = "Обработка завершена";
@@ -75,7 +85,7 @@ namespace FilesMove.Classes
 
                 foreach (string file in allFilesPath)//в каждом файле ищем список слов и перемещаем файл если нашли совпадение 
                 {
-                    
+                    sovpadenie = false;
                     string text = await File.ReadAllTextAsync(file);
 
                     foreach (string slovo in SpisokSlov)
@@ -88,23 +98,26 @@ namespace FilesMove.Classes
 
                         var startsearch = new StartSearch();
                         //выбирается метод(4шт) которым будет осуществлятся поиск
-                        
+
                         //await Task.Run(()=> startsearch.FinedWord(new SearchSposobOne(text, slovo)));
-                       
-                        await Task.Run(() => startsearch.FinedWord(new SearchSposobTwo(text,slovo)));
+
+                        await Task.Run(() => startsearch.FinedWord(new SearchSposobTwo(text, slovo)));
 
                         //await Task.Run(() => startsearch.FinedWord(new SearchSposobLinq(text,slovo)));
 
                         //await Task.Run(() => startsearch.FinedWord(new SearchSposobRegex(text, slovo)));
 
                         sovpadenie = startsearch.Sovpadenie;
-                       
+                        if (sovpadenie)
+                        {
+                            CountMatches++;
+                            break;
+                        }
                     }
 
                     if (sovpadenie == true)
                     {
                         MoveFileTo(file);
-                        CountMatches ++;
                     }
                     else
                     {
@@ -131,7 +144,7 @@ namespace FilesMove.Classes
                 if (File.Exists(file))
                 {
                     File.SetAttributes(file, FileAttributes.Normal);
-                    
+
                     File.Delete(file);
                 }
             }
