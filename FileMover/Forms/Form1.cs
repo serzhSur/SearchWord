@@ -131,8 +131,8 @@ namespace FilesMouver
             var processAnalizator = Analizator.SerchInDirectory(); 
             //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectory до строки await;
             
+            textBox_log.BackColor = Color.White;
             textBox_log.Text = $"{Analizator.Status}";
-
             timer1.Enabled = true;
 
 
@@ -148,6 +148,7 @@ namespace FilesMouver
                 textBox_log.BackColor = Color.LightCoral;
                 textBox_log.Text = Analizator.ErrMessage;
             }
+
              
         }
 

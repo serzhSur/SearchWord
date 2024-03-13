@@ -34,19 +34,15 @@ namespace FilesMove.Classes
             try
             {
                 SpisokSlov = File.ReadAllLines(slovoPath);// один раз считываем слова 
+                
+                if (SpisokSlov.Length < 1)
+                {
+                    ErrMessage = $"{slovoPath} не содержит слов для поиска, отмена обработки ";
+                }
             }
             catch (Exception ex)
             {
-                ErrMessage += ex.Message;
-
-            }
-
-            if (ErrMessage.Length == 0)
-            {
-                if (SpisokSlov.Length < 1)
-                {
-                    ErrMessage += $"{slovoPath} не содержит слов для поиска, отмена обработки ";
-                }
+                ErrMessage = ex.Message;
 
             }
 
@@ -86,6 +82,7 @@ namespace FilesMove.Classes
                 foreach (string file in allFilesPath)//в каждом файле ищем список слов и перемещаем файл если нашли совпадение 
                 {
                     sovpadenie = false;
+                   
                     string text = await File.ReadAllTextAsync(file);
 
                     foreach (string slovo in SpisokSlov)
