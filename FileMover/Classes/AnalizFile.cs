@@ -88,7 +88,7 @@ namespace FilesMove.Classes
                     foreach (string slovo in SpisokSlov)
                     {
 
-                        if (slovo.Length == 0)
+                        if (slovo.Length==1 || slovo == " ")
                         {
                             continue;
                         }
