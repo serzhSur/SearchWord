@@ -17,7 +17,7 @@ namespace FilesMove.Classes
         private string dirOutPath;
         private bool sovpadenie = false;
 
-        public int CountMatches { get; set; } = 0;
+
         public string ErrMessage { get; private set; } = "";
         public string Status { get; private set; }
         public int CountFiles { get; private set; } = 0;
@@ -46,9 +46,8 @@ namespace FilesMove.Classes
 
             }
 
-
         }
-        public async Task SerchInDirectory()
+        public async Task SerchInDirectory(CancellationToken token)
         {
 
             Status = "Старт...";
@@ -81,6 +80,14 @@ namespace FilesMove.Classes
 
                 foreach (string file in allFilesPath)//в каждом файле ищем список слов и перемещаем файл если нашли совпадение 
                 {
+                    
+                    if (token.IsCancellationRequested)
+                    {
+                        ErrMessage = "operation Cancel";
+
+                        return;
+                    }
+
                     sovpadenie = false;
                    
                     string text = await File.ReadAllTextAsync(file);
@@ -96,9 +103,9 @@ namespace FilesMove.Classes
                         var startsearch = new StartSearch();
                         //выбирается метод(4шт) которым будет осуществлятся поиск
 
-                        //await Task.Run(()=> startsearch.FinedWord(new SearchSposobOne(text, slovo)));
+                        await Task.Run(()=> startsearch.FinedWord(new SearchSposobOne(text, slovo)));
 
-                        await Task.Run(() => startsearch.FinedWord(new SearchSposobTwo(text, slovo)));
+                        //await Task.Run(() => startsearch.FinedWord(new SearchSposobTwo(text, slovo)));
 
                         //await Task.Run(() => startsearch.FinedWord(new SearchSposobLinq(text,slovo)));
 
@@ -107,7 +114,6 @@ namespace FilesMove.Classes
                         sovpadenie = startsearch.Sovpadenie;
                         if (sovpadenie)
                         {
-                            CountMatches++;
                             break;
                         }
                     }

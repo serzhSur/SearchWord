@@ -27,7 +27,7 @@ namespace FilesMove.Classes
 
             string target = "";
 
-            for (int i = 0; i <= text.Length - 1; i++)
+            for (int i = 0; i < text.Length; i++)
             {
                 if (Sovpadenie == true)
                 {
@@ -37,7 +37,7 @@ namespace FilesMove.Classes
                 {
                     target = text[i].ToString();// инициализируем переменную для поиска совпадений в цикле
 
-                    for (int s = 1; (s <= slovo.Length - 1) && ((i+1) <= text.Length - 1); s++, i++)
+                    for (int s = 1; (s <slovo.Length) && ((i+1) <text.Length); s++, i++)
                     {
 
                         if (slovo[s] == text[i + 1])

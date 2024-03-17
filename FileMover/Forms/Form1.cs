@@ -12,12 +12,14 @@ namespace FilesMouver
     public partial class Form1 : Form
     {
         int timePb = 0;
-      
+        CancellationTokenSource cts = null;// new CancellationTokenSource();
+       
         internal AnalizFile Analizator { get; private set; }
 
         public Form1()
         {
             InitializeComponent();
+
         }
 
 
@@ -125,12 +127,13 @@ namespace FilesMouver
             string dirIn = textBox2_dirIn.Text;
             string slovoPath = textBox_pathWords.Text;
             string dirOut = textBox3_dirOut.Text;
-            
+            cts = new CancellationTokenSource();
+            CancellationToken token = cts.Token;
 
             Analizator = new AnalizFile(dirIn, slovoPath, dirOut);
-            var processAnalizator = Analizator.SerchInDirectory(); 
+            var processAnalizator = Analizator.SerchInDirectory(token);
             //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectory до строки await;
-            
+
             textBox_log.BackColor = Color.White;
             textBox_log.Text = $"{Analizator.Status}";
             timer1.Enabled = true;
@@ -140,16 +143,16 @@ namespace FilesMouver
 
             timer1.Enabled = false;
             progressBar1.Value = progressBar1.Maximum;
-            
-            textBox_log.Text = $"{Analizator.Status} Совпадений: {Analizator.CountMatches}";
+
+            textBox_log.Text = $"{Analizator.Status}";
 
             if (Analizator.ErrMessage.Length > 0)
             {
                 textBox_log.BackColor = Color.LightCoral;
                 textBox_log.Text = Analizator.ErrMessage;
             }
+           
 
-             
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -160,6 +163,20 @@ namespace FilesMouver
             timePb++;
         }
 
-       
+        private void button5_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                cts.Cancel();
+                cts.Dispose();
+            }
+            catch (Exception ex)
+            {
+                textBox_log.Text =ex.Message;
+
+            }
+
+
+        }
     }
 }
