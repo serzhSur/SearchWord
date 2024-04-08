@@ -31,7 +31,6 @@ namespace FilesMove.Classes
             this.dirIn = dirIn;
             this.slovoPath = slovoPath;
             this.dirOutPath = dirOutPath;
-            
 
             try
             {
@@ -127,6 +126,7 @@ namespace FilesMove.Classes
                 }
 
                 Status = "Обработка завершена";
+                DbManager.CloseConnection();
             }
             catch (Exception ex)
             {

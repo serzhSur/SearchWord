@@ -22,7 +22,6 @@ namespace FilesMouver
 
         }
 
-
         private void button2CopyFiles_Click(object sender, EventArgs e) //копирование файлов по нажатию кнопки Copy
         {
 
@@ -127,6 +126,7 @@ namespace FilesMouver
             string dirIn = textBox2_dirIn.Text;
             string slovoPath = textBox_pathWords.Text;
             string dirOut = textBox3_dirOut.Text;
+            
             cts = new CancellationTokenSource();
             CancellationToken token = cts.Token;
 
@@ -137,7 +137,6 @@ namespace FilesMouver
             textBox_log.BackColor = Color.White;
             textBox_log.Text = $"{Analizator.Status}";
             timer1.Enabled = true;
-
 
             await processAnalizator;
 
