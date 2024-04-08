@@ -10,13 +10,36 @@ namespace FileMover.Classes
 {
     internal class PostgreSqlManager
     {
-        private string connactionString;
+        private string conString;
         private NpgsqlConnection Connector;
         public PostgreSqlManager(string connactionString) 
         {
-            this.connactionString = connactionString;
-            Connector = new NpgsqlConnection(connactionString);
+            CreateDataBase();
+            
+            conString = connactionString;
+            Connector = new NpgsqlConnection(conString);
             Connector.Open();
+        }
+
+        private void CreateDataBase()
+        {
+            string connactionString = "Host=localhost;Port=5432;Username=postgres;Password=Sur999";
+            using (var con = new NpgsqlConnection(connactionString))
+            {
+                con.Open();
+
+                using (var cmd = new NpgsqlCommand())
+                {
+                    cmd.Connection = con;
+                    cmd.CommandText = "SELECT 1 FROM pg_database WHERE datname = 'SearchWord'";
+                    var result = cmd.ExecuteScalar();
+                    if (result == null)
+                    {
+                        cmd.CommandText = "CREATE DATABASE SearchWord";
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
         }
 
         public void CreateTable() 
@@ -25,7 +48,7 @@ namespace FileMover.Classes
             { 
                 cmd.Connection = Connector;
                 cmd.CommandText = "CREATE TABLE IF NOT EXISTS search_result" +
-                    " (Id SEREAL PRIMERY KEY, " +
+                    " (Id SERIAL PRIMARY KEY, " +
                     "file_name VARCHAR(255)," +
                     " dir_in VARCHAR(255)," +
                     " key_word VARCHAR(255)," +

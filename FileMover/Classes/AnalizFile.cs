@@ -6,6 +6,7 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using FileMover.Classes;
 
 
 namespace FilesMove.Classes
@@ -16,6 +17,7 @@ namespace FilesMove.Classes
         private string slovoPath;
         private string dirOutPath;
         private bool sovpadenie = false;
+        private string connactionString = "Host=localhost;Port=5432;Database=SearchWord;Username=postgres;Password=Sur999";
 
 
         public string ErrMessage { get; private set; } = "";
@@ -29,12 +31,11 @@ namespace FilesMove.Classes
             this.dirIn = dirIn;
             this.slovoPath = slovoPath;
             this.dirOutPath = dirOutPath;
-
+            
 
             try
             {
                 SpisokSlov = File.ReadAllLines(slovoPath);// один раз считываем слова 
-                
                 if (SpisokSlov.Length < 1)
                 {
                     ErrMessage = $"{slovoPath} не содержит слов для поиска, отмена обработки ";
@@ -43,15 +44,12 @@ namespace FilesMove.Classes
             catch (Exception ex)
             {
                 ErrMessage = ex.Message;
-
             }
-
         }
+
         public async Task SerchInDirectory(CancellationToken token)
         {
-
             Status = "Старт...";
-
             if (ErrMessage.Length > 0)
             {
                 Status = "Обработка завершена";
@@ -60,7 +58,6 @@ namespace FilesMove.Classes
 
             try
             {
-
                 if (Directory.Exists(dirOutPath) == false)
                 {
                     Directory.CreateDirectory(dirOutPath);
@@ -72,66 +69,64 @@ namespace FilesMove.Classes
                     return;
                 }
 
-
                 string[] allFilesPath = Directory.GetFiles(dirIn);//получаем список файлов для анализа
 
                 CountFiles = allFilesPath.Count();//для прогресс-бара
                 Position = 0;
+                
+                PostgreSqlManager DbManager = new PostgreSqlManager(connactionString);
+                DbManager.CreateTable();
+                DateTime timeNow = DateTime.Now;// для базы данных
 
-                foreach (string file in allFilesPath)//в каждом файле ищем список слов и перемещаем файл если нашли совпадение 
+                foreach (string file in allFilesPath)//в каждом файле ищем слово из списка и перемещаем файл если нашли совпадение 
                 {
-                    
                     if (token.IsCancellationRequested)
                     {
                         ErrMessage = "operation Cancel";
-
                         return;
                     }
-
+                   
                     sovpadenie = false;
+                    string keyWord = "";// для базы данных
                    
                     string text = await File.ReadAllTextAsync(file);
-
+                    string nameOfFile = Path.GetFileName(file);
+                    
                     foreach (string slovo in SpisokSlov)
                     {
-
                         if (slovo.Length==1 || slovo == " ")
                         {
                             continue;
                         }
-
                         var startsearch = new StartSearch();
                         //выбирается метод(4шт) которым будет осуществлятся поиск
-
-                        await Task.Run(()=> startsearch.FinedWord(new SearchSposobOne(text, slovo)));
-
-                        //await Task.Run(() => startsearch.FinedWord(new SearchSposobTwo(text, slovo)));
-
+                        //await Task.Run(()=> startsearch.FinedWord(new SearchSposobOne(text, slovo)));
+                        await Task.Run(() => startsearch.FinedWord(new SearchSposobTwo(text, slovo)));
                         //await Task.Run(() => startsearch.FinedWord(new SearchSposobLinq(text,slovo)));
-
                         //await Task.Run(() => startsearch.FinedWord(new SearchSposobRegex(text, slovo)));
 
                         sovpadenie = startsearch.Sovpadenie;
                         if (sovpadenie)
                         {
+                            keyWord = slovo;
                             break;
                         }
                     }
 
                     if (sovpadenie == true)
                     {
-                        MoveFileTo(file);
+                        DbManager.InsertData(nameOfFile, dirIn, keyWord, sovpadenie, dirOutPath, timeNow.ToString());
+                        // MoveFileTo(file);
                     }
                     else
                     {
-                        DeleteFile(file);
+                       // DeleteFile(file);
                     }
 
                     Position++;//позиция прогресс-бара
                 }
 
                 Status = "Обработка завершена";
-
             }
             catch (Exception ex)
             {
