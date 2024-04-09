@@ -22,7 +22,7 @@ namespace FilesMouver
 
         }
 
-        private void button2CopyFiles_Click(object sender, EventArgs e) //копирование файлов по нажатию кнопки Copy
+        private void Files() //копирование файлов по нажатию кнопки Copy
         {
 
             string dirIN = textBox2_dirIn.Text;
