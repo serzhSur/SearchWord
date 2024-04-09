@@ -40,7 +40,6 @@
             textBox3 = new TextBox();
             textBox_pathWords = new TextBox();
             timer1 = new System.Windows.Forms.Timer(components);
-            timer2 = new System.Windows.Forms.Timer(components);
             SuspendLayout();
             // 
             // textBox2_dirIn
@@ -177,6 +176,5 @@
         private TextBox textBox3;
         private TextBox textBox_pathWords;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Timer timer2;
     }
 }

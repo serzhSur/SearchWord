@@ -10,18 +10,19 @@ namespace FileMover.Classes
 {
     internal class PostgreSqlManager
     {
-        private string conString;
+        private string conString= "Host=localhost;Port=5432;Database=SearchWord;Username=postgres;Password=Sur999";
         private NpgsqlConnection Connector;
-        public PostgreSqlManager(string connactionString) 
+        public PostgreSqlManager()
         {
+            CreateDataBaseAsync();
             
-            conString = connactionString;
             Connector = new NpgsqlConnection(conString);
             Connector.Open();
 
+            CreateTableAsync();
         }
 
-        public async Task CreateDataBaseAsync()
+        private async Task CreateDataBaseAsync()
         {
             string connactionString = "Host=localhost;Port=5432;Username=postgres;Password=Sur999";
             using (var con = new NpgsqlConnection(connactionString))
@@ -44,16 +45,16 @@ namespace FileMover.Classes
             }
         }
 
-        public async Task CreateTableAsync() 
+        private async Task CreateTableAsync() 
         {
             using (var cmd = new NpgsqlCommand()) 
             { 
                 cmd.Connection = Connector;
                 
                 cmd.CommandText = "CREATE TABLE IF NOT EXISTS search_result" +
-                                  " (Id SERIAL PRIMARY KEY, file_name VARCHAR(255)," +
-                                  " dir_in VARCHAR(255),key_word VARCHAR(255)," +
-                                  " match BOOLEAN, dir_out VARCHAR(255), " +
+                                  "(Id SERIAL PRIMARY KEY, file_name VARCHAR(255)," +
+                                  "dir_in VARCHAR(255),key_word VARCHAR(255)," +
+                                  "match BOOLEAN, dir_out VARCHAR(255), " +
                                   "day_time VARCHAR(255));";
                 await cmd.ExecuteNonQueryAsync();
             }
@@ -65,8 +66,8 @@ namespace FileMover.Classes
             {
                 cmd.Connection = Connector;
                 
-                cmd.CommandText = "INSERT INTO search_result (file_name, dir_in, key_word, match, dir_out, day_time ) VALUES " +
-                                  "(@val1, @val2, @val3, @val4, @val5, @val6) ";
+                cmd.CommandText = "INSERT INTO search_result (file_name, dir_in, key_word, match, dir_out, day_time ) " +
+                                  "VALUES (@val1, @val2, @val3, @val4, @val5, @val6) ";
                 cmd.Parameters.AddWithValue("val1", file_name);
                 cmd.Parameters.AddWithValue("val2", dir_in);
                 cmd.Parameters.AddWithValue("val3", key_word);

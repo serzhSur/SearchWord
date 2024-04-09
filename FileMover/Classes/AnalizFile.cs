@@ -17,7 +17,6 @@ namespace FilesMove.Classes
         private string slovoPath;
         private string dirOutPath;
         private bool sovpadenie = false;
-        private string connactionString = "Host=localhost;Port=5432;Database=SearchWord;Username=postgres;Password=Sur999";
         private PostgreSqlManager DbManager;
         private StartSearch startsearch;
 
@@ -36,7 +35,7 @@ namespace FilesMove.Classes
             try
             {
                 startsearch = new StartSearch();
-                DbManager = new PostgreSqlManager(connactionString);
+                DbManager = new PostgreSqlManager();
 
                 SpisokSlov = File.ReadAllLines(slovoPath);// один раз считываем слова 
                 if (SpisokSlov.Length < 1)
@@ -71,14 +70,13 @@ namespace FilesMove.Classes
                     Status = "Обработка завершена";
                     return;
                 }
-                await DbManager.CreateDataBaseAsync();
-                await DbManager.CreateTableAsync();
-                DateTime timeNow = DateTime.Now;// для базы данных
+
                 
                 string[] allFilesPath = Directory.GetFiles(dirIn);//получаем список файлов для анализа
 
                 CountFiles = allFilesPath.Count();//для прогресс-бара
                 Position = 0;
+                DateTime timeNow = DateTime.Now;// для базы данных
                 
                 foreach (string file in allFilesPath)//в каждом файле ищем слово из списка и перемещаем файл если нашли совпадение 
                 {
@@ -100,8 +98,8 @@ namespace FilesMove.Classes
                         {
                             continue;
                         }
-                       // var startsearch = new StartSearch();
                         //выбирается метод(4шт) которым будет осуществлятся поиск
+
                         //await Task.Run(()=> startsearch.FinedWord(new SearchSposobOne(text, slovo)));
                         await Task.Run(() => startsearch.FinedWord(new SearchSposobTwo(text, slovo)));
                         //await Task.Run(() => startsearch.FinedWord(new SearchSposobLinq(text,slovo)));
