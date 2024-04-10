@@ -11,21 +11,23 @@ namespace FileMover.Classes
 {
     internal class PostgreSqlManager
     {
-        private string DbName = "mytest6";
+        private string DbName = "mytest9";
         private string TableName = "search_match";
 
         private NpgsqlConnection Connector;
         public PostgreSqlManager()
         {
-            CreateDataBaseAsync(DbName);
-
-            CreateTableAsync(DbName, TableName);
-
-            Connector = new NpgsqlConnection($"Host=localhost;Port=5432;Database={DbName};Username=postgres;Password=Sur999");
-            Connector.Open();
 
         }
+        public async Task InitializeAsync() 
+        {
+            await CreateDataBaseAsync(DbName);
 
+            await CreateTableAsync(DbName, TableName);
+            
+            Connector = new NpgsqlConnection($"Host=localhost;Port=5432;Database={DbName};Username=postgres;Password=Sur999");
+            Connector.Open();
+        }
         public async Task CreateDataBaseAsync(string DbName)
         {
             string connactionString = "Host=localhost;Port=5432;Username=postgres;Password=Sur999";
@@ -44,15 +46,10 @@ namespace FileMover.Classes
                     {
                         cmd.CommandText = $"CREATE DATABASE  {DbName}";
                         await cmd.ExecuteNonQueryAsync();
-
-                        //cmd.CommandText = $"ALTER DATABASE {DbName} ALLOW_CONNECTIONS true";
-                        //await cmd.ExecuteNonQueryAsync();
                     }
 
                 }
-
             }
-
         }
 
         public async Task CreateTableAsync(string DbName, string TableName)

@@ -35,8 +35,7 @@ namespace FilesMove.Classes
             try
             {
                 startsearch = new StartSearch();
-                DbManager = new PostgreSqlManager();
-               
+                
 
                 SpisokSlov = File.ReadAllLines(slovoPath);// один раз считываем слова 
                 if (SpisokSlov.Length < 1)
@@ -71,6 +70,9 @@ namespace FilesMove.Classes
                     Status = "Обработка завершена";
                     return;
                 }
+                
+                var DbManager = new PostgreSqlManager();
+                await DbManager.InitializeAsync();
 
                 string[] allFilesPath = Directory.GetFiles(dirIn);//получаем список файлов для анализа
 
