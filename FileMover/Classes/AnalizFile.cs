@@ -35,7 +35,6 @@ namespace FilesMove.Classes
             try
             {
                 startsearch = new StartSearch();
-                
 
                 SpisokSlov = File.ReadAllLines(slovoPath);// один раз считываем слова 
                 if (SpisokSlov.Length < 1)
@@ -49,9 +48,10 @@ namespace FilesMove.Classes
             }
         }
 
-        public async Task SerchInDirectory(CancellationToken token)
+        public async Task SerchInDirectoryAsync(CancellationToken token)
         {
             Status = "Старт...";
+            
             if (ErrMessage.Length > 0)
             {
                 Status = "Обработка завершена";
@@ -64,7 +64,6 @@ namespace FilesMove.Classes
                 {
                     Directory.CreateDirectory(dirOutPath);
                 }
-
                 if (Directory.Exists(dirOutPath) == false)
                 {
                     Status = "Обработка завершена";
@@ -104,8 +103,8 @@ namespace FilesMove.Classes
 
                         //await Task.Run(()=> startsearch.FinedWord(new SearchSposobOne(text, slovo)));
                         //await Task.Run(() => startsearch.FinedWord(new SearchSposobTwo(text, slovo)));
-                        //await Task.Run(() => startsearch.FinedWord(new SearchSposobLinq(text,slovo)));
-                        await Task.Run(() => startsearch.FinedWord(new SearchSposobRegex(text, slovo)));
+                        await Task.Run(() => startsearch.FinedWord(new SearchSposobLinq(text,slovo)));
+                        //await Task.Run(() => startsearch.FinedWord(new SearchSposobRegex(text, slovo)));
 
                         sovpadenie = startsearch.Sovpadenie;
                         if (sovpadenie)
@@ -128,8 +127,8 @@ namespace FilesMove.Classes
                     Position++;//позиция прогресс-бара
                 }
 
-                Status = "Обработка завершена";
                 DbManager.CloseConnection();
+                Status = "Обработка завершена";
             }
             catch (Exception ex)
             {

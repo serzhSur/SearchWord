@@ -11,13 +11,12 @@ namespace FileMover.Classes
 {
     internal class PostgreSqlManager
     {
-        private string DbName = "mytest9";
+        private string DbName = "searchword";
         private string TableName = "search_match";
 
         private NpgsqlConnection Connector;
         public PostgreSqlManager()
         {
-
         }
         public async Task InitializeAsync() 
         {

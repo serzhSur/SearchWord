@@ -11,9 +11,9 @@ namespace FilesMouver
 {
     public partial class Form1 : Form
     {
-        int timePb = 0;
+        int timePb;
         CancellationTokenSource cts = null;// new CancellationTokenSource();
-       
+
         internal AnalizFile Analizator { get; private set; }
 
         public Form1()
@@ -126,40 +126,47 @@ namespace FilesMouver
             string dirIn = textBox2_dirIn.Text;
             string slovoPath = textBox_pathWords.Text;
             string dirOut = textBox3_dirOut.Text;
-            
+
             cts = new CancellationTokenSource();
             CancellationToken token = cts.Token;
 
             Analizator = new AnalizFile(dirIn, slovoPath, dirOut);
-            var processAnalizator = Analizator.SerchInDirectory(token);
-            //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectory до строки await;
+            var processAnalizator = Analizator.SerchInDirectoryAsync(token);
+            //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectoryAsync до строки await;
 
             textBox_log.BackColor = Color.White;
             textBox_log.Text = $"{Analizator.Status}";
             timer1.Enabled = true;
+            timePb = 0;
 
             await processAnalizator;
 
             timer1.Enabled = false;
             progressBar1.Value = progressBar1.Maximum;
 
-            textBox_log.Text = $"{Analizator.Status}";
+            textBox_log.Text = $"{Analizator.Status} \r\n{timePb}сек";
 
             if (Analizator.ErrMessage.Length > 0)
             {
                 textBox_log.BackColor = Color.LightCoral;
                 textBox_log.Text = Analizator.ErrMessage;
             }
-           
+
 
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private async void timer1_Tick(object sender, EventArgs e)
         {
             progressBar1.Maximum = Analizator.CountFiles;
             progressBar1.Value = Analizator.Position;
+                        
+            await Timer();
 
-            timePb++;
+            async Task<int> Timer()
+            {
+               await Task.Delay(1000);
+               return timePb++;
+            }
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -171,7 +178,7 @@ namespace FilesMouver
             }
             catch (Exception ex)
             {
-                textBox_log.Text =ex.Message;
+                textBox_log.Text = ex.Message;
 
             }
 
