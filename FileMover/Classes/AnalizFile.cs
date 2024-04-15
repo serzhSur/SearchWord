@@ -17,7 +17,6 @@ namespace FilesMove.Classes
         private string slovoPath;
         private string dirOutPath;
         private bool sovpadenie = false;
-        private PostgreSqlManager DbManager;
         private StartSearch startsearch;
 
         public string ErrMessage { get; private set; } = "";
@@ -50,7 +49,7 @@ namespace FilesMove.Classes
 
         public async Task SerchInDirectoryAsync(CancellationToken token)
         {
-            Status = "Старт...";
+            Status = "Выполняется...";
             
             if (ErrMessage.Length > 0)
             {
@@ -103,8 +102,8 @@ namespace FilesMove.Classes
 
                         //await Task.Run(()=> startsearch.FinedWord(new SearchSposobOne(text, slovo)));
                         //await Task.Run(() => startsearch.FinedWord(new SearchSposobTwo(text, slovo)));
-                        await Task.Run(() => startsearch.FinedWord(new SearchSposobLinq(text,slovo)));
-                        //await Task.Run(() => startsearch.FinedWord(new SearchSposobRegex(text, slovo)));
+                        //await Task.Run(() => startsearch.FinedWord(new SearchSposobLinq(text,slovo)));
+                        await Task.Run(() => startsearch.FinedWord(new SearchSposobRegex(text, slovo)));
 
                         sovpadenie = startsearch.Sovpadenie;
                         if (sovpadenie)

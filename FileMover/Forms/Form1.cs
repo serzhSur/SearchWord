@@ -5,6 +5,7 @@ using System;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using FilesMove.Classes;
+using FileMover.Classes;
 
 
 namespace FilesMouver
@@ -138,13 +139,17 @@ namespace FilesMouver
             textBox_log.Text = $"{Analizator.Status}";
             timer1.Enabled = true;
             timePb = 0;
+           
 
             await processAnalizator;
 
             timer1.Enabled = false;
             progressBar1.Value = progressBar1.Maximum;
 
-            textBox_log.Text = $"{Analizator.Status} \r\n{timePb}сек";
+            PostgreSqlManager PgManager = new PostgreSqlManager();
+            var report = PgManager.GetMatchCount();
+
+            textBox_log.Text = $"{Analizator.Status}\r\n{timePb}сек\r\nколичество совпадений {report}";
 
             if (Analizator.ErrMessage.Length > 0)
             {
@@ -159,14 +164,7 @@ namespace FilesMouver
         {
             progressBar1.Maximum = Analizator.CountFiles;
             progressBar1.Value = Analizator.Position;
-                        
-            await Timer();
-
-            async Task<int> Timer()
-            {
-               await Task.Delay(1000);
-               return timePb++;
-            }
+            timePb++;
         }
 
         private void button5_Click(object sender, EventArgs e)

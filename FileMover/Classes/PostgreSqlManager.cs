@@ -11,21 +11,27 @@ namespace FileMover.Classes
 {
     internal class PostgreSqlManager
     {
-        private string DbName = "searchword";
+        private string DbName = "mytest2";
         private string TableName = "search_match";
+        private string ConnactionString;
+
 
         private NpgsqlConnection Connector;
         public PostgreSqlManager()
         {
+            ConnactionString = $"Host=localhost;Port=5432;Database={DbName};Username=postgres;Password=Sur999";
+            Connector = new NpgsqlConnection(ConnactionString);
+            Connector.Open();
         }
         public async Task InitializeAsync() 
         {
             await CreateDataBaseAsync(DbName);
 
-            await CreateTableAsync(DbName, TableName);
-            
-            Connector = new NpgsqlConnection($"Host=localhost;Port=5432;Database={DbName};Username=postgres;Password=Sur999");
+            ConnactionString = $"Host=localhost;Port=5432;Database={DbName};Username=postgres;Password=Sur999";
+            Connector = new NpgsqlConnection(ConnactionString);
             Connector.Open();
+
+            await CreateTableAsync(TableName);
         }
         public async Task CreateDataBaseAsync(string DbName)
         {
@@ -51,10 +57,10 @@ namespace FileMover.Classes
             }
         }
 
-        public async Task CreateTableAsync(string DbName, string TableName)
+        public async Task CreateTableAsync(string TableName)
         {
-            string conString = $"Host=localhost;Port=5432;Database={DbName};Username=postgres;Password=Sur999";
-            using (var Connector = new NpgsqlConnection(conString))
+            //string conString = $"Host=localhost;Port=5432;Database={DbName};Username=postgres;Password=Sur999";
+            using (var Connector = new NpgsqlConnection(ConnactionString))
             {
                 Connector.Open();
                 using (var cmd = new NpgsqlCommand())
@@ -96,6 +102,25 @@ namespace FileMover.Classes
             }
         }
 
+        public async Task<string> GetMatchCount() 
+        {
+            using (var cmd = new NpgsqlCommand())
+            {
+                cmd.Connection = Connector;
+                
+                cmd.CommandText = $"SELECT count(*) FROM {TableName} AS match_count " +
+                                  $"where day_time = (SELECT day_time FROM {TableName} ORDER BY day_time desc LIMIT 1);";
+                //var result = await cmd.ExecuteNonQueryAsync();
+                NpgsqlDataReader reader = await cmd.ExecuteReaderAsync();
+                var result = new List<string>();
+                while (await reader.ReadAsync()) 
+                {
+                    result.Add(reader["match_count"] as string);
+                }
+
+                return result.ToString();
+            }
+        }
         public void CloseConnection()
         {
             Connector.Close();
