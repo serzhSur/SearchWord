@@ -146,9 +146,9 @@ namespace FilesMouver
             timer1.Enabled = false;
             progressBar1.Value = progressBar1.Maximum;
 
-            PostgreSqlManager PgManager = new PostgreSqlManager();
-            var report = PgManager.GetMatchCount();
-
+            PostgreSqlManager PgManager = new PostgreSqlManager();//обращение к базе данных для подсчета количества совпадений
+            var report = await PgManager.GetMatchCountAsync();
+           
             textBox_log.Text = $"{Analizator.Status}\r\n{timePb}сек\r\nколичество совпадений {report}";
 
             if (Analizator.ErrMessage.Length > 0)

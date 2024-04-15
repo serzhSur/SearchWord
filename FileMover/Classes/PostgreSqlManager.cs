@@ -102,23 +102,22 @@ namespace FileMover.Classes
             }
         }
 
-        public async Task<string> GetMatchCount() 
+        public async Task<IEnumerable <string>> GetMatchCountAsync() 
         {
             using (var cmd = new NpgsqlCommand())
             {
                 cmd.Connection = Connector;
-                
-                cmd.CommandText = $"SELECT count(*) FROM {TableName} AS match_count " +
+
+                cmd.CommandText = $"SELECT count(*) AS finedCount FROM {TableName}  " +
                                   $"where day_time = (SELECT day_time FROM {TableName} ORDER BY day_time desc LIMIT 1);";
                 //var result = await cmd.ExecuteNonQueryAsync();
                 NpgsqlDataReader reader = await cmd.ExecuteReaderAsync();
                 var result = new List<string>();
                 while (await reader.ReadAsync()) 
                 {
-                    result.Add(reader["match_count"] as string);
+                    result.Add(reader["finedCount"] as string);
                 }
-
-                return result.ToString();
+                return result;
             }
         }
         public void CloseConnection()
