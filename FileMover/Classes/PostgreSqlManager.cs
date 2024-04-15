@@ -102,7 +102,7 @@ namespace FileMover.Classes
             }
         }
 
-        public async Task<IEnumerable <string>> GetMatchCountAsync() 
+        public async Task <int> GetMatchCountAsync()  //<IEnumerable <string>> GetMatchCountAsync() 
         {
             using (var cmd = new NpgsqlCommand())
             {
@@ -110,14 +110,10 @@ namespace FileMover.Classes
 
                 cmd.CommandText = $"SELECT count(*) AS finedCount FROM {TableName}  " +
                                   $"where day_time = (SELECT day_time FROM {TableName} ORDER BY day_time desc LIMIT 1);";
-                //var result = await cmd.ExecuteNonQueryAsync();
-                NpgsqlDataReader reader = await cmd.ExecuteReaderAsync();
-                var result = new List<string>();
-                while (await reader.ReadAsync()) 
-                {
-                    result.Add(reader["finedCount"] as string);
-                }
-                return result;
+               
+                var reader = await cmd.ExecuteScalarAsync();
+
+                return Convert.ToInt32(reader);//int.Parse(reader.ToString());
             }
         }
         public void CloseConnection()

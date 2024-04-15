@@ -6,13 +6,13 @@ using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using FilesMove.Classes;
 using FileMover.Classes;
+using System.Diagnostics;
 
 
 namespace FilesMouver
 {
     public partial class Form1 : Form
     {
-        int timePb;
         CancellationTokenSource cts = null;// new CancellationTokenSource();
 
         internal AnalizFile Analizator { get; private set; }
@@ -131,6 +131,9 @@ namespace FilesMouver
             cts = new CancellationTokenSource();
             CancellationToken token = cts.Token;
 
+            Stopwatch stopwatch = new Stopwatch();//замеряет время выполнения метода Analizator
+            stopwatch.Start();
+
             Analizator = new AnalizFile(dirIn, slovoPath, dirOut);
             var processAnalizator = Analizator.SerchInDirectoryAsync(token);
             //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectoryAsync до строки await;
@@ -138,18 +141,15 @@ namespace FilesMouver
             textBox_log.BackColor = Color.White;
             textBox_log.Text = $"{Analizator.Status}";
             timer1.Enabled = true;
-            timePb = 0;
            
 
             await processAnalizator;
 
+            stopwatch.Stop();
+            string executionTime = stopwatch.Elapsed.TotalSeconds.ToString();
+            
             timer1.Enabled = false;
             progressBar1.Value = progressBar1.Maximum;
-
-            PostgreSqlManager PgManager = new PostgreSqlManager();//обращение к базе данных для подсчета количества совпадений
-            var report = await PgManager.GetMatchCountAsync();
-           
-            textBox_log.Text = $"{Analizator.Status}\r\n{timePb}сек\r\nколичество совпадений {report}";
 
             if (Analizator.ErrMessage.Length > 0)
             {
@@ -157,6 +157,10 @@ namespace FilesMouver
                 textBox_log.Text = Analizator.ErrMessage;
             }
 
+            PostgreSqlManager PgManager = new PostgreSqlManager();//обращение к базе данных для подсчета количества совпадений
+            var report = await PgManager.GetMatchCountAsync();
+
+            textBox_log.Text = $"{Analizator.Status}\r\nвремя выполнения: {executionTime} сек\r\nколичество совпадений: {report}";
 
         }
 
@@ -164,7 +168,6 @@ namespace FilesMouver
         {
             progressBar1.Maximum = Analizator.CountFiles;
             progressBar1.Value = Analizator.Position;
-            timePb++;
         }
 
         private void button5_Click(object sender, EventArgs e)
