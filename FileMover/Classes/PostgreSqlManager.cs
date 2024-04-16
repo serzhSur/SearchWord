@@ -11,19 +11,23 @@ namespace FileMover.Classes
 {
     internal class PostgreSqlManager
     {
-        private string DbName = "mytest2";
+        private string DbName = "mytest4";
         private string TableName = "search_match";
         private string ConnactionString;
-
-
         private NpgsqlConnection Connector;
-        public PostgreSqlManager()
+
+        public static async Task<PostgreSqlManager> CreateObjectAsync()
         {
-            ConnactionString = $"Host=localhost;Port=5432;Database={DbName};Username=postgres;Password=Sur999";
-            Connector = new NpgsqlConnection(ConnactionString);
-            Connector.Open();
+            var postgreSqlManager = new PostgreSqlManager();
+
+            await postgreSqlManager.InitializeAsync();
+
+            return postgreSqlManager;
         }
-        public async Task InitializeAsync() 
+        private PostgreSqlManager()
+        {
+        }
+        private async Task InitializeAsync()
         {
             await CreateDataBaseAsync(DbName);
 
@@ -59,29 +63,25 @@ namespace FileMover.Classes
 
         public async Task CreateTableAsync(string TableName)
         {
-            //string conString = $"Host=localhost;Port=5432;Database={DbName};Username=postgres;Password=Sur999";
-            using (var Connector = new NpgsqlConnection(ConnactionString))
+            using (var cmd = new NpgsqlCommand())
             {
-                Connector.Open();
-                using (var cmd = new NpgsqlCommand())
-                {
-                    cmd.Connection = Connector;
-                    
-                    cmd.CommandText = $"SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = '{TableName}')";
-                    var result = await cmd.ExecuteScalarAsync();
-                    if ((bool)result == false)
-                    {
-                        cmd.CommandText = $"CREATE TABLE {TableName}" +
-                                      "(Id SERIAL PRIMARY KEY, file_name VARCHAR(255)," +
-                                      "dir_in VARCHAR(255), key_word VARCHAR(255)," +
-                                      "match BOOLEAN, dir_out VARCHAR(255)," +
-                                      "day_time VARCHAR(255));";
-                        await cmd.ExecuteNonQueryAsync();
-                    }
+                cmd.Connection = Connector;
 
+                cmd.CommandText = $"SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = '{TableName}')";
+                var result = await cmd.ExecuteScalarAsync();
+                if ((bool)result == false)
+                {
+                    cmd.CommandText = $"CREATE TABLE {TableName}" +
+                                  "(Id SERIAL PRIMARY KEY, file_name VARCHAR(255)," +
+                                  "dir_in VARCHAR(255), key_word VARCHAR(255)," +
+                                  "match BOOLEAN, dir_out VARCHAR(255)," +
+                                  "day_time VARCHAR(255));";
+                    await cmd.ExecuteNonQueryAsync();
                 }
 
             }
+
+
         }
         public async Task InsertDataAsync(string file_name, string dir_in, string key_word, bool match, string dir_out, string day_time)
         {
@@ -102,15 +102,15 @@ namespace FileMover.Classes
             }
         }
 
-        public async Task <int> GetMatchCountAsync()  //<IEnumerable <string>> GetMatchCountAsync() 
+        public async Task<int> GetMatchCountAsync()   
         {
             using (var cmd = new NpgsqlCommand())
             {
                 cmd.Connection = Connector;
 
-                cmd.CommandText = $"SELECT count(*) AS finedCount FROM {TableName}  " +
+                cmd.CommandText = $"SELECT count(*) FROM {TableName} " +
                                   $"where day_time = (SELECT day_time FROM {TableName} ORDER BY day_time desc LIMIT 1);";
-               
+
                 var reader = await cmd.ExecuteScalarAsync();
 
                 return Convert.ToInt32(reader);//int.Parse(reader.ToString());
@@ -120,5 +120,5 @@ namespace FileMover.Classes
         {
             Connector.Close();
         }
-    }    
+    }
 }

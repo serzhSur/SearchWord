@@ -126,7 +126,7 @@
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(622, 27);
             textBox3.TabIndex = 18;
-            textBox3.Text = "Облако слов";
+            textBox3.Text = "Список слов";
             // 
             // textBox_pathWords
             // 

@@ -68,16 +68,15 @@ namespace FilesMove.Classes
                     Status = "Обработка завершена";
                     return;
                 }
-                
-                var DbManager = new PostgreSqlManager();
-                await DbManager.InitializeAsync();
 
+                var DbManager = await PostgreSqlManager.CreateObjectAsync(); //Подключение к базе данных
+                
                 string[] allFilesPath = Directory.GetFiles(dirIn);//получаем список файлов для анализа
 
                 CountFiles = allFilesPath.Count();//для прогресс-бара
                 Position = 0;
                 DateTime timeNow = DateTime.Now;// для базы данных
-                
+               
                 foreach (string file in allFilesPath)//в каждом файле ищем слово из списка и перемещаем файл если нашли совпадение 
                 {
                     if (token.IsCancellationRequested)

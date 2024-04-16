@@ -141,10 +141,10 @@ namespace FilesMouver
             textBox_log.BackColor = Color.White;
             textBox_log.Text = $"{Analizator.Status}";
             timer1.Enabled = true;
-           
+            
 
             await processAnalizator;
-
+            
             stopwatch.Stop();
             string executionTime = stopwatch.Elapsed.TotalSeconds.ToString();
             
@@ -157,14 +157,19 @@ namespace FilesMouver
                 textBox_log.Text = Analizator.ErrMessage;
             }
 
-            PostgreSqlManager PgManager = new PostgreSqlManager();//обращение к базе данных для подсчета количества совпадений
+            var PgManager = await PostgreSqlManager.CreateObjectAsync();//обращение к базе данных для подсчета количества совпадений
             var report = await PgManager.GetMatchCountAsync();
 
             textBox_log.Text = $"{Analizator.Status}\r\nвремя выполнения: {executionTime} сек\r\nколичество совпадений: {report}";
-
+            PgManager.CloseConnection();
         }
 
         private async void timer1_Tick(object sender, EventArgs e)
+        {
+            progressBar1.Maximum = Analizator.CountFiles;
+            progressBar1.Value = Analizator.Position;
+        }
+        private async Task ProgressBar() 
         {
             progressBar1.Maximum = Analizator.CountFiles;
             progressBar1.Value = Analizator.Position;
