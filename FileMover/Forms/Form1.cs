@@ -169,11 +169,6 @@ namespace FilesMouver
             progressBar1.Maximum = Analizator.CountFiles;
             progressBar1.Value = Analizator.Position;
         }
-        private async Task ProgressBar() 
-        {
-            progressBar1.Maximum = Analizator.CountFiles;
-            progressBar1.Value = Analizator.Position;
-        }
 
         private void button5_Click(object sender, EventArgs e)
         {

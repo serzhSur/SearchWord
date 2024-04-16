@@ -11,8 +11,10 @@ namespace FileMover.Classes
 {
     internal class PostgreSqlManager
     {
-        private string DbName = "mytest4";
+        private string DbName = "mytest5";
         private string TableName = "search_match";
+        private string UserName = "postgres";
+        private string Password = "Sur999";
         private string ConnactionString;
         private NpgsqlConnection Connector;
 
@@ -31,7 +33,7 @@ namespace FileMover.Classes
         {
             await CreateDataBaseAsync(DbName);
 
-            ConnactionString = $"Host=localhost;Port=5432;Database={DbName};Username=postgres;Password=Sur999";
+            ConnactionString = $"Host=localhost;Port=5432;Database={DbName};Username={UserName};Password={Password}";
             Connector = new NpgsqlConnection(ConnactionString);
             Connector.Open();
 
@@ -39,7 +41,7 @@ namespace FileMover.Classes
         }
         public async Task CreateDataBaseAsync(string DbName)
         {
-            string connactionString = "Host=localhost;Port=5432;Username=postgres;Password=Sur999";
+            string connactionString = $"Host=localhost;Port=5432;Username={UserName};Password={Password}";
             using (var con = new NpgsqlConnection(connactionString))
             {
                 con.Open();
