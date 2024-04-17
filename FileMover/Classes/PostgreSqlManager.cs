@@ -11,8 +11,8 @@ namespace FileMover.Classes
 {
     internal class PostgreSqlManager
     {
-        private string DbName = "mytest5";
-        private string TableName = "search_match";
+        private string DbName = "mytest4";
+        private string TableName = "search_result";
         private string UserName = "postgres";
         private string Password = "Sur999";
         private string ConnactionString;
@@ -116,6 +116,25 @@ namespace FileMover.Classes
                 var reader = await cmd.ExecuteScalarAsync();
 
                 return Convert.ToInt32(reader);//int.Parse(reader.ToString());
+            }
+        }
+
+        public async Task<List<string>> GetFindedWordsCount()
+        {
+            using (var cmd = new NpgsqlCommand())
+            {
+                cmd.Connection = Connector;
+                
+                cmd.CommandText = $"SELECT key_word, count(*)  FROM {TableName} " +
+                                  $"where day_time = (SELECT day_time FROM {TableName} ORDER BY day_time desc LIMIT 1) " +
+                                  $"GROUP by key_word;";
+                var reader = await cmd.ExecuteReaderAsync();
+                var result = new List<string>();
+                while (await reader.ReadAsync()) 
+                { 
+                    result.Add(reader[0] as string +" "+ reader[1]);
+                }
+                return result;
             }
         }
         public void CloseConnection()

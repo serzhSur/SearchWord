@@ -23,59 +23,7 @@ namespace FilesMouver
 
         }
 
-        private void Files() //копирование файлов по нажатию кнопки Copy
-        {
-
-            string dirIN = textBox2_dirIn.Text;
-            string dirOut = textBox3_dirOut.Text;
-
-            if (!Directory.Exists(dirOut))
-            {
-                try
-                {
-                    Directory.CreateDirectory(dirOut);
-                }
-                catch
-                {
-                    MessageBox.Show("Директория назначения (dirOut) Невозможный путь");
-                }
-
-            }
-            else
-            {
-                MessageBox.Show("Директория уже существует. Файлы будут перезаписаны");
-                //нужна кнопка отмены копирования
-            }
-
-            if (Directory.Exists(dirIN))
-            {
-                progressBar1.Visible = true;
-                progressBar1.Minimum = 1;
-                progressBar1.Maximum = Directory.GetFiles(dirIN).Length; //максимальное значение = количеству файлов в источнике
-                progressBar1.Value = 1;
-                progressBar1.Step = 1;
-
-                string[] spisokFiles = Directory.GetFiles(dirIN);// получили массив  пути файлов в dirIN(источнике)
-
-                foreach (string file in spisokFiles)
-                {
-                    string fileName = Path.GetFileName(file); // получаем имя этого файла
-
-                    string destination_Path = ($@"{dirOut}\{fileName}");// получаем путь назначения: путь(dirOut)+имя файла
-
-                    File.Copy(file, destination_Path, true); // копируем файл, true-перезапишет если уже есть файлы
-
-                    progressBar1.PerformStep();
-
-                }
-                textBox1.Text = "Файлы скопированны";
-
-            }
-            else { MessageBox.Show("Входящая директория (dirIn) Несуществующий путь"); }
-
-        }
-
-
+        
         private void CopyDirectoryAll()
         {
             string dirIN = textBox2_dirIn.Text;
@@ -157,10 +105,17 @@ namespace FilesMouver
                 textBox_log.Text = Analizator.ErrMessage;
             }
 
-            var PgManager = await PostgreSqlManager.CreateObjectAsync();//обращение к базе данных для подсчета количества совпадений
-            var report = await PgManager.GetMatchCountAsync();
+            var PgManager = await PostgreSqlManager.CreateObjectAsync();
+            var MatchCount = await PgManager.GetMatchCountAsync();//запрос бд количество строк по последней дате
 
-            textBox_log.Text = $"{Analizator.Status}\r\nвремя выполнения: {executionTime} сек\r\nколичество совпадений: {report}";
+            textBox_log.Text = $"{Analizator.Status}\r\nвремя выполнения: {executionTime} сек\r\nколичество совпадений: {MatchCount}";
+            
+            var FindedWordsCount = await PgManager.GetFindedWordsCount();//запрос бд количество строк с каждым уникальным значением 
+            foreach ( var word in FindedWordsCount)
+            {
+                textBox_log.Text+= "\r\nслово: "+word.ToString()+" раз";
+            }
+
             PgManager.CloseConnection();
         }
 

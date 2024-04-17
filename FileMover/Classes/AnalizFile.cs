@@ -121,7 +121,7 @@ namespace FilesMove.Classes
                     {
                        // DeleteFile(file);
                     }
-
+                    
                     Position++;//позиция прогресс-бара
                 }
 
