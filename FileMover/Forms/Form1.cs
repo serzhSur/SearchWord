@@ -85,7 +85,7 @@ namespace FilesMouver
             Analizator = new AnalizFile(dirIn, slovoPath, dirOut);
             var processAnalizator = Analizator.SerchInDirectoryAsync(token);
             //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectoryAsync до строки await;
-
+           
             textBox_log.BackColor = Color.White;
             textBox_log.Text = $"{Analizator.Status}";
             timer1.Enabled = true;
@@ -99,24 +99,33 @@ namespace FilesMouver
             timer1.Enabled = false;
             progressBar1.Value = progressBar1.Maximum;
 
+            if (Analizator.ErrMessage.Length == 0)
+            {
+                var PgManager = await PostgreSqlManager.CreateObjectAsync();
+                var MatchCount = await PgManager.GetMatchCountAsync();//запрос бд количество строк по последней дате
+
+                textBox_log.Text = $"{Analizator.Status}\r\nвремя выполнения: {executionTime} сек\r\nколичество совпадений: {MatchCount}";
+
+                var FindedWordsCount = await PgManager.GetFindedWordsCount();//запрос бд количество строк с каждым уникальным значением 
+                foreach (var word in FindedWordsCount)
+                {
+                    textBox_log.Text += "\r\nслово: " + word.ToString() + " раз";
+                }
+                if (PgManager.ErrorsMessage.Length > 0)
+                {
+                    textBox_log.BackColor = Color.LightCoral;
+                    textBox_log.Text = $"class PostgreSqlManager { PgManager.ErrorsMessage}";
+                }
+
+                PgManager.CloseConnection();
+            }
+
             if (Analizator.ErrMessage.Length > 0)
             {
                 textBox_log.BackColor = Color.LightCoral;
                 textBox_log.Text = Analizator.ErrMessage;
             }
 
-            var PgManager = await PostgreSqlManager.CreateObjectAsync();
-            var MatchCount = await PgManager.GetMatchCountAsync();//запрос бд количество строк по последней дате
-
-            textBox_log.Text = $"{Analizator.Status}\r\nвремя выполнения: {executionTime} сек\r\nколичество совпадений: {MatchCount}";
-            
-            var FindedWordsCount = await PgManager.GetFindedWordsCount();//запрос бд количество строк с каждым уникальным значением 
-            foreach ( var word in FindedWordsCount)
-            {
-                textBox_log.Text+= "\r\nслово: "+word.ToString()+" раз";
-            }
-
-            PgManager.CloseConnection();
         }
 
         private async void timer1_Tick(object sender, EventArgs e)

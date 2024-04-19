@@ -50,7 +50,13 @@ namespace FilesMove.Classes
         public async Task SerchInDirectoryAsync(CancellationToken token)
         {
             Status = "Выполняется...";
-            
+
+            var DbManager = await PostgreSqlManager.CreateObjectAsync(); //Подключение к базе данных
+            if (DbManager.ErrorsMessage.Length > 0)
+            {
+                ErrMessage = $"class PostgreSqlManager {DbManager.ErrorsMessage}";
+            }
+
             if (ErrMessage.Length > 0)
             {
                 Status = "Обработка завершена";
@@ -69,8 +75,6 @@ namespace FilesMove.Classes
                     return;
                 }
 
-                var DbManager = await PostgreSqlManager.CreateObjectAsync(); //Подключение к базе данных
-                
                 string[] allFilesPath = Directory.GetFiles(dirIn);//получаем список файлов для анализа
 
                 CountFiles = allFilesPath.Count();//для прогресс-бара
