@@ -1,4 +1,5 @@
-﻿using Npgsql;
+﻿using Dapper;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Configuration;
+using System.Data;
 
 namespace FileMover.Classes
 {
@@ -15,8 +18,8 @@ namespace FileMover.Classes
         private string TableName = "search_result";
         private string UserName = "postgres";
         private string Password = "Sur999";
-        private string ConnactionString;
-        private NpgsqlConnection Connector;
+        private readonly string ConnactionString = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        private NpgsqlConnection Connector; //IDbConnection Connector;//
         public string ErrorsMessage { get; private set; } = "";
 
         public static async Task<PostgreSqlManager> CreateObjectAsync()
@@ -34,9 +37,9 @@ namespace FileMover.Classes
         {
             try
             {
-                await CreateDataBaseAsync(DbName);
+                await CreateDataBaseAsync();//(DbName);
 
-                ConnactionString = $"Host=localhost;Port=5432;Database={DbName};Username={UserName};Password={Password}";
+                //ConnactionString = $"Host=localhost;Port=5432;Database={DbName};Username={UserName};Password={Password}";
                 Connector = new NpgsqlConnection(ConnactionString);
                 Connector.Open();
 
@@ -48,12 +51,12 @@ namespace FileMover.Classes
                 ErrorsMessage = ex.Message;
             }
         }
-        public async Task CreateDataBaseAsync(string DbName)
+        public async Task CreateDataBaseAsync()//(string DbName)
         {
             try
             {
-                string connactionString = $"Host=localhost;Port=5432;Username={UserName};Password={Password}";
-                using (var con = new NpgsqlConnection(connactionString))
+                //string connactionString = $"Host=localhost;Port=5432;Username={UserName};Password={Password}";
+                using (var con = new NpgsqlConnection(ConnactionString))
                 {
                     con.Open();
 
@@ -73,11 +76,11 @@ namespace FileMover.Classes
                     }
                 }
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
                 ErrorsMessage = ex.Message;
             }
-            
+
         }
 
         public async Task CreateTableAsync(string TableName)
@@ -133,10 +136,10 @@ namespace FileMover.Classes
             {
                 ErrorsMessage = ex.Message;
             }
-            
+
         }
 
-        public async Task<int> GetMatchCountAsync()   
+        public async Task<int> GetMatchCountAsync()
         {
             int rezult = 0;
             try
@@ -179,7 +182,7 @@ namespace FileMover.Classes
                     {
                         result.Add(reader[0] as string + " " + reader[1]);
                     }
-                   
+
                 }
             }
             catch (Exception ex)
@@ -192,6 +195,33 @@ namespace FileMover.Classes
         {
 
             Connector.Close();
+        }
+
+        public async Task<IEnumerable<SearchResult>> GetAllRows()
+        {
+
+                return await Connector.QueryAsync<SearchResult>($"SELECT count(*) FROM {TableName};");
+
+        }
+    }
+    public class SearchResult
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string DirIn { get; set; }
+        public string KeyWord { get; set; }
+        public bool Match { get; set; }  
+        public string DirOut { get; set; }
+        public string Date { get; set; }
+        public SearchResult(int id, string file_name, string dir_in, string key_word, bool match, string dir_out, string day_time)
+        {
+            Id = id;
+            Name = file_name;
+            DirIn = dir_in;
+            KeyWord = key_word;
+            Match = match;
+            DirOut = dir_out;
+            Date = day_time;
         }
     }
 }

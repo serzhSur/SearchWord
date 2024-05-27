@@ -101,23 +101,23 @@ namespace FilesMouver
 
             if (Analizator.ErrMessage.Length == 0)
             {
-                var PgManager = await PostgreSqlManager.CreateObjectAsync();
-                var MatchCount = await PgManager.GetMatchCountAsync();//запрос бд количество строк по последней дате
+                var DbManager = await PostgreSqlManager.CreateObjectAsync();
+                var MatchCount = await DbManager.GetMatchCountAsync();//запрос бд количество строк по последней дате
 
                 textBox_log.Text = $"{Analizator.Status}\r\nвремя выполнения: {executionTime} сек\r\nколичество совпадений: {MatchCount}";
 
-                var FindedWordsCount = await PgManager.GetFindedWordsCount();//запрос бд количество строк с каждым уникальным значением 
+                var FindedWordsCount = await DbManager.GetFindedWordsCount();//запрос бд количество строк с каждым уникальным значением 
                 foreach (var word in FindedWordsCount)
                 {
                     textBox_log.Text += "\r\nслово: " + word.ToString() + " раз";
                 }
-                if (PgManager.ErrorsMessage.Length > 0)
+                if (DbManager.ErrorsMessage.Length > 0)
                 {
                     textBox_log.BackColor = Color.LightCoral;
-                    textBox_log.Text = $"class PostgreSqlManager { PgManager.ErrorsMessage}";
+                    textBox_log.Text = $"class PostgreSqlManager { DbManager.ErrorsMessage}";
                 }
 
-                PgManager.CloseConnection();
+                DbManager.CloseConnection();
             }
 
             if (Analizator.ErrMessage.Length > 0)

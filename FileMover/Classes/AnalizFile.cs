@@ -44,7 +44,7 @@ namespace FilesMove.Classes
             catch (Exception ex)
             {
                 ErrMessage = ex.Message;
-            }
+            } 
         }
 
         public async Task SerchInDirectoryAsync(CancellationToken token)
