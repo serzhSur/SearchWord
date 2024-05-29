@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Configuration;
 using System.Data;
+using System.IO;
+
 
 namespace FileMover.Classes
 {
     internal class PostgreSqlManager
     {
-        private string DbName = "mytest1";
-        private string TableName = "search_result";
-        private string UserName = "postgres";
-        private string Password = "Sur999";
-        private readonly string ConnactionString = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
-        private NpgsqlConnection Connector; //IDbConnection Connector;//
+        private string DbName = ConfigurationManager.AppSettings["Database"];
+        private string TableName = ConfigurationManager.AppSettings["tableName"];
+        private readonly string ConnactionString = ConfigurationManager.ConnectionStrings["conDb"].ConnectionString;
+        private NpgsqlConnection Connector; 
         public string ErrorsMessage { get; private set; } = "";
 
         public static async Task<PostgreSqlManager> CreateObjectAsync()
@@ -37,9 +37,8 @@ namespace FileMover.Classes
         {
             try
             {
-                await CreateDataBaseAsync();//(DbName);
+                await CreateDataBaseAsync();
 
-                //ConnactionString = $"Host=localhost;Port=5432;Database={DbName};Username={UserName};Password={Password}";
                 Connector = new NpgsqlConnection(ConnactionString);
                 Connector.Open();
 
@@ -51,19 +50,18 @@ namespace FileMover.Classes
                 ErrorsMessage = ex.Message;
             }
         }
-        public async Task CreateDataBaseAsync()//(string DbName)
+        public async Task CreateDataBaseAsync()
         {
             try
             {
-                //string connactionString = $"Host=localhost;Port=5432;Username={UserName};Password={Password}";
-                using (var con = new NpgsqlConnection(ConnactionString))
+                string connactionString = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+                using (var connection = new NpgsqlConnection(connactionString))
                 {
-                    con.Open();
-
+                    connection.Open();
+                    
                     using (var cmd = new NpgsqlCommand())
                     {
-                        cmd.Connection = con;
-
+                        cmd.Connection = connection;
                         cmd.CommandText = $"SELECT EXISTS (SELECT 1 FROM pg_database WHERE datname = '{DbName}');";
                         var result = await cmd.ExecuteScalarAsync();
 
@@ -72,8 +70,8 @@ namespace FileMover.Classes
                             cmd.CommandText = $"CREATE DATABASE  {DbName}";
                             await cmd.ExecuteNonQueryAsync();
                         }
-
                     }
+                    
                 }
             }
             catch (Exception ex)
@@ -112,10 +110,23 @@ namespace FileMover.Classes
 
 
         }
-        public async Task InsertDataAsync(string file_name, string dir_in, string key_word, bool match, string dir_out, string day_time)
+        public async Task InsertDataAsync(SearchResult sr)//(string file_name, string dir_in, string key_word, bool match, string dir_out, string day_time)
         {
             try
             {
+                string sqlCommand = $"INSERT INTO {TableName} (file_name, dir_in, key_word, match, dir_out, day_time) " +
+                                    $"VALUES (@file_name, @dir_in, @key_word, @match, @dir_out, @day_time)";
+                var queryArgyments = new
+                {
+                    file_name=sr.FileName,
+                    dir_in=sr.DirIn,
+                    key_word=sr.KeyWord,
+                    match=sr.Match,
+                    dir_out=sr.DirOut,
+                    day_time=sr.DayTime,
+                };
+                await Connector.ExecuteAsync(sqlCommand, queryArgyments);
+                /*
                 using (var cmd = new NpgsqlCommand())
                 {
                     cmd.Connection = Connector;
@@ -131,6 +142,7 @@ namespace FileMover.Classes
 
                     await cmd.ExecuteNonQueryAsync();
                 }
+                */
             }
             catch (Exception ex)
             {
@@ -141,9 +153,14 @@ namespace FileMover.Classes
 
         public async Task<int> GetMatchCountAsync()
         {
-            int rezult = 0;
+            int rezult = -1;
             try
             {
+                string sqlCommand = $"SELECT count(*) FROM {TableName} " +
+                                    $"WHERE day_time = (SELECT day_time FROM {TableName} ORDER BY day_time desc LIMIT 1)";
+                rezult = Convert.ToInt32( await Connector.ExecuteScalarAsync(sqlCommand));
+                return rezult;
+                /*
                 using (var cmd = new NpgsqlCommand())
                 {
                     cmd.Connection = Connector;
@@ -153,9 +170,9 @@ namespace FileMover.Classes
 
                     var reader = await cmd.ExecuteScalarAsync();
 
-                    rezult = Convert.ToInt32(reader);//int.Parse(reader.ToString());
+                    rezult = Convert.ToInt32(reader);
                 }
-
+                */
             }
             catch (Exception ex)
             {
@@ -204,24 +221,5 @@ namespace FileMover.Classes
 
         }
     }
-    public class SearchResult
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string DirIn { get; set; }
-        public string KeyWord { get; set; }
-        public bool Match { get; set; }  
-        public string DirOut { get; set; }
-        public string Date { get; set; }
-        public SearchResult(int id, string file_name, string dir_in, string key_word, bool match, string dir_out, string day_time)
-        {
-            Id = id;
-            Name = file_name;
-            DirIn = dir_in;
-            KeyWord = key_word;
-            Match = match;
-            DirOut = dir_out;
-            Date = day_time;
-        }
-    }
+    
 }

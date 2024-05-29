@@ -23,53 +23,6 @@ namespace FilesMouver
 
         }
 
-        
-        private void CopyDirectoryAll()
-        {
-            string dirIN = textBox2_dirIn.Text;
-            string dirOut = textBox3_dirOut.Text;
-
-            perebor_updates(dirIN, dirOut);
-
-            // рекурсивный метод который копирует паку с вложениями
-            void perebor_updates(string begin_dir, string end_dir)
-            {
-                //Берём нашу исходную папку
-                DirectoryInfo dir_inf = new DirectoryInfo(begin_dir);
-                try
-                {
-                    //Перебираем все внутренние папки
-                    foreach (DirectoryInfo dir in dir_inf.GetDirectories())
-                    {
-                        //Проверяем - если директории не существует, то создаём;
-                        if (Directory.Exists(end_dir + "\\" + dir.Name) != true)
-                        {
-                            Directory.CreateDirectory(end_dir + "\\" + dir.Name);
-                        }
-
-                        //Рекурсия (перебираем вложенные папки и делаем для них то-же самое).
-                        perebor_updates(dir.FullName, end_dir + "\\" + dir.Name);
-                    }
-
-                    //Перебираем файлики в папке источнике.
-                    foreach (string file in Directory.GetFiles(begin_dir))
-                    {
-                        //Определяем (отделяем) имя файла с расширением - без пути (но с слешем "\").
-                        string filik = file.Substring(file.LastIndexOf('\\'), file.Length - file.LastIndexOf('\\'));
-                        //Копируем файлик с перезаписью из источника в приёмник.
-                        File.Copy(file, end_dir + "\\" + filik, true);
-                    }
-
-                    textBox1.Text = "Католог со всеми вложениями скопирован.";
-                }
-                catch
-                {
-                    MessageBox.Show("Невозможный путь");
-                }
-
-            }
-        }
-
         private async void button4Search_Click(object sender, EventArgs e)
         {
             string dirIn = textBox2_dirIn.Text;
@@ -94,22 +47,23 @@ namespace FilesMouver
             await processAnalizator;
             
             stopwatch.Stop();
-            string executionTime = stopwatch.Elapsed.TotalSeconds.ToString();
-            
+            string executionTime = stopwatch.Elapsed.TotalSeconds.ToString();//время выполнения метода Analizator
+
             timer1.Enabled = false;
+            
             progressBar1.Value = progressBar1.Maximum;
 
             if (Analizator.ErrMessage.Length == 0)
             {
                 var DbManager = await PostgreSqlManager.CreateObjectAsync();
-                var MatchCount = await DbManager.GetMatchCountAsync();//запрос бд количество строк по последней дате
+                var MatchCount = await DbManager.GetMatchCountAsync();//запрос бд количество строк последнего поиска
 
                 textBox_log.Text = $"{Analizator.Status}\r\nвремя выполнения: {executionTime} сек\r\nколичество совпадений: {MatchCount}";
 
                 var FindedWordsCount = await DbManager.GetFindedWordsCount();//запрос бд количество строк с каждым уникальным значением 
                 foreach (var word in FindedWordsCount)
                 {
-                    textBox_log.Text += "\r\nслово: " + word.ToString() + " раз";
+                    textBox_log.Text += "\r\nфайлов со словом: " + word.ToString() + " шт";
                 }
                 if (DbManager.ErrorsMessage.Length > 0)
                 {

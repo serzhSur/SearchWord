@@ -118,7 +118,7 @@ namespace FilesMove.Classes
 
                     if (sovpadenie == true)
                     {
-                       await DbManager.InsertDataAsync(nameOfFile, dirIn, keyWord, sovpadenie, dirOutPath, timeNow.ToString());
+                       await DbManager.InsertDataAsync(new SearchResult(nameOfFile, dirIn, keyWord, sovpadenie, dirOutPath, timeNow.ToString()) );
                         // MoveFileTo(file);
                     }
                     else
