@@ -57,13 +57,13 @@ namespace FilesMouver
 
             if (Analizator.ErrMessage.Length == 0)
             {
-                var DbManager = await PostgreSqlManager.CreateObjectAsync();
+                var DbManager = new PostgreSqlManager();//.CreateObjectAsync();
                 
                 //из последнего поиска считает количество файлов в которых есть заданные ключевые слова
                 var countMatches = await DbManager.CountMatchesAsync();
                 textBox_log.Text = $"{Analizator.Status}\r\nвремя выполнения: {executionTime} сек\r\nколичество совпадений: {countMatches}";
 
-                //из последнего поска считает в скольки файлах есть ключевое слово 
+                //из последнего поиска считает в скольки файлах есть ключевое слово 
                 var countFilesByWord = new List<SearchResult>(await DbManager.CountFilesByMatchesAsync());
                 foreach (SearchResult C in countFilesByWord)
                 {

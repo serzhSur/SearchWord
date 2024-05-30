@@ -51,7 +51,9 @@ namespace FilesMove.Classes
         {
             Status = "Выполняется...";
 
-            var DbManager = await PostgreSqlManager.CreateObjectAsync(); //Подключение к базе данных
+            var DbManager = new PostgreSqlManager();//подключение к серверу и создание БД если ее нет
+            await DbManager.CreateTableAsync();//создание таблицы если ее нет
+
             if (DbManager.ErrorsMessage.Length > 0)
             {
                 ErrMessage = $"class PostgreSqlManager {DbManager.ErrorsMessage}";

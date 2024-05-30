@@ -23,35 +23,22 @@ namespace FileMover.Classes
         private NpgsqlConnection Connector; 
         public string ErrorsMessage { get; private set; } = "";
 
-        public static async Task<PostgreSqlManager> CreateObjectAsync()
-        {
-            var postgreSqlManager = new PostgreSqlManager();
-
-            await postgreSqlManager.InitializeAsync();
-
-            return postgreSqlManager;
-        }
-        private PostgreSqlManager()
-        {
-        }
-        private async Task InitializeAsync()
+        public PostgreSqlManager()
         {
             try
             {
-                await CreateDataBaseAsync();
-
+                CreateDataBase();
+                
                 Connector = new NpgsqlConnection(ConnactionString);
                 Connector.Open();
-
-                await CreateTableAsync(TableName);
-
             }
             catch (Exception ex)
             {
                 ErrorsMessage = ex.Message;
             }
         }
-        public async Task CreateDataBaseAsync()
+        
+        public void CreateDataBase()
         {
             try
             {
@@ -64,12 +51,12 @@ namespace FileMover.Classes
                     {
                         cmd.Connection = connection;
                         cmd.CommandText = $"SELECT EXISTS (SELECT 1 FROM pg_database WHERE datname = '{DbName}');";
-                        var result = await cmd.ExecuteScalarAsync();
+                        var result = cmd.ExecuteScalar();
 
                         if ((bool)result == false)
                         {
                             cmd.CommandText = $"CREATE DATABASE  {DbName}";
-                            await cmd.ExecuteNonQueryAsync();
+                            cmd.ExecuteNonQueryAsync();
                         }
                     }
                     
@@ -81,8 +68,7 @@ namespace FileMover.Classes
             }
 
         }
-
-        public async Task CreateTableAsync(string TableName)
+        public async Task CreateTableAsync()
         {
             try
             {
@@ -151,7 +137,6 @@ namespace FileMover.Classes
             }
 
         }
-
         public async Task<int> CountMatchesAsync()
         {
             int rezult = -1;
@@ -161,19 +146,6 @@ namespace FileMover.Classes
                                     $"WHERE day_time = (SELECT day_time FROM {TableName} ORDER BY id DESC LIMIT 1)";
 
                 rezult = Convert.ToInt32(await Connector.ExecuteScalarAsync(sqlCommand));
-                /*
-                using (var cmd = new NpgsqlCommand())
-                {
-                    cmd.Connection = Connector;
-
-                    cmd.CommandText = $"SELECT count(*) FROM {TableName} " +
-                                      $"where day_time = (SELECT day_time FROM {TableName} ORDER BY id DESC LIMIT 1)";
-
-                    var reader = await cmd.ExecuteScalarAsync();
-
-                    rezult = Convert.ToInt32(reader);
-                }
-                */
             }
             catch (Exception ex)
             {
@@ -183,46 +155,16 @@ namespace FileMover.Classes
         }
         public async Task<IEnumerable<SearchResult>> CountFilesByMatchesAsync()
         {
-            string sqlCommand = $"SELECT key_word, count(*)  FROM {TableName} " +
+                string sqlCommand = $"SELECT key_word, count(*)  FROM {TableName} " +
                                 $"where day_time = (SELECT day_time FROM {TableName} ORDER BY id DESC LIMIT 1) " +
                                 $"GROUP by key_word";
-            return await Connector.QueryAsync<SearchResult>(sqlCommand);
+
+                return await Connector.QueryAsync<SearchResult>(sqlCommand);
         }
-
-        /*
-        public async Task<List<string>> GetFindedWordsCount()
-        {
-            var result = new List<string>();
-            try
-            {
-                using (var cmd = new NpgsqlCommand())
-                {
-                    cmd.Connection = Connector;
-
-                    cmd.CommandText = $"SELECT key_word, count(*)  FROM {TableName} " +
-                                      $"where day_time = (SELECT day_time FROM {TableName} ORDER BY day_time desc LIMIT 1) " +
-                                      $"GROUP by key_word;";
-                    var reader = await cmd.ExecuteReaderAsync();
-                    
-                    while (await reader.ReadAsync())
-                    {
-                        result.Add(reader[0] as string + " " + reader[1]);
-                    }
-
-                }
-            }
-            catch (Exception ex)
-            {
-                ErrorsMessage = ex.Message;
-            }
-            return result;
-        }
-        */
         public void CloseConnection()
         {
             Connector.Close();
         }
-
         public async Task<IEnumerable<SearchResult>> GetAllRowsLastSearchAsync()//выдает все записи из последнего поиска совпадений
         {
             string sql = $"SELECT * FROM {TableName} WHERE day_time = (SELECT day_time FROM {TableName} ORDER BY id DESC LIMIT 1)";
