@@ -16,6 +16,7 @@ namespace FileMover.Classes
         public bool match { get; set; }
         public string dir_out { get; set; }
         public string day_time { get; set; }
+        public int count { get; set; }
         public SearchResult() { }
         public SearchResult(int id, string file_name, string dir_in, string key_word, bool match, string dir_out, string day_time)
         {

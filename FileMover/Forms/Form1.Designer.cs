@@ -71,7 +71,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(14, 364);
+            button4.Location = new Point(14, 389);
             button4.Name = "button4";
             button4.Size = new Size(94, 29);
             button4.TabIndex = 13;
@@ -81,7 +81,7 @@
             // 
             // button5
             // 
-            button5.Location = new Point(142, 364);
+            button5.Location = new Point(141, 389);
             button5.Name = "button5";
             button5.Size = new Size(94, 29);
             button5.TabIndex = 14;
@@ -100,7 +100,7 @@
             textBox_log.Name = "textBox_log";
             textBox_log.RightToLeft = RightToLeft.No;
             textBox_log.ScrollBars = ScrollBars.Vertical;
-            textBox_log.Size = new Size(622, 120);
+            textBox_log.Size = new Size(622, 145);
             textBox_log.TabIndex = 15;
             // 
             // textBox1
@@ -146,10 +146,10 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(14, 399);
+            dataGridView1.Location = new Point(14, 424);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(622, 217);
+            dataGridView1.Size = new Size(622, 242);
             dataGridView1.TabIndex = 21;
             // 
             // Form1
@@ -157,7 +157,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveBorder;
-            ClientSize = new Size(643, 638);
+            ClientSize = new Size(643, 674);
             Controls.Add(dataGridView1);
             Controls.Add(textBox_pathWords);
             Controls.Add(textBox3);

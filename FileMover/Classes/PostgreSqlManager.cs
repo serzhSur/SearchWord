@@ -118,7 +118,7 @@ namespace FileMover.Classes
                                     $"VALUES (@file_name, @dir_in, @key_word, @match, @dir_out, @day_time)";
                 var queryArgyments = new
                 {
-                    file_name=sr.file_name,
+                    file_name = sr.file_name,
                     dir_in=sr.dir_in,
                     key_word=sr.key_word,
                     match=sr.match,
@@ -151,7 +151,7 @@ namespace FileMover.Classes
 
         }
 
-        public async Task<int> GetMatchCountAsync()
+        public async Task<int> CountMatchesAsync()
         {
             int rezult = -1;
             try
@@ -216,15 +216,15 @@ namespace FileMover.Classes
         }
         public void CloseConnection()
         {
-
             Connector.Close();
         }
 
-        public IEnumerable<SearchResult> GetAllRows()
+        public async Task<IEnumerable<SearchResult>> GetAllRowsLastSearchAsync()
         {
-            string sql = $"SELECT * FROM {TableName}";
-            return Connector.Query<SearchResult>(sql);
-
+            string sql = $"SELECT * FROM {TableName} " +
+                         $"WHERE day_time = (SELECT day_time FROM {TableName} ORDER BY day_time DESC LIMIT 1)";
+                         
+            return await Connector.QueryAsync<SearchResult>(sql);
         }
     }
     

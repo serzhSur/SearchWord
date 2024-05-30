@@ -15,7 +15,7 @@ namespace FilesMouver
 {
     public partial class Form1 : Form
     {
-        CancellationTokenSource cts = null;// new CancellationTokenSource();
+        CancellationTokenSource cts = null;
 
         internal AnalizFile Analizator { get; private set; }
 
@@ -39,17 +39,17 @@ namespace FilesMouver
 
             Analizator = new AnalizFile(dirIn, slovoPath, dirOut);
             var processAnalizator = Analizator.SerchInDirectoryAsync(token);
-            //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectoryAsync до строки await;
 
+            //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectoryAsync до строки await;
             textBox_log.BackColor = Color.White;
             textBox_log.Text = $"{Analizator.Status}";
             timer1.Enabled = true;
 
 
             await processAnalizator;
-
-            stopwatch.Stop();
-            string executionTime = stopwatch.Elapsed.TotalSeconds.ToString();//время выполнения метода Analizator
+            
+            stopwatch.Stop();//фиксация времени выполнения метода SerchInDirectoryAsync
+            string executionTime = stopwatch.Elapsed.TotalSeconds.ToString();
 
             timer1.Enabled = false;
 
@@ -58,24 +58,20 @@ namespace FilesMouver
             if (Analizator.ErrMessage.Length == 0)
             {
                 var DbManager = await PostgreSqlManager.CreateObjectAsync();
-                var MatchCount = await DbManager.GetMatchCountAsync();//запрос бд количество строк последнего поиска
+                
+                //из последнего поиска считает количество файлов в которых есть заданные ключевые слова
+                var countMatches = await DbManager.CountMatchesAsync();
+                textBox_log.Text = $"{Analizator.Status}\r\nвремя выполнения: {executionTime} сек\r\nколичество совпадений: {countMatches}";
 
-                textBox_log.Text = $"{Analizator.Status}\r\nвремя выполнения: {executionTime} сек\r\nколичество совпадений: {MatchCount}";
-
-                /*
-                var FindedWordsCount = await DbManager.GetFindedWordsCount();//запрос бд количество строк с каждым уникальным значением 
-                foreach (var word in FindedWordsCount)
+                //из последнего поска считает в скольки файлах есть ключевое слово 
+                var countFilesByWord = new List<SearchResult>(await DbManager.CountFilesByMatchesAsync());
+                foreach (SearchResult C in countFilesByWord)
                 {
-                    textBox_log.Text += "\r\nфайлов со словом: " + word.ToString() + " шт";
-                }
-                */
-                var countMatches = new List<SearchResult>(await DbManager.CountFilesByMatchesAsync());
-                foreach (SearchResult C in countMatches)
-                {
-                    textBox_log.Text += $"\r\nфайлов со словом: {C.key_word} шт";
+                    textBox_log.Text += $"\r\nфайлов со словом: {C.key_word} = {C.count}шт";
                 }
                 
-                dataGridView1.DataSource =  DbManager.GetAllRows();
+                // показывает в dataGridView1 все строки из последнего поиска
+                dataGridView1.DataSource = await DbManager.GetAllRowsLastSearchAsync();
 
                 if (DbManager.ErrorsMessage.Length > 0)
                 {
