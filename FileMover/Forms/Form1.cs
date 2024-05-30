@@ -73,6 +73,10 @@ namespace FilesMouver
                 // показывает в dataGridView1 все строки из последнего поиска
                 dataGridView1.DataSource = await DbManager.GetAllRowsLastSearchAsync();
 
+                label1.Text = $"¬сего запросов: {new List<SearchResult>(DbManager.TotalRequests()).Count.ToString()}";
+
+                label2.Text = $"¬сего записей: {DbManager.TotalRows().ToString()}";
+                
                 if (DbManager.ErrorsMessage.Length > 0)
                 {
                     textBox_log.BackColor = Color.LightCoral;

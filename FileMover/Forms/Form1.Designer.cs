@@ -41,6 +41,8 @@
             textBox_pathWords = new TextBox();
             timer1 = new System.Windows.Forms.Timer(components);
             dataGridView1 = new DataGridView();
+            label1 = new Label();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -71,22 +73,24 @@
             // 
             // button4
             // 
+            button4.BackColor = SystemColors.ActiveCaption;
             button4.Location = new Point(14, 389);
             button4.Name = "button4";
             button4.Size = new Size(94, 29);
             button4.TabIndex = 13;
             button4.Text = "Start";
-            button4.UseVisualStyleBackColor = true;
+            button4.UseVisualStyleBackColor = false;
             button4.Click += button4Search_Click;
             // 
             // button5
             // 
+            button5.BackColor = SystemColors.ActiveCaption;
             button5.Location = new Point(141, 389);
             button5.Name = "button5";
             button5.Size = new Size(94, 29);
             button5.TabIndex = 14;
             button5.Text = "Stop";
-            button5.UseVisualStyleBackColor = true;
+            button5.UseVisualStyleBackColor = false;
             button5.Click += button5_Click;
             // 
             // textBox_log
@@ -152,12 +156,32 @@
             dataGridView1.Size = new Size(622, 242);
             dataGridView1.TabIndex = 21;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(14, 669);
+            label1.Name = "label1";
+            label1.Size = new Size(125, 20);
+            label1.TabIndex = 22;
+            label1.Text = "Всего запросов: ";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(255, 669);
+            label2.Name = "label2";
+            label2.Size = new Size(116, 20);
+            label2.TabIndex = 23;
+            label2.Text = "Всего записей: ";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveBorder;
-            ClientSize = new Size(643, 674);
+            ClientSize = new Size(643, 714);
+            Controls.Add(label2);
+            Controls.Add(label1);
             Controls.Add(dataGridView1);
             Controls.Add(textBox_pathWords);
             Controls.Add(textBox3);
@@ -190,5 +214,7 @@
         private TextBox textBox_pathWords;
         private System.Windows.Forms.Timer timer1;
         private DataGridView dataGridView1;
+        private Label label1;
+        private Label label2;
     }
 }

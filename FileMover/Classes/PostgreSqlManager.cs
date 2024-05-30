@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using System.Configuration;
 using System.Data;
 using System.IO;
+using System.Collections;
 
 
 namespace FileMover.Classes
@@ -157,16 +158,16 @@ namespace FileMover.Classes
             try
             {
                 string sqlCommand = $"SELECT count(*) FROM {TableName} " +
-                                    $"WHERE day_time = (SELECT day_time FROM {TableName} ORDER BY day_time desc LIMIT 1)";
-                rezult = Convert.ToInt32( await Connector.ExecuteScalarAsync(sqlCommand));
-                return rezult;
+                                    $"WHERE day_time = (SELECT day_time FROM {TableName} ORDER BY id DESC LIMIT 1)";
+
+                rezult = Convert.ToInt32(await Connector.ExecuteScalarAsync(sqlCommand));
                 /*
                 using (var cmd = new NpgsqlCommand())
                 {
                     cmd.Connection = Connector;
 
                     cmd.CommandText = $"SELECT count(*) FROM {TableName} " +
-                                      $"where day_time = (SELECT day_time FROM {TableName} ORDER BY day_time desc LIMIT 1);";
+                                      $"where day_time = (SELECT day_time FROM {TableName} ORDER BY id DESC LIMIT 1)";
 
                     var reader = await cmd.ExecuteScalarAsync();
 
@@ -183,10 +184,12 @@ namespace FileMover.Classes
         public async Task<IEnumerable<SearchResult>> CountFilesByMatchesAsync()
         {
             string sqlCommand = $"SELECT key_word, count(*)  FROM {TableName} " +
-                                $"where day_time = (SELECT day_time FROM {TableName} ORDER BY day_time desc LIMIT 1) " +
-                                $"GROUP by key_word;";
+                                $"where day_time = (SELECT day_time FROM {TableName} ORDER BY id DESC LIMIT 1) " +
+                                $"GROUP by key_word";
             return await Connector.QueryAsync<SearchResult>(sqlCommand);
         }
+
+        /*
         public async Task<List<string>> GetFindedWordsCount()
         {
             var result = new List<string>();
@@ -214,18 +217,31 @@ namespace FileMover.Classes
             }
             return result;
         }
+        */
         public void CloseConnection()
         {
             Connector.Close();
         }
 
-        public async Task<IEnumerable<SearchResult>> GetAllRowsLastSearchAsync()
+        public async Task<IEnumerable<SearchResult>> GetAllRowsLastSearchAsync()//выдает все записи из последнего поиска совпадений
         {
-            string sql = $"SELECT * FROM {TableName} " +
-                         $"WHERE day_time = (SELECT day_time FROM {TableName} ORDER BY day_time DESC LIMIT 1)";
+            string sql = $"SELECT * FROM {TableName} WHERE day_time = (SELECT day_time FROM {TableName} ORDER BY id DESC LIMIT 1)";
                          
             return await Connector.QueryAsync<SearchResult>(sql);
         }
+        public IEnumerable<SearchResult> TotalRequests()
+        {
+            string sql = $"SELECT day_time, count(id) FROM {TableName} GROUP by day_time";
+            
+            return Connector.Query<SearchResult>(sql);
+        }
+        public int TotalRows()
+        {
+            string slq = $"SELECT count(*) FROM {TableName}";
+
+            return Connector.ExecuteScalar<int>(slq);
+        }
+
     }
     
 }
