@@ -40,11 +40,13 @@
             textBox3 = new TextBox();
             textBox_pathWords = new TextBox();
             timer1 = new System.Windows.Forms.Timer(components);
+            dataGridView1 = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // textBox2_dirIn
             // 
-            textBox2_dirIn.Location = new Point(14, 72);
+            textBox2_dirIn.Location = new Point(14, 45);
             textBox2_dirIn.Name = "textBox2_dirIn";
             textBox2_dirIn.Size = new Size(622, 27);
             textBox2_dirIn.TabIndex = 3;
@@ -52,15 +54,15 @@
             // 
             // textBox3_dirOut
             // 
-            textBox3_dirOut.Location = new Point(14, 149);
+            textBox3_dirOut.Location = new Point(14, 111);
             textBox3_dirOut.Name = "textBox3_dirOut";
-            textBox3_dirOut.Size = new Size(620, 27);
+            textBox3_dirOut.Size = new Size(622, 27);
             textBox3_dirOut.TabIndex = 5;
             textBox3_dirOut.Text = "d:\\temp\\out\\";
             // 
             // progressBar1
             // 
-            progressBar1.Location = new Point(11, 399);
+            progressBar1.Location = new Point(14, 210);
             progressBar1.Name = "progressBar1";
             progressBar1.Size = new Size(625, 22);
             progressBar1.Step = 1;
@@ -69,7 +71,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(11, 441);
+            button4.Location = new Point(14, 364);
             button4.Name = "button4";
             button4.Size = new Size(94, 29);
             button4.TabIndex = 13;
@@ -79,7 +81,7 @@
             // 
             // button5
             // 
-            button5.Location = new Point(123, 441);
+            button5.Location = new Point(142, 364);
             button5.Name = "button5";
             button5.Size = new Size(94, 29);
             button5.TabIndex = 14;
@@ -93,7 +95,7 @@
             textBox_log.AcceptsTab = true;
             textBox_log.AllowDrop = true;
             textBox_log.BackColor = Color.White;
-            textBox_log.Location = new Point(11, 272);
+            textBox_log.Location = new Point(14, 238);
             textBox_log.Multiline = true;
             textBox_log.Name = "textBox_log";
             textBox_log.RightToLeft = RightToLeft.No;
@@ -104,7 +106,7 @@
             // textBox1
             // 
             textBox1.BackColor = Color.Silver;
-            textBox1.Location = new Point(14, 36);
+            textBox1.Location = new Point(14, 12);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(622, 27);
             textBox1.TabIndex = 16;
@@ -113,7 +115,7 @@
             // textBox2
             // 
             textBox2.BackColor = Color.Silver;
-            textBox2.Location = new Point(14, 113);
+            textBox2.Location = new Point(14, 78);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(622, 27);
             textBox2.TabIndex = 17;
@@ -122,7 +124,7 @@
             // textBox3
             // 
             textBox3.BackColor = Color.Silver;
-            textBox3.Location = new Point(11, 187);
+            textBox3.Location = new Point(14, 144);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(622, 27);
             textBox3.TabIndex = 18;
@@ -130,9 +132,9 @@
             // 
             // textBox_pathWords
             // 
-            textBox_pathWords.Location = new Point(11, 223);
+            textBox_pathWords.Location = new Point(14, 177);
             textBox_pathWords.Name = "textBox_pathWords";
-            textBox_pathWords.Size = new Size(620, 27);
+            textBox_pathWords.Size = new Size(622, 27);
             textBox_pathWords.TabIndex = 19;
             textBox_pathWords.Text = "d:\\temp\\Words\\Words.txt";
             // 
@@ -141,12 +143,22 @@
             timer1.Interval = 500;
             timer1.Tick += timer1_Tick;
             // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(14, 399);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.Size = new Size(622, 217);
+            dataGridView1.TabIndex = 21;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveBorder;
-            ClientSize = new Size(646, 485);
+            ClientSize = new Size(643, 638);
+            Controls.Add(dataGridView1);
             Controls.Add(textBox_pathWords);
             Controls.Add(textBox3);
             Controls.Add(textBox2);
@@ -160,6 +172,7 @@
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Поиск слов в файлах";
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -176,5 +189,6 @@
         private TextBox textBox3;
         private TextBox textBox_pathWords;
         private System.Windows.Forms.Timer timer1;
+        private DataGridView dataGridView1;
     }
 }

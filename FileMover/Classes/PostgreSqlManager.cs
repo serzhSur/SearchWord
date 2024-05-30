@@ -94,7 +94,7 @@ namespace FileMover.Classes
                     if ((bool)result == false)
                     {
                         cmd.CommandText = $"CREATE TABLE {TableName}" +
-                                      "(Id SERIAL PRIMARY KEY, file_name VARCHAR(255)," +
+                                      "(id SERIAL PRIMARY KEY, file_name VARCHAR(255)," +
                                       "dir_in VARCHAR(255), key_word VARCHAR(255)," +
                                       "match BOOLEAN, dir_out VARCHAR(255)," +
                                       "day_time VARCHAR(255));";
@@ -118,12 +118,12 @@ namespace FileMover.Classes
                                     $"VALUES (@file_name, @dir_in, @key_word, @match, @dir_out, @day_time)";
                 var queryArgyments = new
                 {
-                    file_name=sr.FileName,
-                    dir_in=sr.DirIn,
-                    key_word=sr.KeyWord,
-                    match=sr.Match,
-                    dir_out=sr.DirOut,
-                    day_time=sr.DayTime,
+                    file_name=sr.file_name,
+                    dir_in=sr.dir_in,
+                    key_word=sr.key_word,
+                    match=sr.match,
+                    dir_out=sr.dir_out,
+                    day_time=sr.day_time,
                 };
                 await Connector.ExecuteAsync(sqlCommand, queryArgyments);
                 /*
@@ -180,7 +180,13 @@ namespace FileMover.Classes
             }
             return rezult;
         }
-
+        public async Task<IEnumerable<SearchResult>> CountFilesByMatchesAsync()
+        {
+            string sqlCommand = $"SELECT key_word, count(*)  FROM {TableName} " +
+                                $"where day_time = (SELECT day_time FROM {TableName} ORDER BY day_time desc LIMIT 1) " +
+                                $"GROUP by key_word;";
+            return await Connector.QueryAsync<SearchResult>(sqlCommand);
+        }
         public async Task<List<string>> GetFindedWordsCount()
         {
             var result = new List<string>();
@@ -194,7 +200,7 @@ namespace FileMover.Classes
                                       $"where day_time = (SELECT day_time FROM {TableName} ORDER BY day_time desc LIMIT 1) " +
                                       $"GROUP by key_word;";
                     var reader = await cmd.ExecuteReaderAsync();
-                    //var result = new List<string>();
+                    
                     while (await reader.ReadAsync())
                     {
                         result.Add(reader[0] as string + " " + reader[1]);
@@ -214,10 +220,10 @@ namespace FileMover.Classes
             Connector.Close();
         }
 
-        public async Task<IEnumerable<SearchResult>> GetAllRows()
+        public IEnumerable<SearchResult> GetAllRows()
         {
-
-                return await Connector.QueryAsync<SearchResult>($"SELECT count(*) FROM {TableName};");
+            string sql = $"SELECT * FROM {TableName}";
+            return Connector.Query<SearchResult>(sql);
 
         }
     }
