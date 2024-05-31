@@ -12,12 +12,8 @@ namespace FileMover.Classes
 {
     internal class FrontManager: PostgreSqlManager
     {
-        //public PostgreSqlManager DbManager { get; set; }
         public string executionTime { get; set; }
-        public FrontManager()//PostgreSqlManager dbManager)
-        {
-            //DbManager = dbManager;
-        }
+        public FrontManager() { }
 
         public async Task ShowFrontAsync(TextBox textBox, DataGridView dgv, System.Windows.Forms.Label lab1, System.Windows.Forms.Label lab2)
         {

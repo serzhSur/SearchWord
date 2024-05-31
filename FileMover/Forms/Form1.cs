@@ -41,6 +41,7 @@ namespace FilesMouver
 
             //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectoryAsync до строки await
             textBox_log.BackColor = Color.White;
+            progressBar1.Value = progressBar1.Minimum;
             textBox_log.Text = $"{Analizator.Status}";
             timer1.Enabled = true;
 
