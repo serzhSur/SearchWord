@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace FilesMove.Classes
 {
-    internal class StartSearch
+    internal class SearchSposobManager
     {
         public bool Sovpadenie { get; set; }
 
-        public void FinedWord(ISearch sposob)
+        public void SelectSposob(ISearch sposob)
         {
             if (sposob != null)
             {

@@ -17,7 +17,7 @@ namespace FilesMove.Classes
         private string slovoPath;
         private string dirOutPath;
         private bool sovpadenie = false;
-        private StartSearch startsearch;
+        private SearchSposobManager startsearch;
 
         public string ErrMessage { get; private set; } = "";
         public string Status { get; private set; }
@@ -33,7 +33,7 @@ namespace FilesMove.Classes
 
             try
             {
-                startsearch = new StartSearch();
+                startsearch = new SearchSposobManager();
 
                 SpisokSlov = File.ReadAllLines(slovoPath);// один раз считываем слова 
                 if (SpisokSlov.Length < 1)
@@ -105,10 +105,10 @@ namespace FilesMove.Classes
                         }
                         //выбирается метод(4шт) которым будет осуществлятся поиск
 
-                        //await Task.Run(()=> startsearch.FinedWord(new SearchSposobOne(text, slovo)));
-                        //await Task.Run(() => startsearch.FinedWord(new SearchSposobTwo(text, slovo)));
-                        //await Task.Run(() => startsearch.FinedWord(new SearchSposobLinq(text,slovo)));
-                        await Task.Run(() => startsearch.FinedWord(new SearchSposobRegex(text, slovo)));
+                        //await Task.Run(()=> startsearch.SelectSposob(new SearchSposobOne(text, slovo)));
+                        //await Task.Run(() => startsearch.SelectSposob(new SearchSposobTwo(text, slovo)));
+                        //await Task.Run(() => startsearch.SelectSposob(new SearchSposobLinq(text,slovo)));
+                        await Task.Run(() => startsearch.SelectSposob(new SearchSposobRegex(text, slovo)));
 
                         sovpadenie = startsearch.Sovpadenie;
                         if (sovpadenie)

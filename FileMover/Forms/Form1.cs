@@ -27,8 +27,8 @@ namespace FilesMouver
         private async void button4Search_Click(object sender, EventArgs e)
         {
             string dirIn = textBox2_dirIn.Text;
-            string slovoPath = textBox_pathWords.Text;
             string dirOut = textBox3_dirOut.Text;
+            string slovoPath = textBox_pathWords.Text;
 
             cts = new CancellationTokenSource();
             CancellationToken token = cts.Token;
@@ -37,7 +37,7 @@ namespace FilesMouver
             stopwatch.Start();
 
             Analizator = new AnalizFile(dirIn, slovoPath, dirOut);
-            var processAnalizator = Analizator.SerchInDirectoryAsync(token);
+            var processAnaliza = Analizator.SerchInDirectoryAsync(token);
 
             //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectoryAsync до строки await
             textBox_log.BackColor = Color.White;
@@ -46,8 +46,7 @@ namespace FilesMouver
             timer1.Enabled = true;
 
            
-            
-            await processAnalizator;
+            await processAnaliza;
             
             stopwatch.Stop();//фиксация времени выполнения метода SerchInDirectoryAsync
             string executionTime = stopwatch.Elapsed.TotalSeconds.ToString();
@@ -60,18 +59,16 @@ namespace FilesMouver
             {
                 textBox_log.Text = $"{Analizator.Status}";
 
-                var DbManager = new PostgreSqlManager();
 
-                var front = new FrontManager();//DbManager);
+                var front = new FrontManager();
                 front.executionTime = executionTime;
                 await front.ShowFrontAsync(textBox_log, dataGridView1, label1, label2);
                 
-                if (DbManager.ErrorsMessage.Length > 0)
+                if (front.ErrorsMessage.Length > 0)
                 {
                     textBox_log.BackColor = Color.LightCoral;
-                    textBox_log.Text = $"class PostgreSqlManager {DbManager.ErrorsMessage}";
+                    textBox_log.Text = $"class PostgreSqlManager {front.ErrorsMessage}";
                 }
-                
             }
 
             if (Analizator.ErrMessage.Length > 0)
@@ -100,10 +97,9 @@ namespace FilesMouver
                 textBox_log.Text = ex.Message;
 
             }
-
-
         }
 
-      
+
+
     }
 }
