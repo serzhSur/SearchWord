@@ -16,13 +16,12 @@ namespace FilesMouver
     public partial class Form1 : Form
     {
         CancellationTokenSource cts = null;
-
         internal AnalizFile Analizator { get; private set; }
 
         public Form1()
         {
             InitializeComponent();
-
+            
         }
 
         private async void button4Search_Click(object sender, EventArgs e)
@@ -40,12 +39,13 @@ namespace FilesMouver
             Analizator = new AnalizFile(dirIn, slovoPath, dirOut);
             var processAnalizator = Analizator.SerchInDirectoryAsync(token);
 
-            //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectoryAsync до строки await;
+            //остальные действия в программе пока выполняется процесс Analizator.SerchInDirectoryAsync до строки await
             textBox_log.BackColor = Color.White;
             textBox_log.Text = $"{Analizator.Status}";
             timer1.Enabled = true;
 
-
+           
+            
             await processAnalizator;
             
             stopwatch.Stop();//фиксация времени выполнения метода SerchInDirectoryAsync
@@ -57,33 +57,20 @@ namespace FilesMouver
 
             if (Analizator.ErrMessage.Length == 0)
             {
-                var DbManager = new PostgreSqlManager();//.CreateObjectAsync();
-                
-                //из последнего поиска считает количество файлов в которых есть заданные ключевые слова
-                var countMatches = await DbManager.CountMatchesAsync();
-                textBox_log.Text = $"{Analizator.Status}\r\nвремя выполнения: {executionTime} сек\r\nколичество совпадений: {countMatches}";
+                textBox_log.Text = $"{Analizator.Status}";
 
-                //из последнего поиска считает в скольки файлах есть ключевое слово 
-                var countFilesByWord = new List<SearchResult>(await DbManager.CountFilesByMatchesAsync());
-                foreach (SearchResult C in countFilesByWord)
-                {
-                    textBox_log.Text += $"\r\nфайлов со словом: {C.key_word} = {C.count}шт";
-                }
-                
-                // показывает в dataGridView1 все строки из последнего поиска
-                dataGridView1.DataSource = await DbManager.GetAllRowsLastSearchAsync();
+                var DbManager = new PostgreSqlManager();
 
-                label1.Text = $"Всего запросов: {new List<SearchResult>(DbManager.TotalRequests()).Count.ToString()}";
-
-                label2.Text = $"Всего записей: {DbManager.TotalRows().ToString()}";
+                var front = new FrontManager();//DbManager);
+                front.executionTime = executionTime;
+                await front.ShowFrontAsync(textBox_log, dataGridView1, label1, label2);
                 
                 if (DbManager.ErrorsMessage.Length > 0)
                 {
                     textBox_log.BackColor = Color.LightCoral;
                     textBox_log.Text = $"class PostgreSqlManager {DbManager.ErrorsMessage}";
                 }
-
-                DbManager.CloseConnection();
+                
             }
 
             if (Analizator.ErrMessage.Length > 0)

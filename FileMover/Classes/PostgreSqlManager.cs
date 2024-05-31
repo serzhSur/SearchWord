@@ -15,11 +15,11 @@ using System.Collections;
 
 namespace FileMover.Classes
 {
-    internal class PostgreSqlManager
+    public class PostgreSqlManager
     {
         private string DbName = ConfigurationManager.AppSettings["Database"];
         private string TableName = ConfigurationManager.AppSettings["tableName"];
-        private readonly string ConnactionString = ConfigurationManager.ConnectionStrings["conDb"].ConnectionString;
+        private readonly string ConnactionString = ConfigurationManager.ConnectionStrings["DbCon"].ConnectionString;
         private NpgsqlConnection Connector; 
         public string ErrorsMessage { get; private set; } = "";
 
@@ -42,7 +42,7 @@ namespace FileMover.Classes
         {
             try
             {
-                string connactionString = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+                string connactionString = ConfigurationManager.ConnectionStrings["ServerCon"].ConnectionString;
                 using (var connection = new NpgsqlConnection(connactionString))
                 {
                     connection.Open();
@@ -171,7 +171,7 @@ namespace FileMover.Classes
                          
             return await Connector.QueryAsync<SearchResult>(sql);
         }
-        public IEnumerable<SearchResult> TotalRequests()
+        public IEnumerable<SearchResult> TotalRequests()//сколько посков записано в БД
         {
             string sql = $"SELECT day_time, count(id) FROM {TableName} GROUP by day_time";
             

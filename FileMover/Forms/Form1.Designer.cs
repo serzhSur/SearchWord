@@ -213,8 +213,8 @@
         private TextBox textBox3;
         private TextBox textBox_pathWords;
         private System.Windows.Forms.Timer timer1;
-        private DataGridView dataGridView1;
-        private Label label1;
-        private Label label2;
+        public DataGridView dataGridView1;
+        public Label label1;
+        public Label label2;
     }
 }
