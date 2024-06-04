@@ -10,6 +10,7 @@ namespace FilesMove.Classes
     internal class SearchSposobTwo : ISearch
     {
         public bool Sovpadenie { get; set; }=false;
+        public string Name { get; set; } = "SearchSposob IndexOf";
 
         private string text;
         private string slovo;

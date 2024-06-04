@@ -17,7 +17,8 @@ namespace FilesMove.Classes
         private string slovoPath;
         private string dirOutPath;
         private bool sovpadenie = false;
-        private SearchSposobManager startsearch;
+        public SearchSposobManager startsearch { get; set; }
+        public string SposobSearching { get; set; }
 
         public string ErrMessage { get; private set; } = "";
         public string Status { get; private set; }
@@ -110,6 +111,8 @@ namespace FilesMove.Classes
                         //await Task.Run(() => startsearch.SelectSposob(new SearchSposobLinq(text,slovo)));
                         await Task.Run(() => startsearch.SelectSposob(new SearchSposobRegex(text, slovo)));
 
+                        SposobSearching = startsearch.Sposob;//способ поиска
+                        
                         sovpadenie = startsearch.Sovpadenie;
                         if (sovpadenie)
                         {

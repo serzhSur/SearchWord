@@ -21,7 +21,8 @@ namespace FilesMouver
         public Form1()
         {
             InitializeComponent();
-            
+            var frontTabSearch = new FrontManager();
+            frontTabSearch.FrontTabSearch(textBox2_dirIn,textBox3_dirOut,textBox_pathWords);
         }
 
         private async void button4Search_Click(object sender, EventArgs e)
@@ -60,9 +61,10 @@ namespace FilesMouver
                 textBox_log.Text = $"{Analizator.Status}";
 
 
-                var front = new FrontManager();
+                var front = new FrontManager(textBox4,dataGridView1, label1, label2, Analizator);
                 front.executionTime = executionTime;
-                await front.ShowFrontAsync(textBox_log, dataGridView1, label1, label2);
+               
+                await front.ShowFrontTabAnalizAsync();
                 
                 if (front.ErrorsMessage.Length > 0)
                 {

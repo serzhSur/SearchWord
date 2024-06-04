@@ -12,6 +12,7 @@ namespace FilesMove.Classes
     internal class SearchSposobRegex : ISearch
     {
         public bool Sovpadenie { get; set; } = false;
+        public string Name { get ; set ; } = "SearchSposob Regex";
 
         public string text;
         public string slovo;

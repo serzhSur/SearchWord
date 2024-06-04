@@ -1,6 +1,8 @@
 ﻿using FilesMouver;
+using FilesMove.Classes;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Emit;
@@ -10,31 +12,54 @@ using System.Windows.Forms;
 
 namespace FileMover.Classes
 {
-    internal class FrontManager: PostgreSqlManager
+    internal class FrontManager : PostgreSqlManager
     {
         public string executionTime { get; set; }
-        public FrontManager() { }
+        public AnalizFile SposobSerching { get; set; }
+        public TextBox TextBox { get; set; }
 
-        public async Task ShowFrontAsync(TextBox textBox, DataGridView dgv, System.Windows.Forms.Label lab1, System.Windows.Forms.Label lab2)
+
+        public DataGridView Dgw { get; set; }
+        public System.Windows.Forms.Label Lab1 { get; set; }
+        public System.Windows.Forms.Label Lab2 { get; set; }
+        public FrontManager() { }
+        public FrontManager(TextBox textBox, DataGridView Dgw, System.Windows.Forms.Label lab1, System.Windows.Forms.Label lab2, AnalizFile sposobSerching)
         {
-            textBox.Text += $"\r\nвремя выполнения: {executionTime}";
+            TextBox = textBox;
+            this.Dgw = Dgw;
+            Lab1 = lab1;
+            Lab2 = lab2;
+            SposobSerching = sposobSerching;
+        }
+        public void FrontTabSearch(TextBox dirIn, TextBox dirOut, TextBox keyWordDir)
+        {
+            dirIn.Text = ConfigurationManager.AppSettings["dirIn"];
+            dirOut.Text = ConfigurationManager.AppSettings["dirOut"];
+            keyWordDir.Text = ConfigurationManager.AppSettings["keyWordDir"];
+        }
+        public async Task ShowFrontTabAnalizAsync()
+        {
+            TextBox.Text += $"\r\ncпособ поиска: {SposobSerching.SposobSearching} ";
+
+            TextBox.Text += $"\r\nвремя выполнения: {executionTime}";
 
             var countMatches = await CountMatchesAsync();
-            textBox.Text += $"\r\nколичество файлов с совпадением: {countMatches}";
+            TextBox.Text += $"\r\nколичество файлов с совпадением: {countMatches}";
 
             //из последнего поиска считает в скольки файлах есть ключевое слово 
             var countFilesByWord = new List<SearchResult>(await CountFilesByMatchesAsync());
             foreach (SearchResult C in countFilesByWord)
             {
-                textBox.Text += $"\r\nфайлов со словом: {C.key_word} = {C.count}шт";
+                TextBox.Text += $"\r\nфайлов со словом: {C.key_word} = {C.count}шт";
             }
 
             // показывает в dataGridView1 все строки из последнего поиска
-            dgv.DataSource = await GetAllRowsLastSearchAsync();
+            Dgw.DataSource = await GetAllRowsLastSearchAsync();
 
-            lab1.Text = $"Всего запросов: {new List<SearchResult>(TotalRequests()).Count.ToString()}";
+            Lab1.Text = $"Всего запросов: {new List<SearchResult>(TotalRequests()).Count.ToString()}";
+
             
-            lab2.Text = $"Всего записей: {TotalRows().ToString()}";
+            Lab2.Text = $"Всего записей: {TotalRows().ToString()}";
 
             CloseConnection();
         }

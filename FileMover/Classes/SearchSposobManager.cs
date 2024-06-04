@@ -9,14 +9,18 @@ namespace FilesMove.Classes
     internal class SearchSposobManager
     {
         public bool Sovpadenie { get; set; }
+        public string Sposob {  get; set; }
+       
 
         public void SelectSposob(ISearch sposob)
         {
+            
             if (sposob != null)
             {
                 sposob.DoSearch();
 
                 Sovpadenie = sposob.Sovpadenie;
+                Sposob = sposob.Name;
             }
 
         }
