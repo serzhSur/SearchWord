@@ -17,7 +17,7 @@ namespace FilesMove.Classes
         private string slovoPath;
         private string dirOutPath;
         private bool sovpadenie = false;
-        public SearchSposobManager startsearch { get; set; }
+        public SearchSposobManager Startsearch { get; set; }
         public string SposobSearching { get; set; }
 
         public string ErrMessage { get; private set; } = "";
@@ -34,7 +34,7 @@ namespace FilesMove.Classes
 
             try
             {
-                startsearch = new SearchSposobManager();
+                Startsearch = new SearchSposobManager();
 
                 SpisokSlov = File.ReadAllLines(slovoPath);// один раз считываем слова 
                 if (SpisokSlov.Length < 1)
@@ -106,14 +106,14 @@ namespace FilesMove.Classes
                         }
                         //выбирается метод(4шт) которым будет осуществлятся поиск
 
-                        //await Task.Run(()=> startsearch.SelectSposob(new SearchSposobOne(text, slovo)));
-                        //await Task.Run(() => startsearch.SelectSposob(new SearchSposobTwo(text, slovo)));
-                        //await Task.Run(() => startsearch.SelectSposob(new SearchSposobLinq(text,slovo)));
-                        await Task.Run(() => startsearch.SelectSposob(new SearchSposobRegex(text, slovo)));
+                        //await Task.Run(()=> Startsearch.SelectSposob(new SearchSposobOne(text, slovo)));
+                        //await Task.Run(() => Startsearch.SelectSposob(new SearchSposobTwo(text, slovo)));
+                        //await Task.Run(() => Startsearch.SelectSposob(new SearchSposobLinq(text,slovo)));
+                        await Task.Run(() => Startsearch.SelectSposob(new SearchSposobRegex(text, slovo)));
 
-                        SposobSearching = startsearch.Sposob;//способ поиска
+                        SposobSearching = Startsearch.SposobName;//способ поиска
                         
-                        sovpadenie = startsearch.Sovpadenie;
+                        sovpadenie = Startsearch.Sovpadenie;
                         if (sovpadenie)
                         {
                             keyWord = slovo;

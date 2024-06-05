@@ -17,12 +17,13 @@ namespace FilesMouver
     {
         CancellationTokenSource cts = null;
         internal AnalizFile Analizator { get; private set; }
+        internal FrontManager FrontForTabStart { get; private set; }
 
         public Form1()
         {
             InitializeComponent();
-            var frontTabSearch = new FrontManager();
-            frontTabSearch.FrontTabSearch(textBox2_dirIn,textBox3_dirOut,textBox_pathWords);
+            FrontForTabStart = new FrontManager();
+            FrontForTabStart.FrontTabSearchLoadFromConfig(textBox2_dirIn,textBox3_dirOut,textBox_pathWords);
         }
 
         private async void button4Search_Click(object sender, EventArgs e)
@@ -30,6 +31,8 @@ namespace FilesMouver
             string dirIn = textBox2_dirIn.Text;
             string dirOut = textBox3_dirOut.Text;
             string slovoPath = textBox_pathWords.Text;
+
+            FrontForTabStart.SavePropertiesToConfigFile(textBox2_dirIn, textBox3_dirOut, textBox_pathWords);
 
             cts = new CancellationTokenSource();
             CancellationToken token = cts.Token;
@@ -61,15 +64,15 @@ namespace FilesMouver
                 textBox_log.Text = $"{Analizator.Status}";
 
 
-                var front = new FrontManager(textBox4,dataGridView1, label1, label2, Analizator);
-                front.executionTime = executionTime;
+                var frontForAnaliz = new FrontManager(Analizator);
+                frontForAnaliz.executionTime = executionTime;
                
-                await front.ShowFrontTabAnalizAsync();
+                await frontForAnaliz.ShowFrontTabAnalizAsync(textBox4, dataGridView1, label1, label2);
                 
-                if (front.ErrorsMessage.Length > 0)
+                if (frontForAnaliz.ErrorsMessage.Length > 0)
                 {
                     textBox_log.BackColor = Color.LightCoral;
-                    textBox_log.Text = $"class PostgreSqlManager {front.ErrorsMessage}";
+                    textBox_log.Text = $"class PostgreSqlManager {frontForAnaliz.ErrorsMessage}";
                 }
             }
 

@@ -9,7 +9,7 @@ namespace FilesMove.Classes
     internal class SearchSposobManager
     {
         public bool Sovpadenie { get; set; }
-        public string Sposob {  get; set; }
+        public string SposobName {  get; set; }
        
 
         public void SelectSposob(ISearch sposob)
@@ -20,7 +20,7 @@ namespace FilesMove.Classes
                 sposob.DoSearch();
 
                 Sovpadenie = sposob.Sovpadenie;
-                Sposob = sposob.Name;
+                SposobName = sposob.Name;
             }
 
         }
