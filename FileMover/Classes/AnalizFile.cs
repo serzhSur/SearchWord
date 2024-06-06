@@ -108,8 +108,8 @@ namespace FilesMove.Classes
 
                         //await Task.Run(()=> Startsearch.SelectSposob(new SearchSposobOne(text, slovo)));
                         //await Task.Run(() => Startsearch.SelectSposob(new SearchSposobTwo(text, slovo)));
-                        //await Task.Run(() => Startsearch.SelectSposob(new SearchSposobLinq(text,slovo)));
-                        await Task.Run(() => Startsearch.SelectSposob(new SearchSposobRegex(text, slovo)));
+                        await Task.Run(() => Startsearch.SelectSposob(new SearchSposobLinq(text,slovo)));
+                        //await Task.Run(() => Startsearch.SelectSposob(new SearchSposobRegex(text, slovo)));
 
                         SposobSearching = Startsearch.SposobName;//способ поиска
                         

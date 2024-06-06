@@ -15,15 +15,12 @@ namespace FileMover.Classes
     internal class FrontManager : PostgreSqlManager
     {
         public string executionTime { get; set; }
-        public AnalizFile Sposob { get; set; }
+
 
         public FrontManager() 
         { 
         }
-        public FrontManager(AnalizFile sposobSerching)
-        {
-            Sposob = sposobSerching;
-        }
+
         public void FrontTabSearchLoadFromConfig(TextBox dirIn, TextBox dirOut, TextBox keyWordDir)
         {
             dirIn.Text = ConfigurationManager.AppSettings["dirIn"];
@@ -40,9 +37,9 @@ namespace FileMover.Classes
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
         }
-        public async Task ShowFrontTabAnalizAsync(TextBox textBox, DataGridView Dgw, System.Windows.Forms.Label lab1, System.Windows.Forms.Label lab2)
+        public async Task ShowFrontTabAnalizAsync(TextBox textBox, DataGridView Dgw, System.Windows.Forms.Label lab1, System.Windows.Forms.Label lab2, AnalizFile sposob)
         {
-            textBox.Text += $"cпособ поиска: {Sposob.SposobSearching} ";
+            textBox.Text += $"cпособ поиска: {sposob.SposobSearching} ";
 
             textBox.Text += $"\r\nвремя выполнения: {executionTime}";
 

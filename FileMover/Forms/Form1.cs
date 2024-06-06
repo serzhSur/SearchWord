@@ -64,10 +64,10 @@ namespace FilesMouver
                 textBox_log.Text = $"{Analizator.Status}";
 
 
-                var frontForAnaliz = new FrontManager(Analizator);
+                var frontForAnaliz = new FrontManager();
                 frontForAnaliz.executionTime = executionTime;
                
-                await frontForAnaliz.ShowFrontTabAnalizAsync(textBox4, dataGridView1, label1, label2);
+                await frontForAnaliz.ShowFrontTabAnalizAsync(textBox4, dataGridView1, label1, label2, Analizator);
                 
                 if (frontForAnaliz.ErrorsMessage.Length > 0)
                 {
